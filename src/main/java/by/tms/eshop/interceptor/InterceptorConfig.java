@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class InterceptorConfig implements WebMvcConfigurer {
 
-    public final TimeLoggerInterceptor timeLoggerInterceptor;
+    private final TimeLoggerInterceptor timeLoggerInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
