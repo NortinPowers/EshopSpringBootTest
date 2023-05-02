@@ -23,8 +23,13 @@ import java.util.Optional;
 import static by.tms.eshop.utils.Constants.Attributes.USER_ACCESS_PERMISSION;
 import static by.tms.eshop.utils.Constants.Attributes.USER_UUID;
 import static by.tms.eshop.utils.Constants.ErrorMessage.RECHECK_DATA;
-import static by.tms.eshop.utils.Constants.MappingPath.*;
-import static by.tms.eshop.utils.ControllerUtils.*;
+import static by.tms.eshop.utils.Constants.MappingPath.CREATE_USER;
+import static by.tms.eshop.utils.Constants.MappingPath.ESHOP;
+import static by.tms.eshop.utils.Constants.MappingPath.LOGIN;
+import static by.tms.eshop.utils.Constants.MappingPath.SUCCESS_REGISTER;
+import static by.tms.eshop.utils.ControllerUtils.fillError;
+import static by.tms.eshop.utils.ControllerUtils.isVerifyUser;
+import static by.tms.eshop.utils.ControllerUtils.saveUserSession;
 import static by.tms.eshop.utils.DtoUtils.makeUserDtoModelTransfer;
 
 @Controller

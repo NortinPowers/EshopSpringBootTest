@@ -20,7 +20,13 @@ import java.util.Objects;
 
 import static by.tms.eshop.utils.Constants.Attributes.CART_PRODUCTS;
 import static by.tms.eshop.utils.Constants.Attributes.FULL_PRICE;
-import static by.tms.eshop.utils.Constants.MappingPath.*;
+import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_CART;
+import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_FAVORITES;
+import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_PRODUCTS_PAGE_TYPE_WITH_PARAM;
+import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_PRODUCT_WITH_PARAM;
+import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_SEARCH_RESULT_SAVE;
+import static by.tms.eshop.utils.Constants.MappingPath.SHOPPING_CART;
+import static by.tms.eshop.utils.Constants.MappingPath.SUCCESS_BUY;
 import static by.tms.eshop.utils.Constants.RequestParameters.*;
 import static by.tms.eshop.utils.ControllerUtils.createOrderNumber;
 import static by.tms.eshop.utils.ControllerUtils.getUserId;

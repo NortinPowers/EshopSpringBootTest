@@ -15,7 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static by.tms.eshop.utils.RepositoryJdbcUtils.*;
+import static by.tms.eshop.utils.RepositoryJdbcUtils.getModifyCount;
+import static by.tms.eshop.utils.RepositoryJdbcUtils.getProductDto;
+import static by.tms.eshop.utils.RepositoryJdbcUtils.isProductNotIncluded;
 
 @Slf4j
 @Repository

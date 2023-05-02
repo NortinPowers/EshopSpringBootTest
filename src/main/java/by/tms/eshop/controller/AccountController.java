@@ -13,7 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static by.tms.eshop.utils.Constants.Attributes.*;
+import static by.tms.eshop.utils.Constants.Attributes.USER_ACCESS_PERMISSION;
+import static by.tms.eshop.utils.Constants.Attributes.USER_DTO;
+import static by.tms.eshop.utils.Constants.Attributes.USER_ORDER;
 import static by.tms.eshop.utils.Constants.MappingPath.ACCOUNT;
 import static by.tms.eshop.utils.ControllerUtils.getOrders;
 

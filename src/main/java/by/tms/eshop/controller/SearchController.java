@@ -16,11 +16,19 @@ import java.util.Set;
 
 import static by.tms.eshop.utils.Constants.Attributes.FILTER_FOUND_PRODUCTS;
 import static by.tms.eshop.utils.Constants.Attributes.FOUND_PRODUCTS;
-import static by.tms.eshop.utils.Constants.MappingPath.*;
-import static by.tms.eshop.utils.Constants.RequestParameters.*;
+import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_SEARCH_FILTER_TRUE_RESULT_SAVE;
+import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_SEARCH_RESULT_SAVE;
+import static by.tms.eshop.utils.Constants.MappingPath.SEARCH_PATH;
+import static by.tms.eshop.utils.Constants.RequestParameters.FILTER;
+import static by.tms.eshop.utils.Constants.RequestParameters.MAX_PRICE;
+import static by.tms.eshop.utils.Constants.RequestParameters.MIN_PRICE;
+import static by.tms.eshop.utils.Constants.RequestParameters.SEARCH_CONDITION;
+import static by.tms.eshop.utils.Constants.RequestParameters.SELECT;
 import static by.tms.eshop.utils.Constants.SAVE;
 import static by.tms.eshop.utils.Constants.TRUE;
-import static by.tms.eshop.utils.ControllerUtils.*;
+import static by.tms.eshop.utils.ControllerUtils.applyPriceFilterOnProducts;
+import static by.tms.eshop.utils.ControllerUtils.applyTypeFilterOnProducts;
+import static by.tms.eshop.utils.ControllerUtils.getPrice;
 
 @RestController
 @RequiredArgsConstructor
