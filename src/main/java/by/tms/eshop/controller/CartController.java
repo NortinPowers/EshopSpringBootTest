@@ -27,7 +27,13 @@ import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_PRODUCT_WITH_
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_SEARCH_RESULT_SAVE;
 import static by.tms.eshop.utils.Constants.MappingPath.SHOPPING_CART;
 import static by.tms.eshop.utils.Constants.MappingPath.SUCCESS_BUY;
-import static by.tms.eshop.utils.Constants.RequestParameters.*;
+import static by.tms.eshop.utils.Constants.RequestParameters.FAVORITE;
+import static by.tms.eshop.utils.Constants.RequestParameters.ID;
+import static by.tms.eshop.utils.Constants.RequestParameters.LOCATION;
+import static by.tms.eshop.utils.Constants.RequestParameters.PRODUCT_PAGE;
+import static by.tms.eshop.utils.Constants.RequestParameters.SEARCH;
+import static by.tms.eshop.utils.Constants.RequestParameters.SHOP;
+import static by.tms.eshop.utils.Constants.RequestParameters.TRUE;
 import static by.tms.eshop.utils.ControllerUtils.createOrderNumber;
 import static by.tms.eshop.utils.ControllerUtils.getUserId;
 import static by.tms.eshop.utils.DtoUtils.getProductsFromDto;
