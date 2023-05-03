@@ -1,9 +1,8 @@
 package by.tms.eshop.controller;
 
 import by.tms.eshop.dto.ProductDto;
-import by.tms.eshop.model.Product;
 import by.tms.eshop.service.CartService;
-import by.tms.eshop.service.OrderService;
+import by.tms.eshop.service.Facade;
 import by.tms.eshop.service.ProductService;
 import by.tms.eshop.utils.Constants;
 import jakarta.servlet.http.HttpSession;
@@ -34,9 +33,8 @@ import static by.tms.eshop.utils.Constants.RequestParameters.PRODUCT_PAGE;
 import static by.tms.eshop.utils.Constants.RequestParameters.SEARCH;
 import static by.tms.eshop.utils.Constants.RequestParameters.SHOP;
 import static by.tms.eshop.utils.Constants.RequestParameters.TRUE;
-import static by.tms.eshop.utils.ControllerUtils.createOrderNumber;
 import static by.tms.eshop.utils.ControllerUtils.getUserId;
-import static by.tms.eshop.utils.DtoUtils.getProductsFromDto;
+import static by.tms.eshop.utils.DtoUtils.selectCart;
 
 @RestController
 @RequiredArgsConstructor
@@ -44,13 +42,15 @@ public class CartController {
 
     private final ProductService productService;
     private final CartService cartService;
-    private final OrderService orderService;
+//    private final OrderService orderService;
+    private final Facade facade;
 
     @GetMapping("/cart")
     public ModelAndView showCardPage(HttpSession session, ModelAndView modelAndView) {
         Long userId = getUserId(session);
-        List<ImmutablePair<ProductDto, Integer>> cartProducts = cartService.getProductsFromCart(userId, true, false);
-        modelAndView.addObject(CART_PRODUCTS, cartService.getProductsFromCart(userId, true, false));
+        List<ImmutablePair<ProductDto, Integer>> cartProducts = cartService.getSelectedProducts(userId, true, false);
+        modelAndView.addObject(CART_PRODUCTS, cartProducts);
+//        modelAndView.addObject(CART_PRODUCTS, cartService.getProductsFromCart(userId, true, false));
         modelAndView.addObject(FULL_PRICE, cartService.getProductsPrice(cartProducts));
         modelAndView.setViewName(SHOPPING_CART);
         return modelAndView;
@@ -62,16 +62,14 @@ public class CartController {
                                                ModelAndView modelAndView) {
         Long userId = getUserId(session);
         if (buy.equalsIgnoreCase(Constants.BUY)) {
-            List<ProductDto> productsDto = cartService.getPurchasedProducts(userId, true, false);
-            String orderNumber = "";
-            while (orderService.checkOrderNumber(orderNumber) || "".equals(orderNumber)) {
-                orderNumber = createOrderNumber(userId);
-            }
-            orderService.createOrder(orderNumber, userId);
-            List<Product> products = getProductsFromDto(productsDto);
-            String finalOrderNumber = orderNumber;
-            products.forEach(product -> orderService.saveProductInOrderConfigurations(finalOrderNumber, product));
-            cartService.deleteCartProductsAfterBuy(userId);
+//            String orderNumber = "";
+//            while (orderService.checkOrderNumber(orderNumber) || "".equals(orderNumber)) {
+//                orderNumber = createOrderNumber(userId);
+//            }
+//            orderService.createOrder(orderNumber, userId);
+//            orderService.createOrder(userId);
+//            products.forEach(product -> orderService.saveProductInOrderConfigurations(finalOrderNumber, product));
+            facade.carriesPurchase(userId);
             modelAndView.setViewName(SUCCESS_BUY);
         } else {
             modelAndView.setViewName(REDIRECT_TO_CART);
@@ -79,19 +77,34 @@ public class CartController {
         return modelAndView;
     }
 
+//    private void carriesPurchase(Long userId) {
+//        List<ProductDto> productsDto = cartService.getPurchasedProducts(userId, true, false);
+//        orderService.saveUserOrder(userId, productsDto);
+//        cartService.deleteCartProductsAfterBuy(userId);
+//    }
+
+//    private void saveUserOrder(Long userId, List<ProductDto> productsDto) {
+//        String order = orderService.createOrder(userId);
+//        List<Product> products = getProductsFromDto(productsDto);
+////            String finalOrderNumber = orderNumber;
+//        products.forEach(product -> orderService.saveProductInOrderConfigurations(order, product));
+//    }
+
     @GetMapping("/add-cart")
     public ModelAndView AddProductToCart(HttpSession session,
                                          @RequestParam(name = ID) Long productId,
                                          @RequestParam(name = SHOP) String shopFlag,
                                          @RequestParam(name = LOCATION) String location) {
         Long userId = getUserId(session);
-        cartService.addProductToCart(userId, productId, true, false);
+        cartService.addSelectedProduct(userId, productId, selectCart());
+//        cartService.addSelectedProduct(userId, productId, true, false);
         return new ModelAndView(getPathFromAddCartByParameters(productId, shopFlag, location));
     }
 
     @GetMapping("/delete-cart")
     public ModelAndView deleteProductFromCart(HttpSession session,
                                               @RequestParam(name = ID) Long productId) {
+//        cartService.deleteProduct(getUserId(session), productId, true, false);
         cartService.deleteProduct(getUserId(session), productId, true, false);
         return new ModelAndView(REDIRECT_TO_CART);
     }

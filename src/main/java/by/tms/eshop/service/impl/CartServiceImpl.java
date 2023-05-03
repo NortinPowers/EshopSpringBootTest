@@ -1,5 +1,6 @@
 package by.tms.eshop.service.impl;
 
+import by.tms.eshop.dto.CartDto;
 import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.repository.JdbcCartRepository;
 import by.tms.eshop.service.CartService;
@@ -17,13 +18,18 @@ public class CartServiceImpl implements CartService {
     private final JdbcCartRepository jdbcCartRepository;
 
     @Override
-    public void addProductToCart(Long userId, Long productId, boolean cart, boolean favorite) {
-        jdbcCartRepository.addProductToCart(userId, productId, cart, favorite);
+    public void addSelectedProduct(Long userId, Long productId, CartDto cartDto) {
+//    public void addSelectedProduct(Long userId, Long productId, boolean cart, boolean favorite) {
+        jdbcCartRepository.addSelectedProduct(userId, productId, cartDto);
+//        jdbcCartRepository.addSelectedProduct(userId, productId, cart, favorite);
+//        jdbcCartRepository.addProductToCart(userId, productId, cart, favorite);
     }
 
     @Override
-    public List<ImmutablePair<ProductDto, Integer>> getProductsFromCart(Long userId, boolean cart, boolean favorite) {
-        return jdbcCartRepository.getProductsFromCart(userId, cart, favorite);
+    public List<ImmutablePair<ProductDto, Integer>> getSelectedProducts(Long userId, boolean cart, boolean favorite) {
+//    public List<ImmutablePair<ProductDto, Integer>> getProductsFromCart(Long userId, boolean cart, boolean favorite) {
+        return jdbcCartRepository.getSelectedProducts(userId, cart, favorite);
+//        return jdbcCartRepository.getProductsFromCart(userId, cart, favorite);
     }
 
     @Override

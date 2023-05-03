@@ -1,5 +1,6 @@
 package by.tms.eshop.utils;
 
+import by.tms.eshop.dto.CartDto;
 import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.dto.UserDto;
 import by.tms.eshop.model.Product;
@@ -47,5 +48,20 @@ public class DtoUtils {
         return productsDto.stream()
                 .map(DtoUtils::makeProductModelTransfer)
                 .toList();
+    }
+
+
+    public static CartDto selectCart() {
+        return CartDto.builder()
+                .cart(true)
+                .favorite(false)
+                .build();
+    }
+
+    public static CartDto selectFavorite() {
+        return CartDto.builder()
+                .cart(false)
+                .favorite(true)
+                .build();
     }
 }
