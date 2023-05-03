@@ -1,6 +1,6 @@
 package by.tms.eshop.service.impl;
 
-import by.tms.eshop.dto.OrderFullParamDto;
+import by.tms.eshop.dto.OrderDto;
 import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.model.Product;
 import by.tms.eshop.repository.JdbcOrderRepository;
@@ -39,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderFullParamDto> getOrdersById(Long id) {
+    public List<OrderDto> getOrdersById(Long id) {
         return jdbcOrderRepository.getOrdersById(id);
     }
 

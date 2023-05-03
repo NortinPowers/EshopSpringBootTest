@@ -51,7 +51,7 @@ public class JdbcProductRepositoryImpl implements JdbcProductRepository {
     }
 
     @Override
-    public Set<ProductDto> getFoundProducts(String searchCondition) {
+    public Set<ProductDto> getFoundedProducts(String searchCondition) {
         String condition = "%" + searchCondition + "%";
         List<ProductDto> productNameSearch = jdbcTemplate.query(GET_PRODUCTS_BY_SEARCH_CONDITION_IN_NAME, new ProductDtoMapper(), condition);
         List<ProductDto> productInfoSearch = jdbcTemplate.query(GET_PRODUCTS_BY_SEARCH_CONDITION_IN_INFO, new ProductDtoMapper(), condition);

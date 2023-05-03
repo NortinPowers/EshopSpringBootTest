@@ -1,6 +1,6 @@
 package by.tms.eshop.utils;
 
-import by.tms.eshop.dto.OrderFullParamDto;
+import by.tms.eshop.dto.OrderDto;
 import by.tms.eshop.dto.OrderWithListDto;
 import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.dto.UserDto;
@@ -17,20 +17,27 @@ import org.springframework.web.servlet.ModelAndView;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.LinkedHashSet;
 import java.util.stream.Collectors;
 
 import static by.tms.eshop.utils.Constants.ALL;
+import static by.tms.eshop.utils.Constants.Attributes.FILTER_FOUND_PRODUCTS;
+import static by.tms.eshop.utils.Constants.Attributes.FOUND_PRODUCTS;
 import static by.tms.eshop.utils.Constants.Attributes.USER_ACCESS_PERMISSION;
+import static by.tms.eshop.utils.Constants.Attributes.USER_ORDER;
 import static by.tms.eshop.utils.Constants.Attributes.USER_UUID;
 import static by.tms.eshop.utils.Constants.CONVERSATION;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_PRODUCTS_PAGE_TYPE_WITH_PARAM;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_PRODUCT_WITH_PARAM;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_SEARCH_RESULT_SAVE;
+import static by.tms.eshop.utils.Constants.RequestParameters.FILTER;
 import static by.tms.eshop.utils.Constants.RequestParameters.PRODUCT_PAGE;
 import static by.tms.eshop.utils.Constants.RequestParameters.SEARCH;
+import static by.tms.eshop.utils.Constants.SAVE;
+import static by.tms.eshop.utils.Constants.TRUE;
 import static java.util.UUID.randomUUID;
 
 @Slf4j
@@ -51,23 +58,23 @@ public class ControllerUtils {
         log.info("User with the login " + userDto.getLogin() + " has been assigned a UUID");
     }
 
-    public static List<OrderWithListDto> getOrders(List<OrderFullParamDto> orders) {
+    public static List<OrderWithListDto> getOrders(List<OrderDto> orders) {
         List<OrderWithListDto> orderings = new ArrayList<>();
-        OrderFullParamDto singleOrder = orders.get(0);
+        OrderDto singleOrder = orders.get(0);
         List<ProductDto> singleOrderList = new ArrayList<>();
         addOrdering(orderings, singleOrder, singleOrderList);
         separateOrders(orders, orderings, singleOrder, singleOrderList);
         return orderings;
     }
 
-    private void addOrdering(List<OrderWithListDto> order, OrderFullParamDto singleOrder, List<ProductDto> singleOrderList) {
+    private void addOrdering(List<OrderWithListDto> order, OrderDto singleOrder, List<ProductDto> singleOrderList) {
         order.add(new OrderWithListDto(singleOrder.getId(), singleOrder.getDate(), singleOrderList));
         singleOrderList.add(singleOrder.getProductDto());
     }
 
-    private void separateOrders(List<OrderFullParamDto> orders, List<OrderWithListDto> orderings, OrderFullParamDto singleOrder, List<ProductDto> singleOrderList) {
+    private void separateOrders(List<OrderDto> orders, List<OrderWithListDto> orderings, OrderDto singleOrder, List<ProductDto> singleOrderList) {
         for (int i = 1; i < orders.size(); i++) {
-            OrderFullParamDto order = orders.get(i);
+            OrderDto order = orders.get(i);
             if (singleOrder.getId().equals(order.getId())) {
                 singleOrderList.add(order.getProductDto());
             } else {
@@ -125,5 +132,48 @@ public class ControllerUtils {
             modelAndView.addObject(field + "Error", Objects.requireNonNull(bindingResult.getFieldError(field))
                     .getDefaultMessage());
         }
+    }
+
+    public static void closeUserSession(HttpSession session) {
+        UserDto userDto = (UserDto) session.getAttribute(USER_ACCESS_PERMISSION);
+        String userUUID = (String) session.getAttribute(USER_UUID);
+        log.info("User [" + userUUID + "] with a login " + userDto.getLogin() + " logged out of the system");
+        session.removeAttribute(USER_ACCESS_PERMISSION);
+        session.removeAttribute(USER_UUID);
+        session.invalidate();
+    }
+
+    public static void setFilterAttribute(HttpServletRequest request, String filter) {
+        if (TRUE.equals(filter)) {
+            request.getServletContext().setAttribute(FILTER, new Object());
+        }
+    }
+
+    public static void removeUnsavedAttribute(HttpSession session, String filterFlag) {
+        if (!SAVE.equals(filterFlag)) {
+            session.removeAttribute(FOUND_PRODUCTS);
+            session.removeAttribute(FILTER_FOUND_PRODUCTS);
+        }
+    }
+
+    public static void putUserOrder(List<OrderDto> orders, Map<String, Object> models) {
+        if (!orders.isEmpty()) {
+            models.put(USER_ORDER, getOrders(orders));
+        }
+    }
+
+    public static void fillUserValidationError(BindingResult bindingResult, ModelAndView modelAndView) {
+        fillError("login", modelAndView, bindingResult);
+        fillError("password", modelAndView, bindingResult);
+        fillError("verifyPassword", modelAndView, bindingResult);
+        fillError("name", modelAndView, bindingResult);
+        fillError("surname", modelAndView, bindingResult);
+        fillError("email", modelAndView, bindingResult);
+        fillError("birthday", modelAndView, bindingResult);
+    }
+
+    public static void fillsLoginVerifyErrors(BindingResult bindingResult, ModelAndView modelAndView) {
+        fillError("login", modelAndView, bindingResult);
+        fillError("password", modelAndView, bindingResult);
     }
 }

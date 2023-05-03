@@ -1,6 +1,6 @@
 package by.tms.eshop.controller;
 
-import by.tms.eshop.dto.OrderFullParamDto;
+import by.tms.eshop.dto.OrderDto;
 import by.tms.eshop.dto.UserDto;
 import by.tms.eshop.service.OrderService;
 import jakarta.servlet.http.HttpSession;
@@ -15,9 +15,8 @@ import java.util.Map;
 
 import static by.tms.eshop.utils.Constants.Attributes.USER_ACCESS_PERMISSION;
 import static by.tms.eshop.utils.Constants.Attributes.USER_DTO;
-import static by.tms.eshop.utils.Constants.Attributes.USER_ORDER;
 import static by.tms.eshop.utils.Constants.MappingPath.ACCOUNT;
-import static by.tms.eshop.utils.ControllerUtils.getOrders;
+import static by.tms.eshop.utils.ControllerUtils.putUserOrder;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,12 +27,10 @@ public class AccountController {
     @GetMapping("/account")
     public ModelAndView showAccountPage(HttpSession session) {
         UserDto userDto = (UserDto) session.getAttribute(USER_ACCESS_PERMISSION);
-        List<OrderFullParamDto> orders = orderService.getOrdersById(userDto.getId());
+        List<OrderDto> orders = orderService.getOrdersById(userDto.getId());
         Map<String, Object> models = new HashMap<>();
         models.put(USER_DTO, userDto);
-        if (!orders.isEmpty()) {
-            models.put(USER_ORDER, getOrders(orders));
-        }
+        putUserOrder(orders, models);
         return new ModelAndView(ACCOUNT, "models", models);
     }
 }

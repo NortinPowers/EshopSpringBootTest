@@ -12,7 +12,7 @@ public interface JdbcProductRepository {
 
     String getProductTypeValue(Long id);
 
-    Set<ProductDto> getFoundProducts(String searchCondition);
+    Set<ProductDto> getFoundedProducts(String searchCondition);
 
     ProductDto getProduct(Long id);
 

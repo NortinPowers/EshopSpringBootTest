@@ -3,6 +3,7 @@ package by.tms.eshop.utils;
 import by.tms.eshop.dto.CartDto;
 import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.dto.UserDto;
+import by.tms.eshop.dto.UserValidationDto;
 import by.tms.eshop.model.Product;
 import by.tms.eshop.model.ProductType;
 import by.tms.eshop.model.User;
@@ -37,6 +38,18 @@ public class DtoUtils {
         return UserDto.builder()
                 .id(user.getId())
                 .login(user.getLogin())
+                .name(user.getName())
+                .surname(user.getSurname())
+                .email(user.getEmail())
+                .birthday(user.getBirthday())
+                .build();
+    }
+
+    public static User makeUserModelTransfer(UserValidationDto user) {
+        return User.builder()
+                .id(user.getId())
+                .login(user.getLogin())
+                .password(user.getPassword())
                 .name(user.getName())
                 .surname(user.getSurname())
                 .email(user.getEmail())

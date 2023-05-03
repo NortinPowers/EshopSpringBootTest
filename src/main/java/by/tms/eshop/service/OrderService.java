@@ -1,6 +1,6 @@
 package by.tms.eshop.service;
 
-import by.tms.eshop.dto.OrderFullParamDto;
+import by.tms.eshop.dto.OrderDto;
 import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.model.Product;
 
@@ -14,7 +14,7 @@ public interface OrderService {
 
     void saveProductInOrderConfigurations(String order, Product product);
 
-    List<OrderFullParamDto> getOrdersById(Long id);
+    List<OrderDto> getOrdersById(Long id);
 
     boolean checkOrderNumber(String number);
 

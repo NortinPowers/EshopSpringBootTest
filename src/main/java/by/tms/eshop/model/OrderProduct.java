@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class OrderConfig {
+public class OrderProduct {
 
     private Long id;
     private Long orderId;

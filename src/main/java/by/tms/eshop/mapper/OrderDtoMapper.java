@@ -1,6 +1,6 @@
 package by.tms.eshop.mapper;
 
-import by.tms.eshop.dto.OrderFullParamDto;
+import by.tms.eshop.dto.OrderDto;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -9,11 +9,11 @@ import java.time.LocalDate;
 
 import static by.tms.eshop.utils.RepositoryJdbcUtils.getProductSimpleBuild;
 
-public class OrderFullParamDtoMapper implements RowMapper<OrderFullParamDto> {
+public class OrderDtoMapper implements RowMapper<OrderDto> {
 
     @Override
-    public OrderFullParamDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return OrderFullParamDto.builder()
+    public OrderDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return OrderDto.builder()
                 .id(rs.getString("id"))
                 .date(LocalDate.parse(rs.getString("date")))
                 .productDto(getProductSimpleBuild(rs))
