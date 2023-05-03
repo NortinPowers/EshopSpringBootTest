@@ -11,9 +11,11 @@ public interface JdbcCartRepository {
     void addSelectedProduct(Long userId, Long productId, CartDto cartDto);
 //    void addSelectedProduct(Long userId, Long productId, boolean cart, boolean favorite);
 
-    void deleteProduct(Long userId, Long productId, boolean cart, boolean favorite);
+    void deleteProduct(Long userId, Long productId, CartDto cartDto);
+//    void deleteProduct(Long userId, Long productId, boolean cart, boolean favorite);
 
-    List<ImmutablePair<ProductDto, Integer>> getSelectedProducts(Long userId, boolean cart, boolean favorite);
+    List<ImmutablePair<ProductDto, Integer>> getSelectedProducts(Long userId, CartDto cartDto);
+//    List<ImmutablePair<ProductDto, Integer>> getSelectedProducts(Long userId, boolean cart, boolean favorite);
 
     boolean checkProduct(Long userId, Long productId, CartDto cartDto);
 //    boolean checkProduct(Long userId, Long productId, boolean cart, boolean favorite);
@@ -22,5 +24,6 @@ public interface JdbcCartRepository {
 
     void deleteCartProductsAfterBuy(Long userId);
 
-    List<ProductDto> getPurchasedProducts(Long userId, boolean cart, boolean favorite);
+    List<ProductDto> getPurchasedProducts(Long userId, CartDto cartDto);
+//    List<ProductDto> getPurchasedProducts(Long userId, boolean cart, boolean favorite);
 }

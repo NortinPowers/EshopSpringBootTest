@@ -26,15 +26,18 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public List<ImmutablePair<ProductDto, Integer>> getSelectedProducts(Long userId, boolean cart, boolean favorite) {
+    public List<ImmutablePair<ProductDto, Integer>> getSelectedProducts(Long userId, CartDto cartDto) {
 //    public List<ImmutablePair<ProductDto, Integer>> getProductsFromCart(Long userId, boolean cart, boolean favorite) {
-        return jdbcCartRepository.getSelectedProducts(userId, cart, favorite);
+        return jdbcCartRepository.getSelectedProducts(userId, cartDto);
+//        return jdbcCartRepository.getSelectedProducts(userId, cart, favorite);
 //        return jdbcCartRepository.getProductsFromCart(userId, cart, favorite);
     }
 
     @Override
-    public void deleteProduct(Long userId, Long productId, boolean cart, boolean favorite) {
-        jdbcCartRepository.deleteProduct(userId, productId, cart, favorite);
+    public void deleteProduct(Long userId, Long productId, CartDto cartDto) {
+//    public void deleteProduct(Long userId, Long productId, boolean cart, boolean favorite) {
+        jdbcCartRepository.deleteProduct(userId, productId, cartDto);
+//        jdbcCartRepository.deleteProduct(userId, productId, cart, favorite);
     }
 
     @Override
@@ -53,7 +56,9 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public List<ProductDto> getPurchasedProducts(Long userId, boolean cart, boolean favorite) {
-        return jdbcCartRepository.getPurchasedProducts(userId, cart, favorite);
+    public List<ProductDto> getPurchasedProducts(Long userId, CartDto cartDto) {
+//    public List<ProductDto> getPurchasedProducts(Long userId, boolean cart, boolean favorite) {
+        return jdbcCartRepository.getPurchasedProducts(userId, cartDto);
+//        return jdbcCartRepository.getPurchasedProducts(userId, cart, favorite);
     }
 }
