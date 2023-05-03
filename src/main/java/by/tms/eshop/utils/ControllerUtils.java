@@ -30,6 +30,8 @@ import static by.tms.eshop.utils.Constants.Attributes.USER_ACCESS_PERMISSION;
 import static by.tms.eshop.utils.Constants.Attributes.USER_ORDER;
 import static by.tms.eshop.utils.Constants.Attributes.USER_UUID;
 import static by.tms.eshop.utils.Constants.CONVERSATION;
+import static by.tms.eshop.utils.Constants.MappingPath.ESHOP;
+import static by.tms.eshop.utils.Constants.MappingPath.LOGIN;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_PRODUCTS_PAGE_TYPE_WITH_PARAM;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_PRODUCT_WITH_PARAM;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_SEARCH_RESULT_SAVE;
@@ -175,5 +177,15 @@ public class ControllerUtils {
     public static void fillsLoginVerifyErrors(BindingResult bindingResult, ModelAndView modelAndView) {
         fillError("login", modelAndView, bindingResult);
         fillError("password", modelAndView, bindingResult);
+    }
+
+    public static void setViewByAccessPermission(HttpSession session, ModelAndView modelAndView) {
+        if (session.getAttribute(USER_ACCESS_PERMISSION) != null) {
+            modelAndView.setViewName(ESHOP);
+//            modelAndView = new ModelAndView(ESHOP);
+        } else {
+            modelAndView.setViewName(LOGIN);
+//            modelAndView = new ModelAndView(LOGIN);
+        }
     }
 }

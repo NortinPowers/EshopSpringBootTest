@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import static by.tms.eshop.utils.Constants.Attributes.USER_ACCESS_PERMISSION;
 import static by.tms.eshop.utils.Constants.MappingPath.CREATE_USER;
 import static by.tms.eshop.utils.Constants.MappingPath.ESHOP;
 import static by.tms.eshop.utils.Constants.MappingPath.LOGIN;
@@ -25,6 +24,7 @@ import static by.tms.eshop.utils.Constants.MappingPath.SUCCESS_REGISTER;
 import static by.tms.eshop.utils.ControllerUtils.closeUserSession;
 import static by.tms.eshop.utils.ControllerUtils.fillUserValidationError;
 import static by.tms.eshop.utils.ControllerUtils.fillsLoginVerifyErrors;
+import static by.tms.eshop.utils.ControllerUtils.setViewByAccessPermission;
 
 @Controller
 @RequiredArgsConstructor
@@ -36,13 +36,10 @@ public class LoginController {
     private final Facade facade;
 
     @GetMapping("/login")
-    public ModelAndView showLoginPage(HttpSession session) {
-        ModelAndView modelAndView;
-        if (session.getAttribute(USER_ACCESS_PERMISSION) != null) {
-            modelAndView = new ModelAndView(ESHOP);
-        } else {
-            modelAndView = new ModelAndView(LOGIN);
-        }
+//    public ModelAndView showLoginPage(HttpSession session) {
+    public ModelAndView showLoginPage(HttpSession session,  ModelAndView modelAndView ) {
+//        ModelAndView modelAndView;
+        setViewByAccessPermission(session, modelAndView);
         return modelAndView;
     }
 
@@ -79,8 +76,6 @@ public class LoginController {
         closeUserSession(session);
         return new ModelAndView(ESHOP);
     }
-
-
 
     @GetMapping("/create-user")
     public ModelAndView create() {
