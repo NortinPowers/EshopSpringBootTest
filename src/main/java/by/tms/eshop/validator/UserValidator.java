@@ -27,14 +27,12 @@ public class UserValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-//        User user = (User) target;
         UserValidationDto user = (UserValidationDto) target;
         checkUserLoginAndEmail(errors, user);
         checkPasswordInputVerify(errors, user);
     }
 
     private void checkUserLoginAndEmail(Errors errors, UserValidationDto testUser) {
-//    private void checkUserLoginAndEmail(Errors errors, User testUser) {
         Optional<User> user = userService.getVerifyUser(testUser.getLogin(), testUser.getEmail());
         if (user.isPresent()) {
             User foundUser = user.get();
@@ -43,7 +41,6 @@ public class UserValidator implements Validator {
         }
     }
 
-//    private static void checkUserByEmail(Errors errors, User testUser, User foundUser) {
     private static void checkUserByEmail(Errors errors, UserValidationDto testUser, User foundUser) {
         if (foundUser.getEmail().equals(testUser.getEmail())) {
             errors.rejectValue("email", "", EXISTING_EMAIL);
@@ -51,14 +48,12 @@ public class UserValidator implements Validator {
     }
 
     private static void checkUserByLogin(Errors errors, UserValidationDto testUser, User foundUser) {
-//    private static void checkUserByLogin(Errors errors, User testUser, User foundUser) {
         if (foundUser.getLogin().equals(testUser.getLogin())) {
             errors.rejectValue("login", "", EXISTING_USER);
         }
     }
 
     private void checkPasswordInputVerify(Errors errors, UserValidationDto user) {
-//    private void checkPasswordInputVerify(Errors errors, User user) {
         if (!user.getPassword().equals(user.getVerifyPassword())) {
             errors.rejectValue("verifyPassword", "", PASSWORDS_MATCHING);
         }

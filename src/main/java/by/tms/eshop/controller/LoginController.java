@@ -31,14 +31,11 @@ import static by.tms.eshop.utils.ControllerUtils.setViewByAccessPermission;
 @Slf4j
 public class LoginController {
 
-//    private final UserService userService;
     private final UserValidator userValidator;
     private final Facade facade;
 
     @GetMapping("/login")
-//    public ModelAndView showLoginPage(HttpSession session) {
     public ModelAndView showLoginPage(HttpSession session,  ModelAndView modelAndView ) {
-//        ModelAndView modelAndView;
         setViewByAccessPermission(session, modelAndView);
         return modelAndView;
     }
@@ -46,7 +43,6 @@ public class LoginController {
     @PostMapping("/login-verify")
     public ModelAndView showLoginVerifyPage(HttpServletRequest request,
                                             @Validated(Default.class) @ModelAttribute("user") UserValidationDto user,
-//                                            @Validated(Default.class) @ModelAttribute("user") User user,
                                             BindingResult bindingResult,
                                             ModelAndView modelAndView) {
         if (bindingResult.hasErrors()) {
@@ -57,19 +53,6 @@ public class LoginController {
         }
         return modelAndView;
     }
-
-//    private void checkLoginUser(HttpServletRequest request, UserValidationDto user, ModelAndView modelAndView) {
-//        Optional<User> incomingUser = userService.getUserByLogin(user.getLogin());
-//        if (incomingUser.isPresent() && isVerifyUser(incomingUser.get(), user.getPassword())) {
-//            UserDto userDto = makeUserDtoModelTransfer(incomingUser.get());
-//            saveUserSession(request, userDto);
-//            modelAndView.setViewName(ESHOP);
-//        } else {
-//            modelAndView.addObject("loginError", RECHECK_DATA);
-//            modelAndView.setViewName(LOGIN);
-//        }
-//    }
-
 
     @GetMapping("/logout")
     public ModelAndView showLogoutPage(HttpSession session) {
@@ -85,7 +68,6 @@ public class LoginController {
     @PostMapping("/create-user")
     public ModelAndView createUser(HttpServletRequest request,
                                    @Validated({Default.class, ExcludeLogValidation.class}) @ModelAttribute("user") UserValidationDto user,
-//                                   @Validated({Default.class, ExcludeLogValidation.class}) @ModelAttribute("user") User user,
                                    BindingResult bindingResult,
                                    ModelAndView modelAndView) {
         userValidator.validate(user, bindingResult);
@@ -98,15 +80,4 @@ public class LoginController {
         }
         return modelAndView;
     }
-
-
-
-//    private void createAndLoginUser(HttpServletRequest request, UserValidationDto user) {
-//        User userEntity = makeUserModelTransfer(user);
-//        userService.addUser(userEntity);
-////            userService.addUser(user);
-////            UserDto userDto = makeUserDtoModelTransfer(user);
-////            saveUserSession(request, userDto);
-//        saveUserSession(request, makeUserDtoModelTransfer(userEntity));
-//    }
 }

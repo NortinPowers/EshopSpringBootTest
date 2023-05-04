@@ -1,6 +1,6 @@
 package by.tms.eshop.service.impl;
 
-import by.tms.eshop.dto.CartDto;
+import by.tms.eshop.dto.LocationDto;
 import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.repository.JdbcCartRepository;
 import by.tms.eshop.service.CartService;
@@ -18,26 +18,18 @@ public class CartServiceImpl implements CartService {
     private final JdbcCartRepository jdbcCartRepository;
 
     @Override
-    public void addSelectedProduct(Long userId, Long productId, CartDto cartDto) {
-//    public void addSelectedProduct(Long userId, Long productId, boolean cart, boolean favorite) {
-        jdbcCartRepository.addSelectedProduct(userId, productId, cartDto);
-//        jdbcCartRepository.addSelectedProduct(userId, productId, cart, favorite);
-//        jdbcCartRepository.addProductToCart(userId, productId, cart, favorite);
+    public void addSelectedProduct(Long userId, Long productId, LocationDto locationDto) {
+        jdbcCartRepository.addSelectedProduct(userId, productId, locationDto);
     }
 
     @Override
-    public List<ImmutablePair<ProductDto, Integer>> getSelectedProducts(Long userId, CartDto cartDto) {
-//    public List<ImmutablePair<ProductDto, Integer>> getProductsFromCart(Long userId, boolean cart, boolean favorite) {
-        return jdbcCartRepository.getSelectedProducts(userId, cartDto);
-//        return jdbcCartRepository.getSelectedProducts(userId, cart, favorite);
-//        return jdbcCartRepository.getProductsFromCart(userId, cart, favorite);
+    public List<ImmutablePair<ProductDto, Integer>> getSelectedProducts(Long userId, LocationDto locationDto) {
+        return jdbcCartRepository.getSelectedProducts(userId, locationDto);
     }
 
     @Override
-    public void deleteProduct(Long userId, Long productId, CartDto cartDto) {
-//    public void deleteProduct(Long userId, Long productId, boolean cart, boolean favorite) {
-        jdbcCartRepository.deleteProduct(userId, productId, cartDto);
-//        jdbcCartRepository.deleteProduct(userId, productId, cart, favorite);
+    public void deleteProduct(Long userId, Long productId, LocationDto locationDto) {
+        jdbcCartRepository.deleteProduct(userId, productId, locationDto);
     }
 
     @Override
@@ -56,9 +48,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public List<ProductDto> getPurchasedProducts(Long userId, CartDto cartDto) {
-//    public List<ProductDto> getPurchasedProducts(Long userId, boolean cart, boolean favorite) {
-        return jdbcCartRepository.getPurchasedProducts(userId, cartDto);
-//        return jdbcCartRepository.getPurchasedProducts(userId, cart, favorite);
+    public List<ProductDto> getPurchasedProducts(Long userId, LocationDto locationDto) {
+        return jdbcCartRepository.getPurchasedProducts(userId, locationDto);
     }
 }

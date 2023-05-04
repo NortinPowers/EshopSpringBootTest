@@ -182,10 +182,8 @@ public class ControllerUtils {
     public static void setViewByAccessPermission(HttpSession session, ModelAndView modelAndView) {
         if (session.getAttribute(USER_ACCESS_PERMISSION) != null) {
             modelAndView.setViewName(ESHOP);
-//            modelAndView = new ModelAndView(ESHOP);
         } else {
             modelAndView.setViewName(LOGIN);
-//            modelAndView = new ModelAndView(LOGIN);
         }
     }
 }

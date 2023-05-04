@@ -9,8 +9,6 @@ import java.util.List;
 public interface OrderService {
 
     String createOrder(Long id);
-//    void createOrder(Long id);
-//    void createOrder(String order, Long id);
 
     void saveProductInOrderConfigurations(String order, Product product);
 

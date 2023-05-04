@@ -31,10 +31,7 @@ public class FavoriteController {
 
     @GetMapping("/favorites")
     public ModelAndView showFavoritesPage(HttpSession session) {
-//        Long userId = getUserId(session);
         ModelMap modelMap = new ModelMap(FAVORITE_PRODUCTS, cartService.getSelectedProducts(getUserId(session), selectFavorite()).stream()
-//        ModelMap modelMap = new ModelMap(FAVORITE_PRODUCTS, cartService.getSelectedProducts(userId, selectFavorite()).stream()
-//        ModelMap modelMap = new ModelMap(FAVORITE_PRODUCTS, cartService.getSelectedProducts(userId, false, true).stream()
                 .map(Pair::getLeft)
                 .collect(Collectors.toList()));
         return new ModelAndView(FAVORITES, modelMap);
@@ -44,10 +41,7 @@ public class FavoriteController {
     public ModelAndView addProductToFavorite(HttpSession session,
                                              @RequestParam(name = ID) Long productId,
                                              @RequestParam(name = LOCATION) String location) {
-//        Long userId = getUserId(session);
         cartService.addSelectedProduct(getUserId(session), productId, selectFavorite());
-//        cartService.addSelectedProduct(userId, productId, selectFavorite());
-//        cartService.addSelectedProduct(userId, productId, false, true);
         return new ModelAndView(getPathFromAddFavoriteByParameters(productId, location, productService.getProductTypeValue(productId)));
     }
 
@@ -55,7 +49,6 @@ public class FavoriteController {
     public ModelAndView deleteProductFromFavorite(HttpSession session,
                                                   @RequestParam(name = ID) Long productId) {
         cartService.deleteProduct(getUserId(session), productId, selectFavorite());
-//        cartService.deleteProduct(getUserId(session), productId, false, true);
         return new ModelAndView(REDIRECT_TO_FAVORITES);
     }
 }

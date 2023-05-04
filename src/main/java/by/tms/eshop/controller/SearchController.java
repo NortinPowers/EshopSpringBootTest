@@ -22,22 +22,18 @@ import static by.tms.eshop.utils.ControllerUtils.setFilterAttribute;
 @RequiredArgsConstructor
 public class SearchController {
 
-//    private final ProductService productService;
     private final Facade facade;
 
     @GetMapping("/search")
-    public ModelAndView showSearchPage(HttpServletRequest request,
-                                       HttpSession session,
-                                       @RequestParam(required = false) String result,
-                                       @RequestParam(required = false) String filter) {
-//        HttpSession session = request.getSession();
+    public ModelAndView hasFilterPage(HttpServletRequest request,
+                                      HttpSession session,
+                                      @RequestParam(required = false) String result,
+                                      @RequestParam(required = false) String filter) {
         removeUnsavedAttribute(session, result);
         request.getServletContext().removeAttribute(FILTER);
         setFilterAttribute(request, filter);
         return new ModelAndView(SEARCH_PATH);
     }
-
-
 
     @PostMapping("/search-param")
     public ModelAndView showSearchPageByParam(HttpServletRequest request,
@@ -48,38 +44,9 @@ public class SearchController {
         return new ModelAndView(REDIRECT_TO_SEARCH_RESULT_SAVE);
     }
 
-//    private void returnProductsByEmptyCondition(HttpSession session, String searchCondition) {
-//        if (!searchCondition.isEmpty()) {
-//            Set<ProductDto> products = productService.getFoundProducts(searchCondition);
-////            HttpSession session = request.getSession();
-//            session.setAttribute(FOUND_PRODUCTS, products);
-//        }
-//    }
-
     @PostMapping("/search-filter")
     public ModelAndView showSearchPageByFilter(HttpServletRequest request,
                                                @RequestParam(required = false, name = SELECT) String type) {
-//        BigDecimal minPrice = getPrice(request, MIN_PRICE, BigDecimal.ZERO);
-//        BigDecimal maxPrice = getPrice(request, MAX_PRICE, new BigDecimal(Long.MAX_VALUE));
         return new ModelAndView(facade.getSearchFilterResultPagePath(request, type));
-//        return new ModelAndView(facade.getSearchFilterResultPagePath(request, minPrice, maxPrice, type));
     }
-
-//    private String getSearchFilterResultPagePath(HttpServletRequest request, BigDecimal minPrice, BigDecimal maxPrice, String type) {
-//        String path;
-//        Set<ProductDto> products;
-//        HttpSession session = request.getSession(false);
-//        if (session.getAttribute(FOUND_PRODUCTS) != null) {
-//            products = (Set<ProductDto>) session.getAttribute(FOUND_PRODUCTS);
-//            products = applyPriceFilterOnProducts(minPrice, maxPrice, products);
-//            products = applyTypeFilterOnProducts(type, products);
-//            session.setAttribute(FILTER_FOUND_PRODUCTS, products);
-//            path = REDIRECT_TO_SEARCH_FILTER_TRUE_RESULT_SAVE;
-//        } else {
-//            products = productService.selectAllProductsByFilter(type, minPrice, maxPrice);
-//            session.setAttribute(FOUND_PRODUCTS, products);
-//            path = REDIRECT_TO_SEARCH_RESULT_SAVE;
-//        }
-//        return path;
-//    }
 }

@@ -10,13 +10,8 @@ import static by.tms.eshop.utils.Constants.MappingPath.ESHOP;
 public class HomeController {
 
     @GetMapping(value = {"/","/eshop"})
-//    @GetMapping(value = "/", produces = "text/html")
     public ModelAndView redirectToEshopPage() {
         return new ModelAndView(ESHOP);
     }
 
-//    @GetMapping("/eshop")
-//    public ModelAndView showEshopPage() {
-//        return new ModelAndView(ESHOP);
-//    }
 }

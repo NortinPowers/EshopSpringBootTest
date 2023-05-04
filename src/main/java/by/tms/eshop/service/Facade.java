@@ -53,7 +53,6 @@ public class Facade {
 
     public void carriesPurchase(Long userId) {
         List<ProductDto> productsDto = cartService.getPurchasedProducts(userId, DtoUtils.selectCart());
-//        List<ProductDto> productsDto = cartService.getPurchasedProducts(userId, true, false);
         orderService.saveUserOrder(userId, productsDto);
         cartService.deleteCartProductsAfterBuy(userId);
     }
@@ -76,21 +75,15 @@ public class Facade {
     }
 
     public String getSearchFilterResultPagePath(HttpServletRequest request, String type) {
-//    public String getSearchFilterResultPagePath(HttpServletRequest request, BigDecimal minPrice, BigDecimal maxPrice, String type) {
         BigDecimal minPrice = getPrice(request, MIN_PRICE, BigDecimal.ZERO);
         BigDecimal maxPrice = getPrice(request, MAX_PRICE, new BigDecimal(Long.MAX_VALUE));
         String path;
-//        Set<ProductDto> products;
         HttpSession session = request.getSession(false);
         if (session.getAttribute(FOUND_PRODUCTS) != null) {
-//            products = getProductByFilter(session, type, minPrice, maxPrice);
             session.setAttribute(FILTER_FOUND_PRODUCTS, getProductByFilter(session, type, minPrice, maxPrice));
-//            session.setAttribute(FILTER_FOUND_PRODUCTS, products);
             path = REDIRECT_TO_SEARCH_FILTER_TRUE_RESULT_SAVE;
         } else {
-//            products = productService.selectAllProductsByFilter(type, minPrice, maxPrice);
             session.setAttribute(FOUND_PRODUCTS, productService.selectAllProductsByFilter(type, minPrice, maxPrice));
-//            session.setAttribute(FOUND_PRODUCTS, products);
             path = REDIRECT_TO_SEARCH_RESULT_SAVE;
         }
         return path;
@@ -99,7 +92,6 @@ public class Facade {
     public void returnProductsBySearchCondition(HttpSession session, String searchCondition) {
         if (!searchCondition.isEmpty()) {
             Set<ProductDto> products = productService.getFoundedProducts(searchCondition);
-//            HttpSession session = request.getSession();
             session.setAttribute(FOUND_PRODUCTS, products);
         }
     }
@@ -121,12 +113,4 @@ public class Facade {
             modelAndView.setViewName(LOGIN);
         }
     }
-
-//    private static Set<ProductDto> getProductByFilter(HttpSession session, String type, BigDecimal minPrice, BigDecimal maxPrice) {
-//        Set<ProductDto> products;
-//        products = (Set<ProductDto>) session.getAttribute(FOUND_PRODUCTS);
-//        products = applyPriceFilterOnProducts(minPrice, maxPrice, products);
-//        products = applyTypeFilterOnProducts(type, products);
-//        return products;
-//    }
 }

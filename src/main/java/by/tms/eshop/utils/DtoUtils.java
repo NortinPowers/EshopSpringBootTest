@@ -1,6 +1,6 @@
 package by.tms.eshop.utils;
 
-import by.tms.eshop.dto.CartDto;
+import by.tms.eshop.dto.LocationDto;
 import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.dto.UserDto;
 import by.tms.eshop.dto.UserValidationDto;
@@ -63,16 +63,15 @@ public class DtoUtils {
                 .toList();
     }
 
-
-    public static CartDto selectCart() {
-        return CartDto.builder()
+    public static LocationDto selectCart() {
+        return LocationDto.builder()
                 .cart(true)
                 .favorite(false)
                 .build();
     }
 
-    public static CartDto selectFavorite() {
-        return CartDto.builder()
+    public static LocationDto selectFavorite() {
+        return LocationDto.builder()
                 .cart(false)
                 .favorite(true)
                 .build();

@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class CartDto {
+public class LocationDto {
 
     private boolean cart;
     private boolean favorite;

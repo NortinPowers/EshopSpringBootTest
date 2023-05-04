@@ -21,12 +21,9 @@ public class OrderServiceImpl implements OrderService {
     private final JdbcOrderRepository jdbcOrderRepository;
 
     @Override
-//    public void createOrder(String order, Long id) {
-//    public void createOrder(Long id) {
     public String createOrder(Long id) {
         String order = "";
         while (checkOrderNumber(order) || StringUtils.isEmpty(order)) {
-//        while (checkOrderNumber(order) || "".equals(order)) {
             order = createOrderNumber(id);
         }
         jdbcOrderRepository.createOrder(order, id);
