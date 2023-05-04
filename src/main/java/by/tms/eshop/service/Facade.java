@@ -50,7 +50,6 @@ public class Facade {
     private final ProductService productService;
     private final UserService userService;
 
-
     public void carriesPurchase(Long userId) {
         List<ProductDto> productsDto = cartService.getPurchasedProducts(userId, DtoUtils.selectCart());
         orderService.saveUserOrder(userId, productsDto);
