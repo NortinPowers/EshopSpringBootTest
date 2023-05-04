@@ -20,9 +20,12 @@ public class HomeController {
 
     @GetMapping(value = {"/","/eshop"})
     public ModelAndView redirectToEshopPage(ModelAndView modelAndView) {
+        //табл
+
         List<String> productTypes = Arrays.stream(ProductType.values())
                 .map(ProductType::getValue)
                 .toList();
+
         modelAndView.addObject("productTypes", productTypes);
         modelAndView.setViewName(ESHOP);
         return modelAndView;

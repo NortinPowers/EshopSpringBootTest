@@ -29,6 +29,9 @@ public class SearchController {
                                       HttpSession session,
                                       @RequestParam(required = false) String result,
                                       @RequestParam(required = false) String filter) {
+
+        //type парам табл
+
         removeUnsavedAttribute(session, result);
         request.getServletContext().removeAttribute(FILTER);
         setFilterAttribute(request, filter);
