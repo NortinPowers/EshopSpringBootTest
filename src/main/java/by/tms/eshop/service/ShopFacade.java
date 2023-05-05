@@ -2,7 +2,7 @@ package by.tms.eshop.service;
 
 import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.dto.UserDto;
-import by.tms.eshop.dto.UserValidationDto;
+import by.tms.eshop.dto.UserFormDto;
 import by.tms.eshop.model.User;
 import by.tms.eshop.utils.DtoUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,7 +43,7 @@ import static by.tms.eshop.utils.ServiceUtils.getProductByFilter;
 
 @Component
 @RequiredArgsConstructor
-public class Facade {
+public class ShopFacade {
 
     private final CartService cartService;
     private final OrderService orderService;
@@ -73,19 +73,34 @@ public class Facade {
         return path;
     }
 
-    public String getSearchFilterResultPagePath(HttpServletRequest request, String type) {
+//    public String getSearchFilterResultPagePath(HttpServletRequest request, String type) {
+//        BigDecimal minPrice = getPrice(request, MIN_PRICE, BigDecimal.ZERO);
+//        BigDecimal maxPrice = getPrice(request, MAX_PRICE, new BigDecimal(Long.MAX_VALUE));
+//        String path;
+//        HttpSession session = request.getSession(false);
+//        if (session.getAttribute(FOUND_PRODUCTS) != null) {
+//            session.setAttribute(FILTER_FOUND_PRODUCTS, getProductByFilter(session, type, minPrice, maxPrice));
+//            path = REDIRECT_TO_SEARCH_FILTER_TRUE_RESULT_SAVE;
+//        } else {
+//            session.setAttribute(FOUND_PRODUCTS, productService.selectAllProductsByFilter(type, minPrice, maxPrice));
+//            path = REDIRECT_TO_SEARCH_RESULT_SAVE;
+//        }
+//        return path;
+//    }
+
+    public ModelAndView getSearchFilterResultPagePath(HttpServletRequest request, String type) {
         BigDecimal minPrice = getPrice(request, MIN_PRICE, BigDecimal.ZERO);
         BigDecimal maxPrice = getPrice(request, MAX_PRICE, new BigDecimal(Long.MAX_VALUE));
-        String path;
+        ModelAndView modelAndView = new ModelAndView();
         HttpSession session = request.getSession(false);
         if (session.getAttribute(FOUND_PRODUCTS) != null) {
             session.setAttribute(FILTER_FOUND_PRODUCTS, getProductByFilter(session, type, minPrice, maxPrice));
-            path = REDIRECT_TO_SEARCH_FILTER_TRUE_RESULT_SAVE;
+            modelAndView.setViewName(REDIRECT_TO_SEARCH_FILTER_TRUE_RESULT_SAVE);
         } else {
             session.setAttribute(FOUND_PRODUCTS, productService.selectAllProductsByFilter(type, minPrice, maxPrice));
-            path = REDIRECT_TO_SEARCH_RESULT_SAVE;
+            modelAndView.setViewName(REDIRECT_TO_SEARCH_RESULT_SAVE);
         }
-        return path;
+        return modelAndView;
     }
 
     public void returnProductsBySearchCondition(HttpSession session, String searchCondition) {
@@ -95,13 +110,13 @@ public class Facade {
         }
     }
 
-    public void createAndLoginUser(HttpServletRequest request, UserValidationDto user) {
+    public void createAndLoginUser(HttpServletRequest request, UserFormDto user) {
         User userEntity = makeUserModelTransfer(user);
         userService.addUser(userEntity);
         saveUserSession(request, makeUserDtoModelTransfer(userEntity));
     }
 
-    public void checkLoginUser(HttpServletRequest request, UserValidationDto user, ModelAndView modelAndView) {
+    public void checkLoginUser(HttpServletRequest request, UserFormDto user, ModelAndView modelAndView) {
         Optional<User> incomingUser = userService.getUserByLogin(user.getLogin());
         if (incomingUser.isPresent() && isVerifyUser(incomingUser.get(), user.getPassword())) {
             UserDto userDto = makeUserDtoModelTransfer(incomingUser.get());

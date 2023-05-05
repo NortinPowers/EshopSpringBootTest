@@ -3,7 +3,7 @@ package by.tms.eshop.utils;
 import by.tms.eshop.dto.LocationDto;
 import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.dto.UserDto;
-import by.tms.eshop.dto.UserValidationDto;
+import by.tms.eshop.dto.UserFormDto;
 import by.tms.eshop.model.Product;
 import by.tms.eshop.model.ProductType;
 import by.tms.eshop.model.User;
@@ -45,7 +45,7 @@ public class DtoUtils {
                 .build();
     }
 
-    public static User makeUserModelTransfer(UserValidationDto user) {
+    public static User makeUserModelTransfer(UserFormDto user) {
         return User.builder()
                 .id(user.getId())
                 .login(user.getLogin())

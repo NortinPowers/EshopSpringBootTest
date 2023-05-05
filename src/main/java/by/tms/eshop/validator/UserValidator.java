@@ -1,6 +1,6 @@
 package by.tms.eshop.validator;
 
-import by.tms.eshop.dto.UserValidationDto;
+import by.tms.eshop.dto.UserFormDto;
 import by.tms.eshop.model.User;
 import by.tms.eshop.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -27,12 +27,12 @@ public class UserValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        UserValidationDto user = (UserValidationDto) target;
+        UserFormDto user = (UserFormDto) target;
         checkUserLoginAndEmail(errors, user);
         checkPasswordInputVerify(errors, user);
     }
 
-    private void checkUserLoginAndEmail(Errors errors, UserValidationDto testUser) {
+    private void checkUserLoginAndEmail(Errors errors, UserFormDto testUser) {
         Optional<User> user = userService.getVerifyUser(testUser.getLogin(), testUser.getEmail());
         if (user.isPresent()) {
             User foundUser = user.get();
@@ -41,19 +41,19 @@ public class UserValidator implements Validator {
         }
     }
 
-    private static void checkUserByEmail(Errors errors, UserValidationDto testUser, User foundUser) {
+    private static void checkUserByEmail(Errors errors, UserFormDto testUser, User foundUser) {
         if (foundUser.getEmail().equals(testUser.getEmail())) {
             errors.rejectValue("email", "", EXISTING_EMAIL);
         }
     }
 
-    private static void checkUserByLogin(Errors errors, UserValidationDto testUser, User foundUser) {
+    private static void checkUserByLogin(Errors errors, UserFormDto testUser, User foundUser) {
         if (foundUser.getLogin().equals(testUser.getLogin())) {
             errors.rejectValue("login", "", EXISTING_USER);
         }
     }
 
-    private void checkPasswordInputVerify(Errors errors, UserValidationDto user) {
+    private void checkPasswordInputVerify(Errors errors, UserFormDto user) {
         if (!user.getPassword().equals(user.getVerifyPassword())) {
             errors.rejectValue("verifyPassword", "", PASSWORDS_MATCHING);
         }

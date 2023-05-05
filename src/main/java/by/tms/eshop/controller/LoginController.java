@@ -1,7 +1,7 @@
 package by.tms.eshop.controller;
 
-import by.tms.eshop.dto.UserValidationDto;
-import by.tms.eshop.service.Facade;
+import by.tms.eshop.dto.UserFormDto;
+import by.tms.eshop.service.ShopFacade;
 import by.tms.eshop.validator.ExcludeLogValidation;
 import by.tms.eshop.validator.UserValidator;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,7 +32,7 @@ import static by.tms.eshop.utils.ControllerUtils.setViewByAccessPermission;
 public class LoginController {
 
     private final UserValidator userValidator;
-    private final Facade facade;
+    private final ShopFacade shopFacade;
 
     @GetMapping("/login")
     public ModelAndView showLoginPage(HttpSession session,  ModelAndView modelAndView ) {
@@ -42,14 +42,14 @@ public class LoginController {
 
     @PostMapping("/login-verify")
     public ModelAndView showLoginVerifyPage(HttpServletRequest request,
-                                            @Validated(Default.class) @ModelAttribute("user") UserValidationDto user,
+                                            @Validated(Default.class) @ModelAttribute("user") UserFormDto user,
                                             BindingResult bindingResult,
                                             ModelAndView modelAndView) {
         if (bindingResult.hasErrors()) {
             fillsLoginVerifyErrors(bindingResult, modelAndView);
             modelAndView.setViewName(LOGIN);
         } else {
-            facade.checkLoginUser(request, user, modelAndView);
+            shopFacade.checkLoginUser(request, user, modelAndView);
         }
         return modelAndView;
     }
@@ -67,7 +67,7 @@ public class LoginController {
 
     @PostMapping("/create-user")
     public ModelAndView createUser(HttpServletRequest request,
-                                   @Validated({Default.class, ExcludeLogValidation.class}) @ModelAttribute("user") UserValidationDto user,
+                                   @Validated({Default.class, ExcludeLogValidation.class}) @ModelAttribute("user") UserFormDto user,
                                    BindingResult bindingResult,
                                    ModelAndView modelAndView) {
         userValidator.validate(user, bindingResult);
@@ -75,7 +75,7 @@ public class LoginController {
             fillUserValidationError(bindingResult, modelAndView);
             modelAndView.setViewName(CREATE_USER);
         } else {
-            facade.createAndLoginUser(request, user);
+            shopFacade.createAndLoginUser(request, user);
             modelAndView.setViewName(SUCCESS_REGISTER);
         }
         return modelAndView;

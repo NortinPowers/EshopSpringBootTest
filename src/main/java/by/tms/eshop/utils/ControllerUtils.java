@@ -69,12 +69,12 @@ public class ControllerUtils {
         return orderings;
     }
 
-    private void addOrdering(List<OrderWithListDto> order, OrderDto singleOrder, List<ProductDto> singleOrderList) {
+    private static void addOrdering(List<OrderWithListDto> order, OrderDto singleOrder, List<ProductDto> singleOrderList) {
         order.add(new OrderWithListDto(singleOrder.getId(), singleOrder.getDate(), singleOrderList));
         singleOrderList.add(singleOrder.getProductDto());
     }
 
-    private void separateOrders(List<OrderDto> orders, List<OrderWithListDto> orderings, OrderDto singleOrder, List<ProductDto> singleOrderList) {
+    private static void separateOrders(List<OrderDto> orders, List<OrderWithListDto> orderings, OrderDto singleOrder, List<ProductDto> singleOrderList) {
         for (int i = 1; i < orders.size(); i++) {
             OrderDto order = orders.get(i);
             if (singleOrder.getId().equals(order.getId())) {

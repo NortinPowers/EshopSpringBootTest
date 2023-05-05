@@ -22,12 +22,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public String createOrder(Long id) {
-        String order = "";
-        while (checkOrderNumber(order) || StringUtils.isEmpty(order)) {
-            order = createOrderNumber(id);
-        }
-        jdbcOrderRepository.createOrder(order, id);
-        return order;
+        String orderNumber = generateOrderNumber(id);
+        jdbcOrderRepository.createOrder(orderNumber, id);
+        return orderNumber;
     }
 
     @Override
@@ -50,5 +47,13 @@ public class OrderServiceImpl implements OrderService {
         String order = createOrder(userId);
         List<Product> products = getProductsFromDto(productsDto);
         products.forEach(product -> saveProductInOrderConfigurations(order, product));
+    }
+
+    private String generateOrderNumber(Long id) {
+        String orderNumber = "";
+        while (checkOrderNumber(orderNumber) || StringUtils.isEmpty(orderNumber)) {
+            orderNumber = createOrderNumber(id);
+        }
+        return orderNumber;
     }
 }
