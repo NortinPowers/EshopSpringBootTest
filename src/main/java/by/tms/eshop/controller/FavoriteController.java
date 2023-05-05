@@ -20,6 +20,7 @@ import static by.tms.eshop.utils.Constants.RequestParameters.ID;
 import static by.tms.eshop.utils.Constants.RequestParameters.LOCATION;
 import static by.tms.eshop.utils.ControllerUtils.getPathFromAddFavoriteByParameters;
 import static by.tms.eshop.utils.ControllerUtils.getUserId;
+import static by.tms.eshop.utils.DtoUtils.selectFavorite;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,8 +31,7 @@ public class FavoriteController {
 
     @GetMapping("/favorites")
     public ModelAndView showFavoritesPage(HttpSession session) {
-        Long userId = getUserId(session);
-        ModelMap modelMap = new ModelMap(FAVORITE_PRODUCTS, cartService.getProductsFromCart(userId, false, true).stream()
+        ModelMap modelMap = new ModelMap(FAVORITE_PRODUCTS, cartService.getSelectedProducts(getUserId(session), selectFavorite()).stream()
                 .map(Pair::getLeft)
                 .collect(Collectors.toList()));
         return new ModelAndView(FAVORITES, modelMap);
@@ -41,15 +41,14 @@ public class FavoriteController {
     public ModelAndView addProductToFavorite(HttpSession session,
                                              @RequestParam(name = ID) Long productId,
                                              @RequestParam(name = LOCATION) String location) {
-        Long userId = getUserId(session);
-        cartService.addProductToCart(userId, productId, false, true);
+        cartService.addSelectedProduct(getUserId(session), productId, selectFavorite());
         return new ModelAndView(getPathFromAddFavoriteByParameters(productId, location, productService.getProductTypeValue(productId)));
     }
 
     @GetMapping("/delete-favorite")
     public ModelAndView deleteProductFromFavorite(HttpSession session,
                                                   @RequestParam(name = ID) Long productId) {
-        cartService.deleteProduct(getUserId(session), productId, false, true);
+        cartService.deleteProduct(getUserId(session), productId, selectFavorite());
         return new ModelAndView(REDIRECT_TO_FAVORITES);
     }
 }

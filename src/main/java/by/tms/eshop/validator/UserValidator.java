@@ -1,5 +1,6 @@
 package by.tms.eshop.validator;
 
+import by.tms.eshop.dto.UserValidationDto;
 import by.tms.eshop.model.User;
 import by.tms.eshop.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -26,27 +27,33 @@ public class UserValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        User user = (User) target;
-        checkUserByLogin(errors, user);
-        checkUserByEmail(errors, user);
+        UserValidationDto user = (UserValidationDto) target;
+        checkUserLoginAndEmail(errors, user);
         checkPasswordInputVerify(errors, user);
     }
 
-    private void checkUserByEmail(Errors errors, User user) {
-        Optional<User> userByEmail = userService.getUserByEmail(user.getEmail());
-        if (userByEmail.isPresent()) {
+    private void checkUserLoginAndEmail(Errors errors, UserValidationDto testUser) {
+        Optional<User> user = userService.getVerifyUser(testUser.getLogin(), testUser.getEmail());
+        if (user.isPresent()) {
+            User foundUser = user.get();
+            checkUserByLogin(errors, testUser, foundUser);
+            checkUserByEmail(errors, testUser, foundUser);
+        }
+    }
+
+    private static void checkUserByEmail(Errors errors, UserValidationDto testUser, User foundUser) {
+        if (foundUser.getEmail().equals(testUser.getEmail())) {
             errors.rejectValue("email", "", EXISTING_EMAIL);
         }
     }
 
-    private void checkUserByLogin(Errors errors, User user) {
-        Optional<User> userByLogin = userService.getUserByLogin(user.getLogin());
-        if (userByLogin.isPresent()) {
+    private static void checkUserByLogin(Errors errors, UserValidationDto testUser, User foundUser) {
+        if (foundUser.getLogin().equals(testUser.getLogin())) {
             errors.rejectValue("login", "", EXISTING_USER);
         }
     }
 
-    private void checkPasswordInputVerify(Errors errors, User user) {
+    private void checkPasswordInputVerify(Errors errors, UserValidationDto user) {
         if (!user.getPassword().equals(user.getVerifyPassword())) {
             errors.rejectValue("verifyPassword", "", PASSWORDS_MATCHING);
         }

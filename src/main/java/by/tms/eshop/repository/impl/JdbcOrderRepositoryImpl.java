@@ -1,7 +1,7 @@
 package by.tms.eshop.repository.impl;
 
-import by.tms.eshop.dto.OrderFullParamDto;
-import by.tms.eshop.mapper.OrderFullParamDtoMapper;
+import by.tms.eshop.dto.OrderDto;
+import by.tms.eshop.mapper.OrderDtoMapper;
 import by.tms.eshop.mapper.OrderIdMapper;
 import by.tms.eshop.model.Product;
 import by.tms.eshop.repository.JdbcOrderRepository;
@@ -40,8 +40,8 @@ public class JdbcOrderRepositoryImpl implements JdbcOrderRepository {
     }
 
     @Override
-    public List<OrderFullParamDto> getOrdersById(Long id) {
-        return jdbcTemplate.query(GET_ORDERS_BY_ID, new OrderFullParamDtoMapper(), id);
+    public List<OrderDto> getOrdersById(Long id) {
+        return jdbcTemplate.query(GET_ORDERS_BY_ID, new OrderDtoMapper(), id);
     }
 
     @Override

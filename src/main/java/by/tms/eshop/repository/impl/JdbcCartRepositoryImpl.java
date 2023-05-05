@@ -1,5 +1,6 @@
 package by.tms.eshop.repository.impl;
 
+import by.tms.eshop.dto.LocationDto;
 import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.mapper.CartCountMapper;
 import by.tms.eshop.model.Cart;
@@ -36,14 +37,14 @@ public class JdbcCartRepositoryImpl implements JdbcCartRepository {
     private static final String DELETE_CART_PRODUCT_AFTER_BUY = "delete from carts where user_id=? and cart=true";
 
     @Override
-    public void addProductToCart(Long userId, Long productId, boolean cart, boolean favorite) {
-        if (favorite) {
-            if (checkProduct(userId, productId, false, true)) {
-                addProduct(userId, productId, cart, true);
+    public void addSelectedProduct(Long userId, Long productId, LocationDto locationDto) {
+        if (locationDto.isFavorite()) {
+            if (checkProduct(userId, productId, locationDto)) {
+                addProduct(userId, productId, locationDto);
             }
         } else {
-            if (checkProduct(userId, productId, true, false)) {
-                addProduct(userId, productId, cart, false);
+            if (checkProduct(userId, productId, locationDto)) {
+                addProduct(userId, productId, locationDto);
             } else {
                 modifyProductCount(userId, productId, true);
             }
@@ -51,8 +52,8 @@ public class JdbcCartRepositoryImpl implements JdbcCartRepository {
     }
 
     @Override
-    public void deleteProduct(Long userId, Long productId, boolean cart, boolean favorite) {
-        if (favorite) {
+    public void deleteProduct(Long userId, Long productId, LocationDto locationDto) {
+        if (locationDto.isFavorite()) {
             deleteProductByMark(userId, productId, DELETE_FAVORITE_PRODUCT);
         } else {
             Integer productCount = getCartProductCount(userId, productId);
@@ -65,14 +66,14 @@ public class JdbcCartRepositoryImpl implements JdbcCartRepository {
     }
 
     @Override
-    public List<ImmutablePair<ProductDto, Integer>> getProductsFromCart(Long userId, boolean cart, boolean favorite) {
-        String query = cart ? GET_CART_PRODUCTS_BY_USER_ID : GET_FAVORITE_PRODUCTS_BY_USER_ID;
+    public List<ImmutablePair<ProductDto, Integer>> getSelectedProducts(Long userId, LocationDto locationDto) {
+        String query = locationDto.isCart() ? GET_CART_PRODUCTS_BY_USER_ID : GET_FAVORITE_PRODUCTS_BY_USER_ID;
         return jdbcTemplate.query(query, (rs, i) -> new ImmutablePair<>(getProductDto(rs), rs.getInt("count")), userId);
     }
 
     @Override
-    public boolean checkProduct(Long userId, Long productId, boolean cart, boolean favorite) {
-        List<ProductDto> productsDto = getProducts(userId, cart, favorite);
+    public boolean checkProduct(Long userId, Long productId, LocationDto locationDto) {
+        List<ProductDto> productsDto = getProducts(userId, locationDto);
         return isProductNotIncluded(productId, productsDto);
     }
 
@@ -91,9 +92,9 @@ public class JdbcCartRepositoryImpl implements JdbcCartRepository {
     }
 
     @Override
-    public List<ProductDto> getPurchasedProducts(Long userId, boolean cart, boolean favorite) {
+    public List<ProductDto> getPurchasedProducts(Long userId, LocationDto locationDto) {
         List<ProductDto> products = new ArrayList<>();
-        List<ImmutablePair<ProductDto, Integer>> productWithCount = getProductsFromCart(userId, cart, favorite);
+        List<ImmutablePair<ProductDto, Integer>> productWithCount = getSelectedProducts(userId, locationDto);
         for (Pair<ProductDto, Integer> productIntegerPair : productWithCount) {
             Integer count = productIntegerPair.getRight();
             while (count > 0) {
@@ -104,8 +105,8 @@ public class JdbcCartRepositoryImpl implements JdbcCartRepository {
         return products;
     }
 
-    private void addProduct(Long userId, Long productId, boolean cart, boolean favorite) {
-        jdbcTemplate.update(ADD_PRODUCT_TO_CART, userId, productId, cart, favorite);
+    private void addProduct(Long userId, Long productId, LocationDto locationDto) {
+        jdbcTemplate.update(ADD_PRODUCT_TO_CART, userId, productId, locationDto.isCart(), locationDto.isFavorite());
     }
 
     private void modifyProductCount(Long userId, Long productId, boolean up) {
@@ -114,8 +115,8 @@ public class JdbcCartRepositoryImpl implements JdbcCartRepository {
         jdbcTemplate.update(UPDATE_CURRENT_PRODUCT_COUNT, productCount, userId, productId);
     }
 
-    private List<ProductDto> getProducts(Long userId, boolean cart, boolean favorite) {
-        return getProductsFromCart(userId, cart, favorite).stream()
+    private List<ProductDto> getProducts(Long userId, LocationDto locationDto) {
+        return getSelectedProducts(userId, locationDto).stream()
                 .map(Pair::getLeft)
                 .collect(Collectors.toList());
     }

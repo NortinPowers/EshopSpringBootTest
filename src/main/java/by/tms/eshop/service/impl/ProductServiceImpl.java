@@ -40,8 +40,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Set<ProductDto> getFoundProducts(String searchCondition) {
-        return jdbcProductRepository.getFoundProducts(searchCondition);
+    public Set<ProductDto> getFoundedProducts(String searchCondition) {
+        return jdbcProductRepository.getFoundedProducts(searchCondition);
     }
 
     @Override
