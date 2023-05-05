@@ -28,6 +28,7 @@ public class Constants {
         public static final String ERROR_500 = "error/error-500";
         public static final String SOME_ERROR = "error/some-error";
         public static final String REDIRECT_TO_CART = "redirect:/cart";
+        public static final String REDIRECT_TO_ESHOP = "redirect:/eshop";
         public static final String REDIRECT_TO_ERROR_500 = "redirect:/error-500";
         public static final String REDIRECT_TO_SOME_ERROR = "redirect:/some-error";
         public static final String REDIRECT_TO_FAVORITES = "redirect:/favorites";

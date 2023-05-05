@@ -20,9 +20,9 @@ import java.util.Set;
 import static by.tms.eshop.utils.Constants.Attributes.FILTER_FOUND_PRODUCTS;
 import static by.tms.eshop.utils.Constants.Attributes.FOUND_PRODUCTS;
 import static by.tms.eshop.utils.Constants.ErrorMessage.RECHECK_DATA;
-import static by.tms.eshop.utils.Constants.MappingPath.ESHOP;
 import static by.tms.eshop.utils.Constants.MappingPath.LOGIN;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_CART;
+import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_ESHOP;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_FAVORITES;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_PRODUCTS_PAGE_TYPE_WITH_PARAM;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_PRODUCT_WITH_PARAM;
@@ -121,7 +121,8 @@ public class ShopFacade {
         if (incomingUser.isPresent() && isVerifyUser(incomingUser.get(), user.getPassword())) {
             UserDto userDto = makeUserDtoModelTransfer(incomingUser.get());
             saveUserSession(request, userDto);
-            modelAndView.setViewName(ESHOP);
+//            modelAndView.setViewName(ESHOP);
+            modelAndView.setViewName(REDIRECT_TO_ESHOP);
         } else {
             modelAndView.addObject("loginError", RECHECK_DATA);
             modelAndView.setViewName(LOGIN);
