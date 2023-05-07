@@ -10,8 +10,6 @@
                     <div class="row">
                         <div th:with="authorizedUser=${session.userAccessPermission}">
                             <div th:if="${authorizedUser == null}">
-                                <!--                                <div class="col-sm-12">-->
-
                                 <div class="btn-group btn-group-fill" style="min-width: 17.3rem">
                                     <a th:href="@{/product/__${product.id}__}"
                                        class="text-light text-decoration-none btn btn-success btn-block w-auto"
@@ -22,7 +20,6 @@
                             </div>
                             <div th:if="${authorizedUser != null}">
                                 <div class="btn-group btn-group-fill">
-                                    <!--                                <div class="col-sm-3 ml-4 mr-2">-->
                                     <div class="btn btn-success p-2" style="min-width: 6rem">
                                         <a th:href="@{/product/__${product.id}__}"
                                            class="text-light text-decoration-none"
@@ -31,7 +28,6 @@
                                         </a>
                                     </div>
                                     <div class="btn btn-success p-2" style="min-width: 5.3rem">
-                                        <!--                                    <a href="/add-cart?id=${product.id}&shop=true&location=none"-->
                                         <a th:href="@{/add-cart(id=${product.id}, shop=true, location='none')}"
                                            class="text-light text-decoration-none"
                                            aria-current="page">
@@ -39,7 +35,6 @@
                                         </a>
                                     </div>
                                     <div class="btn btn-success">
-                                        <!--                                    <a href="/add-cart?id=${product.id}&shop=none&location=search">-->
                                         <a th:href="@{/add-cart(id=${product.id}, shop='none', location='search')}">
                                             <div class="text-center text-light text-decoration-none p-1">
                                                 <i class="bi bi-cart-plus"></i>
@@ -47,7 +42,6 @@
                                         </a>
                                     </div>
                                     <div class="btn btn-success">
-                                        <!--                                    <a href="/add-favorite?id=${product.id}&shop=none&location=search">-->
                                         <a th:href="@{/add-favorite(id=${product.id}, shop='none', location='search')}">
                                             <div class="text-center text-light text-decoration-none p-1">
                                                 <i class="bi bi-heart"></i>

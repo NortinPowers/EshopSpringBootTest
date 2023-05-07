@@ -5,20 +5,16 @@
     <title>Favorites</title>
     <th:block th:insert="~{/include/bootstrap}"/>
 </head>
-<!--<body style="background: #243855">-->
 <body>
 <th:block th:insert="~{/include/navigate}"/>
 <div class="row row-cols-1 row-cols-md-5 g-4 mr-1 ml-1 mt-1">
-    <!--  <c:forEach var="product" items="${favoriteProducts}">-->
     <div th:each="product : ${favoriteProducts}">
         <div class="card mr-4 ml-4 mt-4 shadow bg-body-tertiary rounded" style="max-width: 14rem">
-            <!--            <a href="/product/${product.id}">-->
             <a th:href="@{/product/__${product.id}__}">
                 <img class="card-img-top" style="max-height: 20rem"
                      th:src="@{/images/__${#strings.toLowerCase(product.type)}__/__${product.name}__.jpg}"
                      th:alt="${product.name}">
             </a>
-
             <div class="card-body">
                 <h5 class="card-title text-nowrap" style="text-align: -webkit-center"
                     th:text="${product.name}"></h5>
@@ -28,23 +24,17 @@
                 <small class="text-muted" style="font-size: 20px" th:text="${product.price + '$'}"></small>
             </div>
             <th:block th:with="authorizedUser = ${session.userAccessPermission}">
-                <!--                <c:set var="authorizedUser" value="${sessionScope.get('userAccessPermission')}"/>-->
-                <!--                <c:if test="${authorizedUser != null}">-->
                 <div th:if="${authorizedUser != null}">
                     <div class="btn-group btn-group-fill">
-                        <!--                        <div class="btn-group btn-group-sm mb-1">-->
-                        <!--                            <a href="/add-cart?id=${product.id}&shop=true&location=none"-->
                         <a th:href="@{/add-cart(id=${product.id}, shop=true, location='none')}"
                            class="btn btn-success active" style="min-width: 8.8rem"
                            aria-current="page">Buy</a>
-                        <!--                            <a href="/add-cart?id=${product.id}&shop=none&location=favorite"-->
                         <a th:href="@{/add-cart(id=${product.id}, shop='none', location='favorite')}"
                            class="btn btn-success">
                             <div class="text-center mt-1">
                                 <i class="bi bi-cart-plus"></i>
                             </div>
                         </a>
-                        <!--                            <a href="/delete-favorite?id=${product.id}" class="btn btn-success">-->
                         <a th:href="@{/delete-favorite(id=${product.id})}"
                            class="btn btn-success">
                             <div class="text-center mt-1">
@@ -53,11 +43,9 @@
                         </a>
                     </div>
                 </div>
-                <!--      </c:if>-->
             </th:block>
         </div>
     </div>
-    <!--  </c:forEach>-->
 </div>
 </body>
 </html>
