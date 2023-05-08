@@ -70,7 +70,6 @@ public class RepositoryJdbcUtils {
         return fullQuery;
     }
 
-
     public static void getOrder(String order, Long id) {
         Order.builder()
                 .id(order)

@@ -35,7 +35,6 @@ public class ProductServiceImpl implements ProductService {
         return new ModelAndView(PRODUCTS, modelMap);
     }
 
-
     @Override
     public ModelAndView getProduct(Long id) {
 //        ModelMap modelMap = new ModelMap(Attributes.PRODUCT, jdbcProductRepository.getProduct(id));

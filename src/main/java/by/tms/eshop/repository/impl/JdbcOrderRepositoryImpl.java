@@ -68,8 +68,6 @@ public class JdbcOrderRepositoryImpl implements JdbcOrderRepository {
         }
     }
 
-
-
     @Override
     public List<OrderDto> getOrdersById(Long id) {
         return jdbcTemplate.query(GET_ORDERS_BY_ID, new OrderDtoMapper(), id);

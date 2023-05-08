@@ -31,20 +31,19 @@ public class JdbcCartRepositoryImpl implements JdbcCartRepository {
     private final JdbcTemplate jdbcTemplate;
     private final SessionFactory sessionFactory;
 
-
-//    private static final String ADD_PRODUCT_TO_CART = "INSERT INTO Cart (user_id, product_id, cart, favorite) VALUES (:userId, :productId, :cart, :favorite)";
-        private static final String ADD_PRODUCT_TO_CART = "insert into carts (user_id, product_id, cart, favorite) VALUES (?, ?, ?, ?)";
+    //    private static final String ADD_PRODUCT_TO_CART = "INSERT INTO Cart (user_id, product_id, cart, favorite) VALUES (:userId, :productId, :cart, :favorite)";
+    private static final String ADD_PRODUCT_TO_CART = "insert into carts (user_id, product_id, cart, favorite) VALUES (?, ?, ?, ?)";
     private static final String GET_CART_PRODUCTS_BY_USER_ID = "select p.id, p.name, p.price, pt.type, p.info, c.count from carts c join products p on p.id = c.product_id join product_type pt on pt.id = p.product_category_id where c.user_id=? and c.cart=true";
     private static final String GET_FAVORITE_PRODUCTS_BY_USER_ID = "select p.id, p.name, p.price, pt.type, p.info, c.count from carts c join products p on p.id = c.product_id join product_type pt on pt.id = p.product_category_id where c.user_id=? and c.favorite=true";
-//    private static final String DELETE_FAVORITE_PRODUCT = "DELETE FROM carts c WHERE c. user_id = :userId AND c.product_id = :productId AND c.favorite = true";
-        private static final String DELETE_FAVORITE_PRODUCT = "delete from carts where user_id=? and product_id=? and favorite=true";
-//    private static final String DELETE_CART_PRODUCT = "DELETE FROM Cart c WHERE c.user.id = :userId AND c.product.id = :productId AND c.cart = true";
-        private static final String DELETE_CART_PRODUCT = "delete from carts where user_id=? and product_id=? and cart=true";
-//    private static final String GET_CURRENT_PRODUCT_COUNT = "SELECT c.count FROM Cart c WHERE c.user.id = :userId AND c.product.id = :productId AND c.cart = true";
-        private static final String GET_CURRENT_PRODUCT_COUNT = "select count from carts where user_id=? and product_id=? and cart=true";
-//    private static final String UPDATE_CURRENT_PRODUCT_COUNT = "UPDATE carts c SET count = :count WHERE c.user_id = :userId AND c.product_id = :productId AND c.cart = true";
-        private static final String UPDATE_CURRENT_PRODUCT_COUNT = "update carts set count = ? where user_id = ? and product_id = ? and cart = true";
-//    private static final String DELETE_CART_PRODUCT_AFTER_BUY = "DELETE FROM carts c WHERE c.user_id = :userId AND c.cart = true";
+    //    private static final String DELETE_FAVORITE_PRODUCT = "DELETE FROM carts c WHERE c. user_id = :userId AND c.product_id = :productId AND c.favorite = true";
+    private static final String DELETE_FAVORITE_PRODUCT = "delete from carts where user_id=? and product_id=? and favorite=true";
+    //    private static final String DELETE_CART_PRODUCT = "DELETE FROM Cart c WHERE c.user.id = :userId AND c.product.id = :productId AND c.cart = true";
+    private static final String DELETE_CART_PRODUCT = "delete from carts where user_id=? and product_id=? and cart=true";
+    //    private static final String GET_CURRENT_PRODUCT_COUNT = "SELECT c.count FROM Cart c WHERE c.user.id = :userId AND c.product.id = :productId AND c.cart = true";
+    private static final String GET_CURRENT_PRODUCT_COUNT = "select count from carts where user_id=? and product_id=? and cart=true";
+    //    private static final String UPDATE_CURRENT_PRODUCT_COUNT = "UPDATE carts c SET count = :count WHERE c.user_id = :userId AND c.product_id = :productId AND c.cart = true";
+    private static final String UPDATE_CURRENT_PRODUCT_COUNT = "update carts set count = ? where user_id = ? and product_id = ? and cart = true";
+    //    private static final String DELETE_CART_PRODUCT_AFTER_BUY = "DELETE FROM carts c WHERE c.user_id = :userId AND c.cart = true";
     private static final String DELETE_CART_PRODUCT_AFTER_BUY = "delete from carts where user_id=? and cart=true";
 
     @Override
@@ -112,6 +111,7 @@ public class JdbcCartRepositoryImpl implements JdbcCartRepository {
         List<ProductDto> productsDto = getProducts(userId, locationDto);
         return isProductNotIncluded(productId, productsDto);
     }
+
     @Override
     public Integer getCartProductCount(Long userId, Long productId) {
         return jdbcTemplate.query(GET_CURRENT_PRODUCT_COUNT, new CartCountMapper(),
@@ -165,7 +165,6 @@ public class JdbcCartRepositoryImpl implements JdbcCartRepository {
         jdbcTemplate.update(ADD_PRODUCT_TO_CART, userId, productId, locationDto.isCart(), locationDto.isFavorite());
     }
 
-
 //    private void addProduct(Long userId, Long productId, LocationDto locationDto) {
 //        try (Session session = sessionFactory.openSession()) {
 //            session.createNativeQuery(ADD_PRODUCT_TO_CART, Cart.class)
@@ -174,6 +173,22 @@ public class JdbcCartRepositoryImpl implements JdbcCartRepository {
 //                    .setParameter("cart", locationDto.isCart())
 //                    .setParameter("favorite", locationDto.isFavorite())
 //                    .executeUpdate();
+//        }
+//    }
+
+//    private void addProduct(Long userId, Long productId, LocationDto locationDto) {
+//        Cart cart = Cart.builder()
+//                .user(User.builder()
+//                        .id(userId)
+//                        .build())
+//                .product(Product.builder()
+//                        .id(productId)
+//                        .build())
+//                .favorite(locationDto.isFavorite())
+//                .cart(locationDto.isCart())
+//                .build();
+//        try (Session session = sessionFactory.openSession()) {
+//            session.persist(cart);
 //        }
 //    }
 
@@ -201,7 +216,7 @@ public class JdbcCartRepositoryImpl implements JdbcCartRepository {
                 .collect(Collectors.toList());
     }
 
-        private void deleteProductByMark(Long userId, Long productId, String query) {
+    private void deleteProductByMark(Long userId, Long productId, String query) {
         jdbcTemplate.update(query, userId, productId);
     }
 //    private void deleteProductByMark(Long userId, Long productId, String query) {

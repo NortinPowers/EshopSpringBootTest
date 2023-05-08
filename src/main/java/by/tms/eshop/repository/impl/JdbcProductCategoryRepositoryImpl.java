@@ -17,9 +17,9 @@ public class JdbcProductCategoryRepositoryImpl implements JdbcProductCategoryRep
     private final SessionFactory sessionFactory;
 
     @Override
-    public  List<String> getProductCategory() {
+    public List<String> getProductCategory() {
 //        Session session = sessionFactory.getCurrentSession();
-        try(Session session = sessionFactory.openSession()){
+        try (Session session = sessionFactory.openSession()) {
             return session.createQuery("select category from ProductCategory pC", String.class).getResultList();
         }
     }

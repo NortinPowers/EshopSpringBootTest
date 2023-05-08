@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,6 +42,7 @@ public class User {
     private LocalDate birthday;
     @OneToMany
     List<Order> orders;
-    @OneToOne
-    private Cart cart;
+
+//    @OneToOne
+//    private Cart cart;
 }

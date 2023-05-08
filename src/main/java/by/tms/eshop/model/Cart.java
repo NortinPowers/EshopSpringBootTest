@@ -23,14 +23,19 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-        private Long userId;
+
+    private Long userId;
+
 //    @OneToOne
 //    @JoinColumn(name = "user_id", referencedColumnName = "id")
 //    private User user;
-        private Long productId;
+
+    private Long productId;
+
 //    @OneToOne
 //    @JoinColumn(name = "product_id", referencedColumnName = "id")
 //    private Product product;
+
     @Column
     private boolean cart;
     @Column

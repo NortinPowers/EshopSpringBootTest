@@ -11,7 +11,6 @@ public class Constants {
     public static final String ALL = "all";
     public static final String TRUE = "true";
 
-
     @UtilityClass
     public class HibernateQueryParameter {
         public static final String CONDITION = "condition";

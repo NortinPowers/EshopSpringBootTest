@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -45,6 +44,7 @@ public class Product {
     //    @OneToOne
 //    @JoinColumn(referencedColumnName = "id")
 //    private OrderProduct orderProduct;
-    @OneToOne
-    private Cart cart;
+
+//    @OneToOne
+//    private Cart cart;
 }
