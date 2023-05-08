@@ -1,12 +1,16 @@
 package by.tms.eshop.utils;
 
 import by.tms.eshop.dto.ProductDto;
+import by.tms.eshop.model.Order;
+import by.tms.eshop.model.OrderProduct;
 import by.tms.eshop.model.Product;
 import by.tms.eshop.model.ProductCategory;
+import by.tms.eshop.model.User;
 import lombok.experimental.UtilityClass;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -46,13 +50,45 @@ public class RepositoryJdbcUtils {
                 .isEmpty();
     }
 
-    public static String getQueryDependType(String type, String query) {
+//    public static String getQueryDependType(String type, String query) {
+//        String fullQuery;
+//        if (!ALL.equals(type)) {
+//            fullQuery = query + " and pt.type='" + type + "' order by p.id";
+//        } else {
+//            fullQuery = query + " order by p.id";
+//        }
+//        return fullQuery;
+//    }
+
+    public static String getQueryDependType(String category, String query) {
         String fullQuery;
-        if (!ALL.equals(type)) {
-            fullQuery = query + " and pt.type='" + type + "' order by p.id";
+        if (!ALL.equals(category)) {
+            fullQuery = query + " AND p.productCategory.category = '" + category + "' ORDER BY p.id";
         } else {
-            fullQuery = query + " order by p.id";
+            fullQuery = query + " ORDER BY p.id";
         }
         return fullQuery;
+    }
+
+
+    public static void getOrder(String order, Long id) {
+        Order.builder()
+                .id(order)
+                .date(LocalDate.now())
+                .user(User.builder()
+                        .id(id)
+                        .build())
+                .build();
+    }
+
+    public static OrderProduct getOrderProduct(String name, Product product) {
+        return OrderProduct.builder()
+                .order(Order.builder()
+                        .id(name)
+                        .build())
+                .product(Product.builder()
+                        .id(product.getId())
+                        .build())
+                .build();
     }
 }

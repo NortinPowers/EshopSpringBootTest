@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,15 +13,16 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
+@Entity
+@Table(name = "users")
 @NoArgsConstructor
 @SuperBuilder
 @Getter
 @Setter
-@Entity
-@Table(name = "users")
 public class User {
 
     @Id
@@ -38,4 +41,8 @@ public class User {
     private String email;
     @Column
     private LocalDate birthday;
+    @OneToMany
+    List<Order> orders;
+    @OneToOne
+    private Cart cart;
 }

@@ -109,7 +109,7 @@ create table public.order_configurations
             on update cascade on delete cascade
 );
 
-alter table public.order_configurations
+alter table public.order_products
     owner to postgres;
 
 create table images

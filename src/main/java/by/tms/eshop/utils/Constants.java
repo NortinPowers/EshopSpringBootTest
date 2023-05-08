@@ -11,6 +11,16 @@ public class Constants {
     public static final String ALL = "all";
     public static final String TRUE = "true";
 
+
+    @UtilityClass
+    public class HibernateQueryParameter {
+        public static final String CONDITION = "condition";
+        public static final String MIN_PRICE = "minPrice";
+        public static final String MAX_PRICE = "maxPrice";
+        public static final String LOGIN = "login";
+        public static final String EMAIL = "email";
+    }
+
     @UtilityClass
     public class MappingPath {
 
@@ -35,7 +45,7 @@ public class Constants {
         public static final String REDIRECT_TO_SEARCH_RESULT_SAVE = "redirect:/search?result=save";
         public static final String REDIRECT_TO_SEARCH_FILTER_TRUE_RESULT_SAVE = "redirect:/search?filter=true&result=save";
         public static final String REDIRECT_TO_PRODUCT_WITH_PARAM = "redirect:/product/";
-        public static final String REDIRECT_TO_PRODUCTS_PAGE_TYPE_WITH_PARAM = "redirect:/products-page?type=";
+        public static final String REDIRECT_TO_PRODUCTS_PAGE_CATEGORY_WITH_PARAM = "redirect:/products-page?category=";
     }
 
     @UtilityClass
@@ -58,7 +68,7 @@ public class Constants {
     @UtilityClass
     public class RequestParameters {
 
-//        public static final String TYPE = "type";
+        //        public static final String TYPE = "type";
         public static final String CATEGORY = "category";
         public static final String FAVORITE = "favorite";
         public static final String SEARCH = "search";

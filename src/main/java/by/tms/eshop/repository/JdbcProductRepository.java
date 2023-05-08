@@ -1,6 +1,5 @@
 package by.tms.eshop.repository;
 
-import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.model.Product;
 
 import java.math.BigDecimal;
@@ -13,11 +12,14 @@ public interface JdbcProductRepository {
 //    List<ProductDto> getProductsByCategory(String category);
     List<Product> getProductsByCategory(String category);
 
-    String getProductTypeValue(Long id);
+    String getProductCategoryValue(Long id);
 
-    Set<ProductDto> getFoundedProducts(String searchCondition);
+    Set<Product> getFoundedProducts(String searchCondition);
+//    Set<ProductDto> getFoundedProducts(String searchCondition);
 
-    ProductDto getProduct(Long id);
+    Product getProduct(Long id);
+//    ProductDto getProduct(Long id);
 
-    Set<ProductDto> selectAllProductsByFilter(String type, BigDecimal minPrice, BigDecimal maxPrice);
+    Set<Product> selectAllProductsByFilter(String type, BigDecimal minPrice, BigDecimal maxPrice);
+//    Set<ProductDto> selectAllProductsByFilter(String type, BigDecimal minPrice, BigDecimal maxPrice);
 }

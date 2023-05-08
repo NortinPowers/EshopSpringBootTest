@@ -25,7 +25,7 @@ import static by.tms.eshop.utils.Constants.MappingPath.LOGIN;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_CART;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_ESHOP;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_FAVORITES;
-import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_PRODUCTS_PAGE_TYPE_WITH_PARAM;
+import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_PRODUCTS_PAGE_CATEGORY_WITH_PARAM;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_PRODUCT_WITH_PARAM;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_SEARCH_FILTER_TRUE_RESULT_SAVE;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_SEARCH_RESULT_SAVE;
@@ -68,22 +68,37 @@ public class ShopFacade {
         } else if (Objects.equals(location, PRODUCT_PAGE)) {
             path = REDIRECT_TO_PRODUCT_WITH_PARAM + productId;
         } else {
-            String productType = productService.getProductTypeValue(productId);
-            path = REDIRECT_TO_PRODUCTS_PAGE_TYPE_WITH_PARAM + productType;
+            String productCategory = productService.getProductCategoryValue(productId);
+            path = REDIRECT_TO_PRODUCTS_PAGE_CATEGORY_WITH_PARAM + productCategory;
         }
         return path;
     }
 
-    public ModelAndView getSearchFilterResultPagePath(HttpServletRequest request, String type) {
+//    public ModelAndView getSearchFilterResultPagePath(HttpServletRequest request, String type) {
+//        BigDecimal minPrice = getPrice(request, MIN_PRICE, BigDecimal.ZERO);
+//        BigDecimal maxPrice = getPrice(request, MAX_PRICE, new BigDecimal(Long.MAX_VALUE));
+//        ModelAndView modelAndView = new ModelAndView();
+//        HttpSession session = request.getSession(false);
+//        if (session.getAttribute(FOUND_PRODUCTS) != null) {
+//            session.setAttribute(FILTER_FOUND_PRODUCTS, getProductByFilter(session, type, minPrice, maxPrice));
+//            modelAndView.setViewName(REDIRECT_TO_SEARCH_FILTER_TRUE_RESULT_SAVE);
+//        } else {
+//            session.setAttribute(FOUND_PRODUCTS, productService.selectAllProductsByFilter(type, minPrice, maxPrice));
+//            modelAndView.setViewName(REDIRECT_TO_SEARCH_RESULT_SAVE);
+//        }
+//        return modelAndView;
+//    }
+
+    public ModelAndView getSearchFilterResultPagePath(HttpServletRequest request, String category) {
         BigDecimal minPrice = getPrice(request, MIN_PRICE, BigDecimal.ZERO);
         BigDecimal maxPrice = getPrice(request, MAX_PRICE, new BigDecimal(Long.MAX_VALUE));
         ModelAndView modelAndView = new ModelAndView();
         HttpSession session = request.getSession(false);
         if (session.getAttribute(FOUND_PRODUCTS) != null) {
-            session.setAttribute(FILTER_FOUND_PRODUCTS, getProductByFilter(session, type, minPrice, maxPrice));
+            session.setAttribute(FILTER_FOUND_PRODUCTS, getProductByFilter(session, category, minPrice, maxPrice));
             modelAndView.setViewName(REDIRECT_TO_SEARCH_FILTER_TRUE_RESULT_SAVE);
         } else {
-            session.setAttribute(FOUND_PRODUCTS, productService.selectAllProductsByFilter(type, minPrice, maxPrice));
+            session.setAttribute(FOUND_PRODUCTS, productService.selectAllProductsByFilter(category, minPrice, maxPrice));
             modelAndView.setViewName(REDIRECT_TO_SEARCH_RESULT_SAVE);
         }
         return modelAndView;

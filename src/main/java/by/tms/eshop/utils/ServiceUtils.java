@@ -7,6 +7,7 @@ import lombok.experimental.UtilityClass;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -26,9 +27,17 @@ public class ServiceUtils {
         return products;
     }
 
-    public static List<ProductDto> getProductDtoList(List<Product> productsByCategory) {
+    public static List<ProductDto> getProductDtoList(List<Product> convertedProducts) {
         List<ProductDto> products = new ArrayList<>();
-        for (Product product : productsByCategory) {
+        for (Product product : convertedProducts) {
+            products.add(makeProductDtoModelTransfer(product));
+        }
+        return products;
+    }
+
+    public static Set<ProductDto> getProductDtoSet(Set<Product> convertedProducts) {
+        Set<ProductDto> products = new LinkedHashSet<>();
+        for (Product product : convertedProducts) {
             products.add(makeProductDtoModelTransfer(product));
         }
         return products;

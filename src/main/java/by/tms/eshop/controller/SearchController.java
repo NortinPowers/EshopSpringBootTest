@@ -25,24 +25,27 @@ public class SearchController {
     private final ShopFacade shopFacade;
 
     @GetMapping("/search")
-    public ModelAndView hasFilterPage(HttpServletRequest request,
-                                      HttpSession session,
+//    public ModelAndView hasFilterPage(HttpServletRequest request,
+    public ModelAndView hasFilterPage(HttpSession session,
                                       @RequestParam(required = false) String result,
                                       @RequestParam(required = false) String filter) {
 
         //type парам табл
 
         removeUnsavedAttribute(session, result);
-        request.getServletContext().removeAttribute(FILTER);
-        setFilterAttribute(request, filter);
+        session.removeAttribute(FILTER);
+//        request.getServletContext().removeAttribute(FILTER);
+        setFilterAttribute(session, filter);
+//        setFilterAttribute(request, filter);
         return new ModelAndView(SEARCH_PATH);
     }
 
     @PostMapping("/search-param")
-    public ModelAndView showSearchPageByParam(HttpServletRequest request,
-                                              HttpSession session,
+//    public ModelAndView showSearchPageByParam(HttpServletRequest request,
+    public ModelAndView showSearchPageByParam(HttpSession session,
                                               @RequestParam(name = SEARCH_CONDITION) String searchCondition) {
-        request.getServletContext().removeAttribute(FILTER);
+//        request.getServletContext().removeAttribute(FILTER);
+        session.removeAttribute(FILTER);
         shopFacade.returnProductsBySearchCondition(session, searchCondition);
         return new ModelAndView(REDIRECT_TO_SEARCH_RESULT_SAVE);
     }

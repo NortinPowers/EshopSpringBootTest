@@ -32,7 +32,7 @@ import static by.tms.eshop.utils.Constants.Attributes.USER_UUID;
 import static by.tms.eshop.utils.Constants.CONVERSATION;
 import static by.tms.eshop.utils.Constants.MappingPath.ESHOP;
 import static by.tms.eshop.utils.Constants.MappingPath.LOGIN;
-import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_PRODUCTS_PAGE_TYPE_WITH_PARAM;
+import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_PRODUCTS_PAGE_CATEGORY_WITH_PARAM;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_PRODUCT_WITH_PARAM;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_SEARCH_RESULT_SAVE;
 import static by.tms.eshop.utils.Constants.RequestParameters.FILTER;
@@ -124,7 +124,7 @@ public class ControllerUtils {
         } else if (Objects.equals(location, PRODUCT_PAGE)) {
             path = REDIRECT_TO_PRODUCT_WITH_PARAM + productId;
         } else {
-            path = REDIRECT_TO_PRODUCTS_PAGE_TYPE_WITH_PARAM + productType;
+            path = REDIRECT_TO_PRODUCTS_PAGE_CATEGORY_WITH_PARAM + productType;
         }
         return path;
     }
@@ -145,9 +145,11 @@ public class ControllerUtils {
         session.invalidate();
     }
 
-    public static void setFilterAttribute(HttpServletRequest request, String filter) {
+//    public static void setFilterAttribute(HttpServletRequest request, String filter) {
+    public static void setFilterAttribute(HttpSession session, String filter) {
         if (TRUE.equals(filter)) {
-            request.getServletContext().setAttribute(FILTER, new Object());
+            session.setAttribute(FILTER, new Object());
+//            request.getServletContext().setAttribute(FILTER, new Object());
         }
     }
 

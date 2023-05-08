@@ -8,11 +8,11 @@ import java.util.Set;
 
 public interface ProductService {
 
-    ModelAndView getProductsByCategory(String type);
+    ModelAndView getProductsByCategory(String category);
 
     ModelAndView getProduct(Long id);
 
-    String getProductTypeValue(Long productId);
+    String getProductCategoryValue(Long productId);
 
     Set<ProductDto> getFoundedProducts(String searchCondition);
 
