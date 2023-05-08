@@ -50,7 +50,6 @@ public class SearchController {
     @PostMapping("/search-filter")
     public ModelAndView showSearchPageByFilter(HttpServletRequest request,
                                                @RequestParam(required = false, name = SELECT) String type) {
-//        return new ModelAndView(shopFacade.getSearchFilterResultPagePath(request, type));
         return shopFacade.getSearchFilterResultPagePath(request, type);
     }
 }

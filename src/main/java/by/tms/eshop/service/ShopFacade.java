@@ -19,6 +19,7 @@ import java.util.Set;
 
 import static by.tms.eshop.utils.Constants.Attributes.FILTER_FOUND_PRODUCTS;
 import static by.tms.eshop.utils.Constants.Attributes.FOUND_PRODUCTS;
+import static by.tms.eshop.utils.Constants.Attributes.LOGIN_ERROR;
 import static by.tms.eshop.utils.Constants.ErrorMessage.RECHECK_DATA;
 import static by.tms.eshop.utils.Constants.MappingPath.LOGIN;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_CART;
@@ -73,21 +74,6 @@ public class ShopFacade {
         return path;
     }
 
-//    public String getSearchFilterResultPagePath(HttpServletRequest request, String type) {
-//        BigDecimal minPrice = getPrice(request, MIN_PRICE, BigDecimal.ZERO);
-//        BigDecimal maxPrice = getPrice(request, MAX_PRICE, new BigDecimal(Long.MAX_VALUE));
-//        String path;
-//        HttpSession session = request.getSession(false);
-//        if (session.getAttribute(FOUND_PRODUCTS) != null) {
-//            session.setAttribute(FILTER_FOUND_PRODUCTS, getProductByFilter(session, type, minPrice, maxPrice));
-//            path = REDIRECT_TO_SEARCH_FILTER_TRUE_RESULT_SAVE;
-//        } else {
-//            session.setAttribute(FOUND_PRODUCTS, productService.selectAllProductsByFilter(type, minPrice, maxPrice));
-//            path = REDIRECT_TO_SEARCH_RESULT_SAVE;
-//        }
-//        return path;
-//    }
-
     public ModelAndView getSearchFilterResultPagePath(HttpServletRequest request, String type) {
         BigDecimal minPrice = getPrice(request, MIN_PRICE, BigDecimal.ZERO);
         BigDecimal maxPrice = getPrice(request, MAX_PRICE, new BigDecimal(Long.MAX_VALUE));
@@ -121,10 +107,9 @@ public class ShopFacade {
         if (incomingUser.isPresent() && isVerifyUser(incomingUser.get(), user.getPassword())) {
             UserDto userDto = makeUserDtoModelTransfer(incomingUser.get());
             saveUserSession(request, userDto);
-//            modelAndView.setViewName(ESHOP);
             modelAndView.setViewName(REDIRECT_TO_ESHOP);
         } else {
-            modelAndView.addObject("loginError", RECHECK_DATA);
+            modelAndView.addObject(LOGIN_ERROR, RECHECK_DATA);
             modelAndView.setViewName(LOGIN);
         }
     }
