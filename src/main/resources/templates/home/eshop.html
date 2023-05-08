@@ -12,7 +12,7 @@
          style="max-width: 14rem">
         <div class="card-header bg-danger text-white text-center" th:text="${productType}"></div>
         <a th:href="@{/products-page(type=${productType})}">
-            <img class="card-img-top" th:src="@{/images/__${#strings.toLowerCase(productType)}__.jpg}"
+            <img class="card-img-top" th:src="@{/images/category/__${#strings.toLowerCase(productType)}__.jpg}"
                  th:alt="${productType}">
         </a>
     </div>

@@ -4,38 +4,31 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDate;
+import java.util.List;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
+@Entity
+@Table(name = "product_category")
 @NoArgsConstructor
 @SuperBuilder
 @Getter
 @Setter
-@Entity
-@Table(name = "users")
-public class User {
+public class ProductCategory {
 
     @Id
     @Column
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
     @Column
-    private String password;
-    @Column
-    private String login;
-    @Column
-    private String name;
-    @Column
-    private String surname;
-    @Column
-    private String email;
-    @Column
-    private LocalDate birthday;
+    private String category;
+    @OneToMany(mappedBy = "productCategory")
+    private List<Product> product;
 }
