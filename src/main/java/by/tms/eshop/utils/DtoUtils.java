@@ -5,7 +5,7 @@ import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.dto.UserDto;
 import by.tms.eshop.dto.UserFormDto;
 import by.tms.eshop.model.Product;
-import by.tms.eshop.model.ProductType;
+import by.tms.eshop.model.ProductCategory;
 import by.tms.eshop.model.User;
 import lombok.experimental.UtilityClass;
 
@@ -20,7 +20,8 @@ public class DtoUtils {
                 .price(product.getPrice())
                 .info(product.getInfo())
                 .name(product.getName())
-                .type(product.getType().getValue())
+                .category(product.getProductCategory().getCategory())
+//                .type(product.getType().getValue())
                 .build();
     }
 
@@ -30,7 +31,10 @@ public class DtoUtils {
                 .price(productDto.getPrice())
                 .info(productDto.getInfo())
                 .name(productDto.getName())
-                .type(ProductType.getProductType(productDto.getType()))
+//                .type(ProductType.getProductType(productDto.getType()))
+                .productCategory(ProductCategory.builder()
+                        .category(productDto.getCategory())
+                        .build())
                 .build();
     }
 

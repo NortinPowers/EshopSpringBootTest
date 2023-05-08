@@ -58,7 +58,8 @@ public class Constants {
     @UtilityClass
     public class RequestParameters {
 
-        public static final String TYPE = "type";
+//        public static final String TYPE = "type";
+        public static final String CATEGORY = "category";
         public static final String FAVORITE = "favorite";
         public static final String SEARCH = "search";
         public static final String PRODUCT_PAGE = "product-page";

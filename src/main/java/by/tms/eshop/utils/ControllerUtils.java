@@ -111,7 +111,7 @@ public class ControllerUtils {
     public static Set<ProductDto> applyTypeFilterOnProducts(String type, Set<ProductDto> products) {
         if (!ALL.equals(type)) {
             products = products.stream()
-                    .filter(product -> product.getType().equals(type))
+                    .filter(product -> product.getCategory().equals(type))
                     .collect(Collectors.toCollection(LinkedHashSet::new));
         }
         return products;

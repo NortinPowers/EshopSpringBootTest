@@ -2,6 +2,7 @@ package by.tms.eshop.utils;
 
 import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.model.Product;
+import by.tms.eshop.model.ProductCategory;
 import lombok.experimental.UtilityClass;
 
 import java.sql.ResultSet;
@@ -9,7 +10,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
-import static by.tms.eshop.model.ProductType.getProductType;
 import static by.tms.eshop.utils.Constants.ALL;
 
 @UtilityClass
@@ -20,7 +20,10 @@ public class RepositoryJdbcUtils {
                 .name(resultSet.getString("name"))
                 .info(resultSet.getString("info"))
                 .price(resultSet.getBigDecimal("price"))
-                .type(getProductType(resultSet.getString("type")))
+//                .type(getProductType(resultSet.getString("type")))
+                .productCategory(ProductCategory.builder()
+                        .category(resultSet.getString("type"))
+                        .build())
                 .build();
         return DtoUtils.makeProductDtoModelTransfer(product);
     }

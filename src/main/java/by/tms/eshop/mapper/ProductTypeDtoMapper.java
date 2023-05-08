@@ -12,7 +12,7 @@ public class ProductTypeDtoMapper implements RowMapper<ProductDto> {
     @Override
     public ProductDto mapRow(@NonNull ResultSet rs, int rowNum) throws SQLException {
         return ProductDto.builder()
-                .type(rs.getString("type"))
+                .category(rs.getString("type"))
                 .build();
     }
 }

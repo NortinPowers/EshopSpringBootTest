@@ -10,10 +10,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 
 import static by.tms.eshop.utils.Constants.MappingPath.PRODUCT;
 import static by.tms.eshop.utils.Constants.MappingPath.PRODUCTS;
+import static by.tms.eshop.utils.ServiceUtils.getProductDtoList;
 
 @Service
 @RequiredArgsConstructor
@@ -22,11 +24,17 @@ public class ProductServiceImpl implements ProductService {
     private final JdbcProductRepository jdbcProductRepository;
 
     @Override
-    public ModelAndView getProductsByType(String type) {
+//    public ModelAndView getProductsByCategory(String type) {
+    public ModelAndView getProductsByCategory(String category) {
         ModelMap modelMap = new ModelMap();
-        modelMap.addAttribute(Attributes.PRODUCTS, jdbcProductRepository.getProductsByType(type));
+//        modelMap.addAttribute(Attributes.PRODUCTS, jdbcProductRepository.getProductsByType(type));
+        List<ProductDto> products = getProductDtoList(jdbcProductRepository.getProductsByCategory(category));
+        modelMap.addAttribute(Attributes.PRODUCTS, products);
+//        modelMap.addAttribute(Attributes.PRODUCTS, jdbcProductRepository.getProductsByCategory(category));
         return new ModelAndView(PRODUCTS, modelMap);
     }
+
+
 
     @Override
     public ModelAndView getProduct(Long id) {

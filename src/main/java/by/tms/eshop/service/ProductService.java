@@ -8,7 +8,7 @@ import java.util.Set;
 
 public interface ProductService {
 
-    ModelAndView getProductsByType(String type);
+    ModelAndView getProductsByCategory(String type);
 
     ModelAndView getProduct(Long id);
 

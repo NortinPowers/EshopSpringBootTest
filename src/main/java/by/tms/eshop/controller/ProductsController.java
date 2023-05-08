@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import static by.tms.eshop.utils.Constants.RequestParameters.CATEGORY;
 import static by.tms.eshop.utils.Constants.RequestParameters.ID;
-import static by.tms.eshop.utils.Constants.RequestParameters.TYPE;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,8 +18,10 @@ public class ProductsController {
     private final ProductService productService;
 
     @GetMapping("/products-page")
-    public ModelAndView showProductsPage(@RequestParam(TYPE) String type) {
-        return productService.getProductsByType(type);
+    public ModelAndView showProductsPage(@RequestParam(CATEGORY) String category) {
+//    public ModelAndView showProductsPage(@RequestParam(TYPE) String type) {
+        return productService.getProductsByCategory(category);
+//        return productService.getProductsByType(type);
     }
 
     @GetMapping("/product/{id}")

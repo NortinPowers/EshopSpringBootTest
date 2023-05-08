@@ -12,7 +12,7 @@
         <div class="card mr-4 ml-4 mt-4 shadow bg-body-tertiary rounded" style="max-width: 14rem">
             <a th:href="@{/product/__${product.id}__}">
                 <img class="card-img-top" style="max-height: 20rem"
-                     th:src="@{/images/__${#strings.toLowerCase(product.type)}__/__${product.name}__.jpg}"
+                     th:src="@{/images/__${#strings.toLowerCase(product.getCategory)}__/__${product.name}__.jpg}"
                      th:alt="${product.name}">
             </a>
             <div class="card-body">
