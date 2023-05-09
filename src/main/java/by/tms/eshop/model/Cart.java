@@ -1,13 +1,10 @@
 package by.tms.eshop.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -16,6 +13,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Table(name = "carts")
 @NoArgsConstructor
 @Getter
+@Setter
 @EqualsAndHashCode
 @SuperBuilder
 public class Cart {
@@ -24,22 +22,24 @@ public class Cart {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    private Long userId;
+//    private Long userId;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id", referencedColumnName = "id")
-//    private User user;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
-    private Long productId;
+//    private Long productId;
 
-//    @ManyToOne
-//    @JoinColumn(name = "product_id", referencedColumnName = "id")
-//    private Product product;
+    @ManyToOne
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    private Product product;
 
     @Column
     private boolean cart;
     @Column
     private boolean favorite;
+
     @Column
+//    private int count;
     private Integer count;
 }

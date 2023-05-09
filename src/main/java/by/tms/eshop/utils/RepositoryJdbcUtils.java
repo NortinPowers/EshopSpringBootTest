@@ -26,7 +26,7 @@ public class RepositoryJdbcUtils {
                 .price(resultSet.getBigDecimal("price"))
 //                .type(getProductType(resultSet.getString("type")))
                 .productCategory(ProductCategory.builder()
-                        .category(resultSet.getString("type"))
+                        .category(resultSet.getString("category"))
                         .build())
                 .build();
         return DtoUtils.makeProductDtoModelTransfer(product);
@@ -70,8 +70,8 @@ public class RepositoryJdbcUtils {
         return fullQuery;
     }
 
-    public static void getOrder(String order, Long id) {
-        Order.builder()
+    public static Order getOrder(String order, Long id) {
+        return Order.builder()
                 .id(order)
                 .date(LocalDate.now())
                 .user(User.builder()

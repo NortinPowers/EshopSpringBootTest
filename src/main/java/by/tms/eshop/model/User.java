@@ -40,9 +40,10 @@ public class User {
     private String email;
     @Column
     private LocalDate birthday;
-    @OneToMany
+
+    @OneToMany(mappedBy = "user")
     List<Order> orders;
 
-//    @OneToMany
-//    private List<Cart> cart;
+    @OneToMany(mappedBy = "user")
+    List<Cart> carts;
 }

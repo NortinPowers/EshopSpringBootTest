@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +22,7 @@ import static by.tms.eshop.utils.Constants.HibernateQueryParameter.LOGIN;
 @Transactional
 public class JdbcUserRepositoryImpl implements JdbcUserRepository {
 
-//    private final JdbcTemplate jdbcTemplate;
+    //    private final JdbcTemplate jdbcTemplate;
     private final SessionFactory sessionFactory;
 
     private static final String GET_USER_BY_LOGIN = "FROM User u WHERE u.login = :login";
@@ -46,7 +47,7 @@ public class JdbcUserRepositoryImpl implements JdbcUserRepository {
         }
     }
 
-//    @Override
+    //    @Override
 //    public Optional<User> getVerifyUser(String login, String email) {
 //        return jdbcTemplate.query(GET_USER_BY_LOGIN_OR_EMAIL, new UserMapper(), login, email).stream()
 //                .findAny();
@@ -75,7 +76,9 @@ public class JdbcUserRepositoryImpl implements JdbcUserRepository {
     @Override
     public void addUser(User user) {
         try (Session session = sessionFactory.openSession()) {
+            Transaction tx = session.beginTransaction();
             session.persist(user);
+            tx.commit();
         }
     }
 }

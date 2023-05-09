@@ -1,5 +1,6 @@
 package by.tms.eshop.controller;
 
+import by.tms.eshop.service.ProductCategoryService;
 import by.tms.eshop.service.ShopFacade;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -23,12 +24,15 @@ import static by.tms.eshop.utils.ControllerUtils.setFilterAttribute;
 public class SearchController {
 
     private final ShopFacade shopFacade;
+    private final ProductCategoryService productCategoryService;
+
 
     @GetMapping("/search")
 //    public ModelAndView hasFilterPage(HttpServletRequest request,
     public ModelAndView hasFilterPage(HttpSession session,
                                       @RequestParam(required = false) String result,
-                                      @RequestParam(required = false) String filter) {
+                                      @RequestParam(required = false) String filter,
+                                      ModelAndView modelAndView) {
 
         //type парам табл
 
@@ -36,8 +40,11 @@ public class SearchController {
         session.removeAttribute(FILTER);
 //        request.getServletContext().removeAttribute(FILTER);
         setFilterAttribute(session, filter);
+        modelAndView.addObject("productCategories", productCategoryService.getProductCategories());
+        modelAndView.setViewName(SEARCH_PATH);
 //        setFilterAttribute(request, filter);
-        return new ModelAndView(SEARCH_PATH);
+        return modelAndView;
+//        return new ModelAndView(SEARCH_PATH);
     }
 
     @PostMapping("/search-param")
