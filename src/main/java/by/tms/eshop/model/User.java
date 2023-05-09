@@ -43,6 +43,6 @@ public class User {
     @OneToMany
     List<Order> orders;
 
-//    @OneToOne
-//    private Cart cart;
+//    @OneToMany
+//    private List<Cart> cart;
 }

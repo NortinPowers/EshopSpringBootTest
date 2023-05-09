@@ -45,6 +45,6 @@ public class Product {
 //    @JoinColumn(referencedColumnName = "id")
 //    private OrderProduct orderProduct;
 
-//    @OneToOne
-//    private Cart cart;
+//    @OneToMany
+//    private List<Cart> cart;
 }

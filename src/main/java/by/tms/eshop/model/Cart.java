@@ -26,13 +26,13 @@ public class Cart {
 
     private Long userId;
 
-//    @OneToOne
+//    @ManyToOne
 //    @JoinColumn(name = "user_id", referencedColumnName = "id")
 //    private User user;
 
     private Long productId;
 
-//    @OneToOne
+//    @ManyToOne
 //    @JoinColumn(name = "product_id", referencedColumnName = "id")
 //    private Product product;
 

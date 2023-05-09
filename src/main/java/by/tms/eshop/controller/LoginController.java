@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import static by.tms.eshop.utils.Constants.MappingPath.CREATE_USER;
-import static by.tms.eshop.utils.Constants.MappingPath.ESHOP;
 import static by.tms.eshop.utils.Constants.MappingPath.LOGIN;
+import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_ESHOP;
 import static by.tms.eshop.utils.Constants.MappingPath.SUCCESS_REGISTER;
 import static by.tms.eshop.utils.ControllerUtils.closeUserSession;
 import static by.tms.eshop.utils.ControllerUtils.fillUserValidationError;
@@ -57,7 +57,8 @@ public class LoginController {
     @GetMapping("/logout")
     public ModelAndView showLogoutPage(HttpSession session) {
         closeUserSession(session);
-        return new ModelAndView(ESHOP);
+        return new ModelAndView(REDIRECT_TO_ESHOP);
+//        return new ModelAndView(ESHOP);
     }
 
     @GetMapping("/create-user")
