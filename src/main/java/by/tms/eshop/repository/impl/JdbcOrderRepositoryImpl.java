@@ -13,7 +13,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,7 +22,7 @@ import static by.tms.eshop.utils.RepositoryJdbcUtils.getOrderProduct;
 @Slf4j
 @Repository
 @RequiredArgsConstructor
-@Transactional
+//@Transactional
 public class JdbcOrderRepositoryImpl implements JdbcOrderRepository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -75,6 +74,11 @@ public class JdbcOrderRepositoryImpl implements JdbcOrderRepository {
 
     @Override
     public List<OrderDto> getOrdersById(Long id) {
+//        try(Session session = sessionFactory.openSession()){
+//            return session.createNativeQuery(GET_ORDERS_BY_ID)
+//                    .setParameter("id", id)
+//                    .getResultList();
+//        }
         return jdbcTemplate.query(GET_ORDERS_BY_ID, new OrderDtoMapper(), id);
     }
 

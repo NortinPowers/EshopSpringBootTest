@@ -58,11 +58,12 @@ public class JdbcProductRepositoryImpl implements JdbcProductRepository {
 
     @Override
     public List<Product> getProductsByCategory(String category) {
-        try (Session session = sessionFactory.openSession()) {
+        Session session = sessionFactory.getCurrentSession();
+//        try (Session session = sessionFactory.openSession()) {
             return session.createQuery(GET_PRODUCTS_BY_CATEGORY, Product.class)
                     .setParameter(CATEGORY, category)
                     .getResultList();
-        }
+//        }
     }
 
 //                          WORK!!

@@ -26,7 +26,6 @@ public class SearchController {
     private final ShopFacade shopFacade;
     private final ProductCategoryService productCategoryService;
 
-
     @GetMapping("/search")
 //    public ModelAndView hasFilterPage(HttpServletRequest request,
     public ModelAndView hasFilterPage(HttpSession session,

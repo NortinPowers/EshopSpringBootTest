@@ -15,18 +15,19 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static by.tms.eshop.utils.RepositoryJdbcUtils.*;
+import static by.tms.eshop.utils.RepositoryJdbcUtils.getModifyCount;
+import static by.tms.eshop.utils.RepositoryJdbcUtils.getProductDto;
+import static by.tms.eshop.utils.RepositoryJdbcUtils.isProductNotIncluded;
 
 @Slf4j
 @Repository
 @RequiredArgsConstructor
-@Transactional
+//@Transactional
 public class JdbcCartRepositoryImpl implements JdbcCartRepository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -34,8 +35,8 @@ public class JdbcCartRepositoryImpl implements JdbcCartRepository {
 
     //        private static final String ADD_PRODUCT_TO_CART = "INSERT INTO Cart (user.id, product.id, cart, favorite) VALUES (:userId, :productId, :cart, :favorite)";
 //    private static final String ADD_PRODUCT_TO_CART = "insert into carts (user_id, product_id, cart, favorite) VALUES (?, ?, ?, ?)";
-    private static final String GET_CART_PRODUCTS_BY_USER_ID = "select p.id, p.name, p.price, pt.type, p.info, c.count from carts c join products p on p.id = c.product_id join product_type pt on pt.id = p.product_category_id where c.user_id=? and c.cart=true";
-    private static final String GET_FAVORITE_PRODUCTS_BY_USER_ID = "select p.id, p.name, p.price, pt.type, p.info, c.count from carts c join products p on p.id = c.product_id join product_type pt on pt.id = p.product_category_id where c.user_id=? and c.favorite=true";
+    private static final String GET_CART_PRODUCTS_BY_USER_ID = "select p.id, p.name, p.price, pc.category, p.info, c.count from carts c join products p on p.id = c.product_id join product_category pc on pc.id = p.product_category_id where c.user_id=? and c.cart=true";
+    private static final String GET_FAVORITE_PRODUCTS_BY_USER_ID = "select p.id, p.name, p.price, pc.category, p.info, c.count from carts c join products p on p.id = c.product_id join product_category pc on pc.id = p.product_category_id where c.user_id=? and c.favorite=true";
 //    private static final String DELETE_FAVORITE_PRODUCT = "DELETE FROM Cart c WHERE c.user.id = :userId AND c.product.id = :productId AND c.favorite = true";
 //    private static final String DELETE_FAVORITE_PRODUCT = "DELETE FROM Cart c WHERE c.user.id = :userId AND c.product.id = :productId AND c.favorite = true";
     //        private static final String DELETE_FAVORITE_PRODUCT = "delete from carts where user_id=? and product_id=? and favorite=true";
@@ -222,7 +223,6 @@ public class JdbcCartRepositoryImpl implements JdbcCartRepository {
 //        productCount = getModifyCount(up, productCount);
 //        jdbcTemplate.update(UPDATE_CURRENT_PRODUCT_COUNT, productCount, userId, productId);
 //    }
-
 
     private void modifyProductCount(Long userId, Long productId, boolean up) {
         Integer productCount = getCartProductCount(userId, productId);
