@@ -32,15 +32,9 @@
                             <div class="col-sm-12">
                                 <select class="form-select col-8 col-sm-12 p-2 text-center"
                                         aria-label="Default select example" name="select">
-
-                                    <!--                                   динам. из табл!!!-->
-
                                     <option selected value="all">all categories</option>
                                     <option th:each="category : ${productCategories}" th:value="${category}"
                                             th:text="${category}"></option>
-<!--                                            th:text="${#strings.capitalize(category)}"></option>-->
-                                    <!--                                    <option value="tv">TV</option>-->
-                                    <!--                                    <option value="phone">Phone</option>-->
                                 </select>
                             </div>
                         </div>

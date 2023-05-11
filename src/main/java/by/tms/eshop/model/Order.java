@@ -22,16 +22,10 @@ public class Order {
 
     @Id
     private String id;
-//    @Column
     private LocalDate date;
-//    private Long userId;
     @ManyToOne
     @JoinColumn(name = "user_id")
-//    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
-
     @OneToMany(mappedBy = "order")
     private List<OrderProduct> orderProducts;
-
-
 }

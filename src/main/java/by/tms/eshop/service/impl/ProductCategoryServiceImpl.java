@@ -9,12 +9,10 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-//@Transactional
 public class ProductCategoryServiceImpl implements ProductCategoryService {
 
     private final JdbcProductCategoryRepository jdbcProductCategoryRepository;
 
-//    @Transactional
     @Override
     public  List<String> getProductCategories() {
         return jdbcProductCategoryRepository.getProductCategory();

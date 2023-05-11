@@ -17,13 +17,8 @@ import java.util.List;
 @SuperBuilder
 @Getter
 @Setter
-public class ProductCategory extends BaseEntity{
+public class ProductCategory extends BaseEntity {
 
-//    @Id
-////    @Column
-//    @GeneratedValue(strategy = IDENTITY)
-//    private Long id;
-//    @Column
     private String category;
     @OneToMany(mappedBy = "productCategory")
     @ToString.Exclude

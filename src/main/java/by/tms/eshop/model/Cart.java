@@ -17,32 +17,15 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
-public class Cart extends BaseEntity{
-
-//    @Id
-//    @GeneratedValue(strategy = IDENTITY)
-//    private Long id;
-
-//    private Long userId;
+public class Cart extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-//    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
-
-//    private Long productId;
-
     @ManyToOne
     @JoinColumn(name = "product_id")
-//    @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
-
-    //    @Column
     private boolean cart;
-    //    @Column
     private boolean favorite;
-
-    //    @Column
-//    private int count;
     private Integer count;
 }

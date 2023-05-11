@@ -74,21 +74,6 @@ public class ShopFacade {
         return path;
     }
 
-//    public ModelAndView getSearchFilterResultPagePath(HttpServletRequest request, String type) {
-//        BigDecimal minPrice = getPrice(request, MIN_PRICE, BigDecimal.ZERO);
-//        BigDecimal maxPrice = getPrice(request, MAX_PRICE, new BigDecimal(Long.MAX_VALUE));
-//        ModelAndView modelAndView = new ModelAndView();
-//        HttpSession session = request.getSession(false);
-//        if (session.getAttribute(FOUND_PRODUCTS) != null) {
-//            session.setAttribute(FILTER_FOUND_PRODUCTS, getProductByFilter(session, type, minPrice, maxPrice));
-//            modelAndView.setViewName(REDIRECT_TO_SEARCH_FILTER_TRUE_RESULT_SAVE);
-//        } else {
-//            session.setAttribute(FOUND_PRODUCTS, productService.selectAllProductsByFilter(type, minPrice, maxPrice));
-//            modelAndView.setViewName(REDIRECT_TO_SEARCH_RESULT_SAVE);
-//        }
-//        return modelAndView;
-//    }
-
     public ModelAndView getSearchFilterResultPagePath(HttpServletRequest request, String category) {
         BigDecimal minPrice = getPrice(request, MIN_PRICE, BigDecimal.ZERO);
         BigDecimal maxPrice = getPrice(request, MAX_PRICE, new BigDecimal(Long.MAX_VALUE));

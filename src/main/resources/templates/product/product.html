@@ -11,7 +11,6 @@
     <img class="card-img-top" style="max-height: 20rem"
          th:src="@{/images/__${#strings.toLowerCase(product.category)}__/__${product.name}__.jpg}"
          th:alt="${product.name}">
-    <!--         th:src="@{/images/__${#strings.toLowerCase(product.type)}__/__${product.name}__.jpg}"-->
     <div class="card-body">
         <h5 class="card-title text-nowrap" style="text-align: -webkit-center" th:text="${product.name}"></h5>
         <p class="card-text font-italic" th:text="${product.info + '.'}"></p>

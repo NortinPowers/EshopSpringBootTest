@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static by.tms.eshop.utils.Constants.HibernateQueryParameter.EMAIL;
-import static by.tms.eshop.utils.Constants.HibernateQueryParameter.LOGIN;
+import static by.tms.eshop.utils.Constants.QueryParameter.EMAIL;
+import static by.tms.eshop.utils.Constants.QueryParameter.LOGIN;
 
 @Slf4j
 @Repository
@@ -20,69 +20,31 @@ import static by.tms.eshop.utils.Constants.HibernateQueryParameter.LOGIN;
 @Transactional
 public class JdbcUserRepositoryImpl implements JdbcUserRepository {
 
-    //    private final JdbcTemplate jdbcTemplate;
     private final SessionFactory sessionFactory;
 
     private static final String GET_USER_BY_LOGIN = "FROM User WHERE login = :login";
-//    private static final String GET_USER_BY_LOGIN = "FROM User u WHERE u.login = :login";
-    //    private static final String GET_USER_BY_LOGIN = "select * from users where login=?";
     private static final String GET_USER_BY_LOGIN_OR_EMAIL = "FROM User WHERE login = :login OR email = :email";
-//    private static final String GET_USER_BY_LOGIN_OR_EMAIL = "FROM User u WHERE u.login = :login OR email = :email";
-    //    private static final String GET_USER_BY_LOGIN_OR_EMAIL = "select * from users where login=? or email=?";
-//    private static final String ADD_USER = "insert into users (login, password, name, surname, email, birthday) values (?, ?, ?, ?, ?, ?)";
-//    private static final String ADD_USER = "insert into users (login, password, name, surname, email, birthday) values (?, ?, ?, ?, ?, ?)";
-
-//    @Override
-//    public Optional<User> getUserByLogin(String login) {
-//        return jdbcTemplate.query(GET_USER_BY_LOGIN, new UserMapper(), login).stream()
-//                .findAny();
-//    }
 
     @Override
     public Optional<User> getUserByLogin(String login) {
-//        try (Session session = sessionFactory.openSession()) {
         Session session = sessionFactory.getCurrentSession();
         return Optional.of(session.createQuery(GET_USER_BY_LOGIN, User.class)
                 .setParameter(LOGIN, login)
                 .getSingleResult());
-//        }
     }
 
-    //    @Override
-//    public Optional<User> getVerifyUser(String login, String email) {
-//        return jdbcTemplate.query(GET_USER_BY_LOGIN_OR_EMAIL, new UserMapper(), login, email).stream()
-//                .findAny();
-//    }
     @Override
     public Optional<User> getVerifyUser(String login, String email) {
-//        try (Session session = sessionFactory.openSession()) {
-        //work
-//            List<User> resultList = session.createQuery(GET_USER_BY_LOGIN_OR_EMAIL, User.class)
-//                    .setParameter(LOGIN, login)
-//                    .setParameter(EMAIL, email)
-//                    .getResultList();
-//            return resultList.isEmpty() ? Optional.empty() : Optional.of(resultList.get(0));
         Session session = sessionFactory.getCurrentSession();
         return Optional.of(session.createQuery(GET_USER_BY_LOGIN_OR_EMAIL, User.class)
                 .setParameter(LOGIN, login)
                 .setParameter(EMAIL, email)
                 .getResultList().get(0));
-//        }
     }
-
-//    @Override
-//    public void addUser(User user) {
-//        jdbcTemplate.update(ADD_USER, user.getLogin(), user.getPassword(), user.getName(), user.getSurname(),
-//                user.getEmail(), user.getBirthday());
-//    }
 
     @Override
     public void addUser(User user) {
-//        try (Session session = sessionFactory.openSession()) {
         Session session = sessionFactory.getCurrentSession();
-//        Transaction tx = session.beginTransaction();
         session.persist(user);
-//        tx.commit();
-//        }
     }
 }

@@ -13,6 +13,9 @@ import java.util.Optional;
 import static by.tms.eshop.utils.Constants.ErrorMessage.EXISTING_EMAIL;
 import static by.tms.eshop.utils.Constants.ErrorMessage.EXISTING_USER;
 import static by.tms.eshop.utils.Constants.ErrorMessage.PASSWORDS_MATCHING;
+import static by.tms.eshop.utils.Constants.UserVerifyField.EMAIL;
+import static by.tms.eshop.utils.Constants.UserVerifyField.LOGIN;
+import static by.tms.eshop.utils.Constants.UserVerifyField.VERIFY_PASSWORD;
 
 @Component
 @RequiredArgsConstructor
@@ -43,19 +46,19 @@ public class UserValidator implements Validator {
 
     private static void checkUserByEmail(Errors errors, UserFormDto testUser, User foundUser) {
         if (foundUser.getEmail().equals(testUser.getEmail())) {
-            errors.rejectValue("email", "", EXISTING_EMAIL);
+            errors.rejectValue(EMAIL, "", EXISTING_EMAIL);
         }
     }
 
     private static void checkUserByLogin(Errors errors, UserFormDto testUser, User foundUser) {
         if (foundUser.getLogin().equals(testUser.getLogin())) {
-            errors.rejectValue("login", "", EXISTING_USER);
+            errors.rejectValue(LOGIN, "", EXISTING_USER);
         }
     }
 
     private void checkPasswordInputVerify(Errors errors, UserFormDto user) {
         if (!user.getPassword().equals(user.getVerifyPassword())) {
-            errors.rejectValue("verifyPassword", "", PASSWORDS_MATCHING);
+            errors.rejectValue(VERIFY_PASSWORD, "", PASSWORDS_MATCHING);
         }
     }
 }

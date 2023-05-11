@@ -25,19 +25,14 @@ public class ProductServiceImpl implements ProductService {
     private final JdbcProductRepository jdbcProductRepository;
 
     @Override
-//    public ModelAndView getProductsByCategory(String type) {
     public ModelAndView getProductsByCategory(String category) {
         ModelMap modelMap = new ModelMap();
-//        modelMap.addAttribute(Attributes.PRODUCTS, jdbcProductRepository.getProductsByType(type));
-//        List<ProductDto> products = getProductDtoList(jdbcProductRepository.getProductsByCategory(category));
         modelMap.addAttribute(Attributes.PRODUCTS, getProductDtoList(jdbcProductRepository.getProductsByCategory(category)));
-//        modelMap.addAttribute(Attributes.PRODUCTS, jdbcProductRepository.getProductsByCategory(category));
         return new ModelAndView(PRODUCTS, modelMap);
     }
 
     @Override
     public ModelAndView getProduct(Long id) {
-//        ModelMap modelMap = new ModelMap(Attributes.PRODUCT, jdbcProductRepository.getProduct(id));
         ModelMap modelMap = new ModelMap(Attributes.PRODUCT, makeProductDtoModelTransfer(jdbcProductRepository.getProduct(id)));
         return new ModelAndView(PRODUCT, modelMap);
     }
@@ -47,10 +42,6 @@ public class ProductServiceImpl implements ProductService {
         return jdbcProductRepository.getProductCategoryValue(id);
     }
 
-    //    @Override
-//    public Set<ProductDto> getFoundedProducts(String searchCondition) {
-//        return jdbcProductRepository.getFoundedProducts(searchCondition);
-//    }
     @Override
     public Set<ProductDto> getFoundedProducts(String searchCondition) {
         return getProductDtoSet(jdbcProductRepository.getFoundedProducts(searchCondition));
@@ -59,6 +50,5 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Set<ProductDto> selectAllProductsByFilter(String type, BigDecimal minPrice, BigDecimal maxPrice) {
         return getProductDtoSet(jdbcProductRepository.selectAllProductsByFilter(type, minPrice, maxPrice));
-//        return jdbcProductRepository.selectAllProductsByFilter(type, minPrice, maxPrice);
     }
 }

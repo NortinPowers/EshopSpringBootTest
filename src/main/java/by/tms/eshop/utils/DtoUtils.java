@@ -21,7 +21,6 @@ public class DtoUtils {
                 .info(product.getInfo())
                 .name(product.getName())
                 .category(product.getProductCategory().getCategory())
-//                .type(product.getType().getValue())
                 .build();
     }
 
@@ -31,7 +30,6 @@ public class DtoUtils {
                 .price(productDto.getPrice())
                 .info(productDto.getInfo())
                 .name(productDto.getName())
-//                .type(ProductType.getProductType(productDto.getType()))
                 .productCategory(ProductCategory.builder()
                         .category(productDto.getCategory())
                         .build())

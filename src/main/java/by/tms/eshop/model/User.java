@@ -20,27 +20,15 @@ import java.util.List;
 @Setter
 public class User extends BaseEntity {
 
-    //    @Id
-////    @Column
-//    @GeneratedValue(strategy = IDENTITY)
-//    private Long id;
-    //    @Column
     private String password;
-    //    @Column
     private String login;
-    //    @Column
     private String name;
-    //    @Column
     private String surname;
-    //    @Column
     private String email;
-    //    @Column
     private LocalDate birthday;
-
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
     private List<Order> orders;
-
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
     private List<Cart> carts;

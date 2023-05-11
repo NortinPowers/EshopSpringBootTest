@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static by.tms.eshop.utils.Constants.QueryParameter.NAME;
 import static by.tms.eshop.utils.RepositoryJdbcUtils.getOrder;
 import static by.tms.eshop.utils.RepositoryJdbcUtils.getOrderProduct;
 
@@ -28,91 +29,70 @@ public class JdbcOrderRepositoryImpl implements JdbcOrderRepository {
     private final JdbcTemplate jdbcTemplate;
     private final SessionFactory sessionFactory;
 
-    //    private static final String CREATE_ORDER = "insert into orders (id, date, user_id) values (?, ?, ?)";
-//    private static final String SAVE_PRODUCT_IN_ORDER = "insert into order_products (order_id, product_id) values (?, ?)";
-//    private static final String GET_ORDERS_BY_ID = "SELECT o.id, o.date, p.name, p.info, p.price, pc.category " +
-//            "FROM Order o " +
-//            "JOIN OrderProduct oc " +
-//            "JOIN Product p " +
-//            "JOIN ProductCategory pc " +
-//            "WHERE o.user.id = :userId";
     private static final String GET_ORDERS_BY_ID = "select o.id, o.date, p.name, p.info, p.price, pc.category from orders o " +
             "join order_products oc on o.id = oc.order_id " +
             "join products p on p.id = oc.product_id " +
             "join product_category pc on pc.id = p.product_category_id where user_id=?";
     private static final String CHECK_ORDERS_NAME = "FROM Order WHERE id = :name";
-//    private static final String CHECK_ORDERS_NAME = "FROM Order o WHERE o.id = :name";
-//    private static final String GET_ORDERS_NUMBER = "select id from orders where id=?";
 
-    //    @Override
-//    public void createOrder(String order, Long id) {
-//        jdbcTemplate.update(CREATE_ORDER, order, Date.valueOf(LocalDate.now()), id);
-//    }
-//    @Transactional
     @Override
     public void createOrder(String name, Long id) {
         Session session = sessionFactory.getCurrentSession();
-//        try (Session session = sessionFactory.openSession()) {
-//            Transaction tx = session.beginTransaction();
-            session.persist(getOrder(name, id));
-//            tx.commit();
-//        }
+        session.persist(getOrder(name, id));
     }
 
-    //    @Override
-//    public void saveProductInOrderConfigurations(String order, Product product) {
-//        jdbcTemplate.update(SAVE_PRODUCT_IN_ORDER, order, product.getId());
-//    }
-//    @Transactional
     @Override
     public void saveProductInOrderConfigurations(String name, Product product) {
         OrderProduct orderProduct = getOrderProduct(name, product);
         Session session = sessionFactory.getCurrentSession();
-//        try (Session session = sessionFactory.openSession()) {
-//            Transaction tx = session.beginTransaction();
-            session.persist(orderProduct);
-//            tx.commit();
-//        }
+        session.persist(orderProduct);
     }
 
     @Override
     public List<OrderDto> getOrdersById(Long id) {
-//        try(Session session = sessionFactory.openSession()){
-//            return session.createNativeQuery(GET_ORDERS_BY_ID)
-//                    .setParameter("id", id)
-//                    .getResultList();
-//        }
         return jdbcTemplate.query(GET_ORDERS_BY_ID, new OrderDtoMapper(), id);
     }
 
-//    @Override
-//    public List<OrderDto> getOrdersById(Long id) {
-//        try (Session session = sessionFactory.openSession()) {
-//            return session.createQuery(GET_ORDERS_BY_ID, OrderDto.class)
-//                    .setParameter("userId", id)
-//                    .getResultList();
-//        }
-//    }
+
+//          Это работает, но я считаю что jdbcTemplate с мапером проще и лучше, чем трансформировать
+//          данные возвращенного массива через анонимный интерфейс в объект. Метод проще не нагуглил
+//          (оставил себе для примера, потом удалю)
 
 //    @Override
-//    public boolean checkOrderNumber(String number) {
-//        return jdbcTemplate.query(CHECK_ORDERS_NAME, new OrderIdMapper(), number).stream()
-//                .anyMatch(order -> order.getId().equals(number));
+//    public List<OrderDto> getOrdersById(Long id) {
+//        Session session = sessionFactory.getCurrentSession();
+//        return session.createNativeQuery(GET_ORDERS_BY_ID)
+//                .setParameter(1, id)
+//                .unwrap(NativeQuery.class)
+//                .setResultTransformer(new ResultTransformer() {
+//                    @Override
+//                    public Object transformTuple(Object[] tuple, String[] aliases) {
+//                        OrderDto orderDto = OrderDto.builder()
+//                                .id((String) tuple[0])
+//                                .date(((java.sql.Date) tuple[1]).toLocalDate())
+//                                .productDto(ProductDto.builder()
+//                                        .name((String) tuple[2])
+//                                        .info((String) tuple[3])
+//                                        .price((BigDecimal) tuple[4])
+//                                        .category((String) tuple[5])
+//                                        .build())
+//                                .build();
+//                        return orderDto;
+//                    }
+//                    @Override
+//                    public List transformList(List collection) {
+//                        return collection;
+//                    }
+//                })
+//                .getResultList();
 //    }
 
     @Override
     public boolean checkOrderNumber(String name) {
         Session session = sessionFactory.getCurrentSession();
-//        try (Session session = sessionFactory.openSession()) {
-            return session.createQuery(CHECK_ORDERS_NAME, Order.class)
-                    .setParameter("name", name)
-                    .getResultList().stream()
-                    .anyMatch(order -> order.getId().equals(name));
-//
-//            return session.createQuery(CHECK_ORDERS_NAME, boolean.class)
-//                    .setParameter("name", name)
-//                    .getSingleResult();
-        }
-//    }
-
+        return session.createQuery(CHECK_ORDERS_NAME, Order.class)
+                .setParameter(NAME, name)
+                .getResultList().stream()
+                .anyMatch(order -> order.getId().equals(name));
+    }
 }

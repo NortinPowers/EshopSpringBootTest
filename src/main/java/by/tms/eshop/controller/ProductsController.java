@@ -19,9 +19,7 @@ public class ProductsController {
 
     @GetMapping("/products-page")
     public ModelAndView showProductsPage(@RequestParam(CATEGORY) String category) {
-//    public ModelAndView showProductsPage(@RequestParam(TYPE) String type) {
         return productService.getProductsByCategory(category);
-//        return productService.getProductsByType(type);
     }
 
     @GetMapping("/product/{id}")

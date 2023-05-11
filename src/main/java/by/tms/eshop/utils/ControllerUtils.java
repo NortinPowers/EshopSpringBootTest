@@ -5,6 +5,7 @@ import by.tms.eshop.dto.OrderWithListDto;
 import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.dto.UserDto;
 import by.tms.eshop.model.User;
+import by.tms.eshop.utils.Constants.UserVerifyField;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.experimental.UtilityClass;
@@ -40,6 +41,12 @@ import static by.tms.eshop.utils.Constants.RequestParameters.PRODUCT_PAGE;
 import static by.tms.eshop.utils.Constants.RequestParameters.SEARCH;
 import static by.tms.eshop.utils.Constants.SAVE;
 import static by.tms.eshop.utils.Constants.TRUE;
+import static by.tms.eshop.utils.Constants.UserVerifyField.BIRTHDAY;
+import static by.tms.eshop.utils.Constants.UserVerifyField.EMAIL;
+import static by.tms.eshop.utils.Constants.UserVerifyField.NAME;
+import static by.tms.eshop.utils.Constants.UserVerifyField.PASSWORD;
+import static by.tms.eshop.utils.Constants.UserVerifyField.SURNAME;
+import static by.tms.eshop.utils.Constants.UserVerifyField.VERIFY_PASSWORD;
 import static java.util.UUID.randomUUID;
 
 @Slf4j
@@ -145,11 +152,9 @@ public class ControllerUtils {
         session.invalidate();
     }
 
-//    public static void setFilterAttribute(HttpServletRequest request, String filter) {
     public static void setFilterAttribute(HttpSession session, String filter) {
         if (TRUE.equals(filter)) {
             session.setAttribute(FILTER, new Object());
-//            request.getServletContext().setAttribute(FILTER, new Object());
         }
     }
 
@@ -167,18 +172,18 @@ public class ControllerUtils {
     }
 
     public static void fillUserValidationError(BindingResult bindingResult, ModelAndView modelAndView) {
-        fillError("login", modelAndView, bindingResult);
-        fillError("password", modelAndView, bindingResult);
-        fillError("verifyPassword", modelAndView, bindingResult);
-        fillError("name", modelAndView, bindingResult);
-        fillError("surname", modelAndView, bindingResult);
-        fillError("email", modelAndView, bindingResult);
-        fillError("birthday", modelAndView, bindingResult);
+        fillError(UserVerifyField.LOGIN, modelAndView, bindingResult);
+        fillError(PASSWORD, modelAndView, bindingResult);
+        fillError(VERIFY_PASSWORD, modelAndView, bindingResult);
+        fillError(NAME, modelAndView, bindingResult);
+        fillError(SURNAME, modelAndView, bindingResult);
+        fillError(EMAIL, modelAndView, bindingResult);
+        fillError(BIRTHDAY, modelAndView, bindingResult);
     }
 
     public static void fillsLoginVerifyErrors(BindingResult bindingResult, ModelAndView modelAndView) {
-        fillError("login", modelAndView, bindingResult);
-        fillError("password", modelAndView, bindingResult);
+        fillError(UserVerifyField.LOGIN, modelAndView, bindingResult);
+        fillError(PASSWORD, modelAndView, bindingResult);
     }
 
     public static void setViewByAccessPermission(HttpSession session, ModelAndView modelAndView) {

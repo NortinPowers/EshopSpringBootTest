@@ -12,12 +12,21 @@ public class Constants {
     public static final String TRUE = "true";
 
     @UtilityClass
-    public class HibernateQueryParameter {
+    public class QueryParameter {
         public static final String CONDITION = "condition";
         public static final String MIN_PRICE = "minPrice";
         public static final String MAX_PRICE = "maxPrice";
         public static final String LOGIN = "login";
         public static final String EMAIL = "email";
+        public static final String USER_ID = "userId";
+        public static final String PRODUCT_ID = "productId";
+        public static final String COUNT = "count";
+        public static final String NAME = "name";
+        public static final String INFO = "info";
+        public static final String PRICE = "price";
+        public static final String CATEGORY = "category";
+        public static final String ID = "id";
+        public static final String DATE = "date";
     }
 
     @UtilityClass
@@ -67,7 +76,6 @@ public class Constants {
     @UtilityClass
     public class RequestParameters {
 
-        //        public static final String TYPE = "type";
         public static final String CATEGORY = "category";
         public static final String FAVORITE = "favorite";
         public static final String SEARCH = "search";
@@ -90,5 +98,16 @@ public class Constants {
         public static final String AGE_LIMIT = "Registration is available from the age of 18";
         public static final String PASSWORDS_MATCHING = "The entered passwords do not match";
         public static final String RECHECK_DATA = "Recheck the entered data";
+    }
+
+    @UtilityClass
+    public class UserVerifyField {
+        public static final String LOGIN = "login";
+        public static final String PASSWORD = "password";
+        public static final String VERIFY_PASSWORD = "verifyPassword";
+        public static final String NAME = "name";
+        public static final String SURNAME = "surname";
+        public static final String EMAIL = "email";
+        public static final String BIRTHDAY = "birthday";
     }
 }
