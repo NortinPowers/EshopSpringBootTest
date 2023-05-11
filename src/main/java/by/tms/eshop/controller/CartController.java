@@ -2,7 +2,7 @@ package by.tms.eshop.controller;
 
 import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.service.CartService;
-import by.tms.eshop.service.Facade;
+import by.tms.eshop.service.ShopFacade;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -31,7 +31,7 @@ import static by.tms.eshop.utils.DtoUtils.selectCart;
 public class CartController {
 
     private final CartService cartService;
-    private final Facade facade;
+    private final ShopFacade shopFacade;
 
     @GetMapping("/cart")
     public ModelAndView showCardPage(HttpSession session, ModelAndView modelAndView) {
@@ -48,7 +48,7 @@ public class CartController {
                                                @RequestParam String buy,
                                                ModelAndView modelAndView) {
         if (buy.equalsIgnoreCase(BUY)) {
-            facade.carriesPurchase(getUserId(session));
+            shopFacade.carriesPurchase(getUserId(session));
             modelAndView.setViewName(SUCCESS_BUY);
         } else {
             modelAndView.setViewName(REDIRECT_TO_CART);
@@ -62,7 +62,7 @@ public class CartController {
                                          @RequestParam(name = SHOP) String shopFlag,
                                          @RequestParam(name = LOCATION) String location) {
         cartService.addSelectedProduct(getUserId(session), productId, selectCart());
-        return new ModelAndView(facade.getPathFromAddCartByParameters(productId, shopFlag, location));
+        return new ModelAndView(shopFacade.getPathFromAddCartByParameters(productId, shopFlag, location));
     }
 
     @GetMapping("/delete-cart")

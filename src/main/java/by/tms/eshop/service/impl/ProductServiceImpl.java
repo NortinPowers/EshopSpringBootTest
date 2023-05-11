@@ -14,6 +14,9 @@ import java.util.Set;
 
 import static by.tms.eshop.utils.Constants.MappingPath.PRODUCT;
 import static by.tms.eshop.utils.Constants.MappingPath.PRODUCTS;
+import static by.tms.eshop.utils.DtoUtils.makeProductDtoModelTransfer;
+import static by.tms.eshop.utils.ServiceUtils.getProductDtoList;
+import static by.tms.eshop.utils.ServiceUtils.getProductDtoSet;
 
 @Service
 @RequiredArgsConstructor
@@ -22,30 +25,30 @@ public class ProductServiceImpl implements ProductService {
     private final JdbcProductRepository jdbcProductRepository;
 
     @Override
-    public ModelAndView getProductsByType(String type) {
+    public ModelAndView getProductsByCategory(String category) {
         ModelMap modelMap = new ModelMap();
-        modelMap.addAttribute(Attributes.PRODUCTS, jdbcProductRepository.getProductsByType(type));
+        modelMap.addAttribute(Attributes.PRODUCTS, getProductDtoList(jdbcProductRepository.getProductsByCategory(category)));
         return new ModelAndView(PRODUCTS, modelMap);
     }
 
     @Override
     public ModelAndView getProduct(Long id) {
-        ModelMap modelMap = new ModelMap(Attributes.PRODUCT, jdbcProductRepository.getProduct(id));
+        ModelMap modelMap = new ModelMap(Attributes.PRODUCT, makeProductDtoModelTransfer(jdbcProductRepository.getProduct(id)));
         return new ModelAndView(PRODUCT, modelMap);
     }
 
     @Override
-    public String getProductTypeValue(Long id) {
-        return jdbcProductRepository.getProductTypeValue(id);
+    public String getProductCategoryValue(Long id) {
+        return jdbcProductRepository.getProductCategoryValue(id);
     }
 
     @Override
     public Set<ProductDto> getFoundedProducts(String searchCondition) {
-        return jdbcProductRepository.getFoundedProducts(searchCondition);
+        return getProductDtoSet(jdbcProductRepository.getFoundedProducts(searchCondition));
     }
 
     @Override
     public Set<ProductDto> selectAllProductsByFilter(String type, BigDecimal minPrice, BigDecimal maxPrice) {
-        return jdbcProductRepository.selectAllProductsByFilter(type, minPrice, maxPrice);
+        return getProductDtoSet(jdbcProductRepository.selectAllProductsByFilter(type, minPrice, maxPrice));
     }
 }

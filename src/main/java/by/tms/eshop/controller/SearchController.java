@@ -1,6 +1,7 @@
 package by.tms.eshop.controller;
 
-import by.tms.eshop.service.Facade;
+import by.tms.eshop.service.ProductCategoryService;
+import by.tms.eshop.service.ShopFacade;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -22,34 +23,33 @@ import static by.tms.eshop.utils.ControllerUtils.setFilterAttribute;
 @RequiredArgsConstructor
 public class SearchController {
 
-    private final Facade facade;
+    private final ShopFacade shopFacade;
+    private final ProductCategoryService productCategoryService;
 
     @GetMapping("/search")
-    public ModelAndView hasFilterPage(HttpServletRequest request,
-                                      HttpSession session,
+    public ModelAndView hasFilterPage(HttpSession session,
                                       @RequestParam(required = false) String result,
-                                      @RequestParam(required = false) String filter) {
-
-        //type парам табл
-
+                                      @RequestParam(required = false) String filter,
+                                      ModelAndView modelAndView) {
         removeUnsavedAttribute(session, result);
-        request.getServletContext().removeAttribute(FILTER);
-        setFilterAttribute(request, filter);
-        return new ModelAndView(SEARCH_PATH);
+        session.removeAttribute(FILTER);
+        setFilterAttribute(session, filter);
+        modelAndView.addObject("productCategories", productCategoryService.getProductCategories());
+        modelAndView.setViewName(SEARCH_PATH);
+        return modelAndView;
     }
 
     @PostMapping("/search-param")
-    public ModelAndView showSearchPageByParam(HttpServletRequest request,
-                                              HttpSession session,
+    public ModelAndView showSearchPageByParam(HttpSession session,
                                               @RequestParam(name = SEARCH_CONDITION) String searchCondition) {
-        request.getServletContext().removeAttribute(FILTER);
-        facade.returnProductsBySearchCondition(session, searchCondition);
+        session.removeAttribute(FILTER);
+        shopFacade.returnProductsBySearchCondition(session, searchCondition);
         return new ModelAndView(REDIRECT_TO_SEARCH_RESULT_SAVE);
     }
 
     @PostMapping("/search-filter")
     public ModelAndView showSearchPageByFilter(HttpServletRequest request,
                                                @RequestParam(required = false, name = SELECT) String type) {
-        return new ModelAndView(facade.getSearchFilterResultPagePath(request, type));
+        return shopFacade.getSearchFilterResultPagePath(request, type);
     }
 }

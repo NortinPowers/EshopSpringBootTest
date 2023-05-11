@@ -12,6 +12,24 @@ public class Constants {
     public static final String TRUE = "true";
 
     @UtilityClass
+    public class QueryParameter {
+        public static final String CONDITION = "condition";
+        public static final String MIN_PRICE = "minPrice";
+        public static final String MAX_PRICE = "maxPrice";
+        public static final String LOGIN = "login";
+        public static final String EMAIL = "email";
+        public static final String USER_ID = "userId";
+        public static final String PRODUCT_ID = "productId";
+        public static final String COUNT = "count";
+        public static final String NAME = "name";
+        public static final String INFO = "info";
+        public static final String PRICE = "price";
+        public static final String CATEGORY = "category";
+        public static final String ID = "id";
+        public static final String DATE = "date";
+    }
+
+    @UtilityClass
     public class MappingPath {
 
         public static final String ESHOP = "home/eshop";
@@ -28,13 +46,14 @@ public class Constants {
         public static final String ERROR_500 = "error/error-500";
         public static final String SOME_ERROR = "error/some-error";
         public static final String REDIRECT_TO_CART = "redirect:/cart";
+        public static final String REDIRECT_TO_ESHOP = "redirect:/eshop";
         public static final String REDIRECT_TO_ERROR_500 = "redirect:/error-500";
         public static final String REDIRECT_TO_SOME_ERROR = "redirect:/some-error";
         public static final String REDIRECT_TO_FAVORITES = "redirect:/favorites";
         public static final String REDIRECT_TO_SEARCH_RESULT_SAVE = "redirect:/search?result=save";
         public static final String REDIRECT_TO_SEARCH_FILTER_TRUE_RESULT_SAVE = "redirect:/search?filter=true&result=save";
         public static final String REDIRECT_TO_PRODUCT_WITH_PARAM = "redirect:/product/";
-        public static final String REDIRECT_TO_PRODUCTS_PAGE_TYPE_WITH_PARAM = "redirect:/products-page?type=";
+        public static final String REDIRECT_TO_PRODUCTS_PAGE_CATEGORY_WITH_PARAM = "redirect:/products-page?category=";
     }
 
     @UtilityClass
@@ -51,12 +70,13 @@ public class Constants {
         public static final String FILTER_FOUND_PRODUCTS = "filterFoundProducts";
         public static final String CART_PRODUCTS = "cartProducts";
         public static final String FULL_PRICE = "fullPrice";
+        public static final String LOGIN_ERROR = "loginError";
     }
 
     @UtilityClass
     public class RequestParameters {
 
-        public static final String TYPE = "type";
+        public static final String CATEGORY = "category";
         public static final String FAVORITE = "favorite";
         public static final String SEARCH = "search";
         public static final String PRODUCT_PAGE = "product-page";
@@ -78,5 +98,16 @@ public class Constants {
         public static final String AGE_LIMIT = "Registration is available from the age of 18";
         public static final String PASSWORDS_MATCHING = "The entered passwords do not match";
         public static final String RECHECK_DATA = "Recheck the entered data";
+    }
+
+    @UtilityClass
+    public class UserVerifyField {
+        public static final String LOGIN = "login";
+        public static final String PASSWORD = "password";
+        public static final String VERIFY_PASSWORD = "verifyPassword";
+        public static final String NAME = "name";
+        public static final String SURNAME = "surname";
+        public static final String EMAIL = "email";
+        public static final String BIRTHDAY = "birthday";
     }
 }

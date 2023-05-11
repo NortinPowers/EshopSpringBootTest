@@ -2,7 +2,7 @@ package by.tms.eshop.service;
 
 import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.dto.UserDto;
-import by.tms.eshop.dto.UserValidationDto;
+import by.tms.eshop.dto.UserFormDto;
 import by.tms.eshop.model.User;
 import by.tms.eshop.utils.DtoUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,12 +19,13 @@ import java.util.Set;
 
 import static by.tms.eshop.utils.Constants.Attributes.FILTER_FOUND_PRODUCTS;
 import static by.tms.eshop.utils.Constants.Attributes.FOUND_PRODUCTS;
+import static by.tms.eshop.utils.Constants.Attributes.LOGIN_ERROR;
 import static by.tms.eshop.utils.Constants.ErrorMessage.RECHECK_DATA;
-import static by.tms.eshop.utils.Constants.MappingPath.ESHOP;
 import static by.tms.eshop.utils.Constants.MappingPath.LOGIN;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_CART;
+import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_ESHOP;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_FAVORITES;
-import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_PRODUCTS_PAGE_TYPE_WITH_PARAM;
+import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_PRODUCTS_PAGE_CATEGORY_WITH_PARAM;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_PRODUCT_WITH_PARAM;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_SEARCH_FILTER_TRUE_RESULT_SAVE;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_SEARCH_RESULT_SAVE;
@@ -43,7 +44,7 @@ import static by.tms.eshop.utils.ServiceUtils.getProductByFilter;
 
 @Component
 @RequiredArgsConstructor
-public class Facade {
+public class ShopFacade {
 
     private final CartService cartService;
     private final OrderService orderService;
@@ -67,25 +68,25 @@ public class Facade {
         } else if (Objects.equals(location, PRODUCT_PAGE)) {
             path = REDIRECT_TO_PRODUCT_WITH_PARAM + productId;
         } else {
-            String productType = productService.getProductTypeValue(productId);
-            path = REDIRECT_TO_PRODUCTS_PAGE_TYPE_WITH_PARAM + productType;
+            String productCategory = productService.getProductCategoryValue(productId);
+            path = REDIRECT_TO_PRODUCTS_PAGE_CATEGORY_WITH_PARAM + productCategory;
         }
         return path;
     }
 
-    public String getSearchFilterResultPagePath(HttpServletRequest request, String type) {
+    public ModelAndView getSearchFilterResultPagePath(HttpServletRequest request, String category) {
         BigDecimal minPrice = getPrice(request, MIN_PRICE, BigDecimal.ZERO);
         BigDecimal maxPrice = getPrice(request, MAX_PRICE, new BigDecimal(Long.MAX_VALUE));
-        String path;
+        ModelAndView modelAndView = new ModelAndView();
         HttpSession session = request.getSession(false);
         if (session.getAttribute(FOUND_PRODUCTS) != null) {
-            session.setAttribute(FILTER_FOUND_PRODUCTS, getProductByFilter(session, type, minPrice, maxPrice));
-            path = REDIRECT_TO_SEARCH_FILTER_TRUE_RESULT_SAVE;
+            session.setAttribute(FILTER_FOUND_PRODUCTS, getProductByFilter(session, category, minPrice, maxPrice));
+            modelAndView.setViewName(REDIRECT_TO_SEARCH_FILTER_TRUE_RESULT_SAVE);
         } else {
-            session.setAttribute(FOUND_PRODUCTS, productService.selectAllProductsByFilter(type, minPrice, maxPrice));
-            path = REDIRECT_TO_SEARCH_RESULT_SAVE;
+            session.setAttribute(FOUND_PRODUCTS, productService.selectAllProductsByFilter(category, minPrice, maxPrice));
+            modelAndView.setViewName(REDIRECT_TO_SEARCH_RESULT_SAVE);
         }
-        return path;
+        return modelAndView;
     }
 
     public void returnProductsBySearchCondition(HttpSession session, String searchCondition) {
@@ -95,20 +96,20 @@ public class Facade {
         }
     }
 
-    public void createAndLoginUser(HttpServletRequest request, UserValidationDto user) {
+    public void createAndLoginUser(HttpServletRequest request, UserFormDto user) {
         User userEntity = makeUserModelTransfer(user);
         userService.addUser(userEntity);
         saveUserSession(request, makeUserDtoModelTransfer(userEntity));
     }
 
-    public void checkLoginUser(HttpServletRequest request, UserValidationDto user, ModelAndView modelAndView) {
+    public void checkLoginUser(HttpServletRequest request, UserFormDto user, ModelAndView modelAndView) {
         Optional<User> incomingUser = userService.getUserByLogin(user.getLogin());
         if (incomingUser.isPresent() && isVerifyUser(incomingUser.get(), user.getPassword())) {
             UserDto userDto = makeUserDtoModelTransfer(incomingUser.get());
             saveUserSession(request, userDto);
-            modelAndView.setViewName(ESHOP);
+            modelAndView.setViewName(REDIRECT_TO_ESHOP);
         } else {
-            modelAndView.addObject("loginError", RECHECK_DATA);
+            modelAndView.addObject(LOGIN_ERROR, RECHECK_DATA);
             modelAndView.setViewName(LOGIN);
         }
     }

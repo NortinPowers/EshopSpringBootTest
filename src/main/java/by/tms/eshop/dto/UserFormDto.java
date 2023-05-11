@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @SuperBuilder
 @Getter
 @Setter
-public class UserValidationDto {
+public class UserFormDto {
     private Long id;
     @NotBlank(groups = Default.class, message = "Enter password")
     @Pattern(groups = Default.class, regexp = "[a-zA-Z0-9]{4,30}", message = "Incorrect password")

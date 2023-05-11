@@ -42,7 +42,7 @@ public class FavoriteController {
                                              @RequestParam(name = ID) Long productId,
                                              @RequestParam(name = LOCATION) String location) {
         cartService.addSelectedProduct(getUserId(session), productId, selectFavorite());
-        return new ModelAndView(getPathFromAddFavoriteByParameters(productId, location, productService.getProductTypeValue(productId)));
+        return new ModelAndView(getPathFromAddFavoriteByParameters(productId, location, productService.getProductCategoryValue(productId)));
     }
 
     @GetMapping("/delete-favorite")

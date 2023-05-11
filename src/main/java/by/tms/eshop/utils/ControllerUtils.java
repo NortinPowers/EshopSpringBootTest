@@ -5,6 +5,7 @@ import by.tms.eshop.dto.OrderWithListDto;
 import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.dto.UserDto;
 import by.tms.eshop.model.User;
+import by.tms.eshop.utils.Constants.UserVerifyField;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.experimental.UtilityClass;
@@ -32,7 +33,7 @@ import static by.tms.eshop.utils.Constants.Attributes.USER_UUID;
 import static by.tms.eshop.utils.Constants.CONVERSATION;
 import static by.tms.eshop.utils.Constants.MappingPath.ESHOP;
 import static by.tms.eshop.utils.Constants.MappingPath.LOGIN;
-import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_PRODUCTS_PAGE_TYPE_WITH_PARAM;
+import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_PRODUCTS_PAGE_CATEGORY_WITH_PARAM;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_PRODUCT_WITH_PARAM;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_SEARCH_RESULT_SAVE;
 import static by.tms.eshop.utils.Constants.RequestParameters.FILTER;
@@ -40,6 +41,12 @@ import static by.tms.eshop.utils.Constants.RequestParameters.PRODUCT_PAGE;
 import static by.tms.eshop.utils.Constants.RequestParameters.SEARCH;
 import static by.tms.eshop.utils.Constants.SAVE;
 import static by.tms.eshop.utils.Constants.TRUE;
+import static by.tms.eshop.utils.Constants.UserVerifyField.BIRTHDAY;
+import static by.tms.eshop.utils.Constants.UserVerifyField.EMAIL;
+import static by.tms.eshop.utils.Constants.UserVerifyField.NAME;
+import static by.tms.eshop.utils.Constants.UserVerifyField.PASSWORD;
+import static by.tms.eshop.utils.Constants.UserVerifyField.SURNAME;
+import static by.tms.eshop.utils.Constants.UserVerifyField.VERIFY_PASSWORD;
 import static java.util.UUID.randomUUID;
 
 @Slf4j
@@ -69,12 +76,12 @@ public class ControllerUtils {
         return orderings;
     }
 
-    private void addOrdering(List<OrderWithListDto> order, OrderDto singleOrder, List<ProductDto> singleOrderList) {
+    private static void addOrdering(List<OrderWithListDto> order, OrderDto singleOrder, List<ProductDto> singleOrderList) {
         order.add(new OrderWithListDto(singleOrder.getId(), singleOrder.getDate(), singleOrderList));
         singleOrderList.add(singleOrder.getProductDto());
     }
 
-    private void separateOrders(List<OrderDto> orders, List<OrderWithListDto> orderings, OrderDto singleOrder, List<ProductDto> singleOrderList) {
+    private static void separateOrders(List<OrderDto> orders, List<OrderWithListDto> orderings, OrderDto singleOrder, List<ProductDto> singleOrderList) {
         for (int i = 1; i < orders.size(); i++) {
             OrderDto order = orders.get(i);
             if (singleOrder.getId().equals(order.getId())) {
@@ -111,7 +118,7 @@ public class ControllerUtils {
     public static Set<ProductDto> applyTypeFilterOnProducts(String type, Set<ProductDto> products) {
         if (!ALL.equals(type)) {
             products = products.stream()
-                    .filter(product -> product.getType().equals(type))
+                    .filter(product -> product.getCategory().equals(type))
                     .collect(Collectors.toCollection(LinkedHashSet::new));
         }
         return products;
@@ -124,7 +131,7 @@ public class ControllerUtils {
         } else if (Objects.equals(location, PRODUCT_PAGE)) {
             path = REDIRECT_TO_PRODUCT_WITH_PARAM + productId;
         } else {
-            path = REDIRECT_TO_PRODUCTS_PAGE_TYPE_WITH_PARAM + productType;
+            path = REDIRECT_TO_PRODUCTS_PAGE_CATEGORY_WITH_PARAM + productType;
         }
         return path;
     }
@@ -145,9 +152,9 @@ public class ControllerUtils {
         session.invalidate();
     }
 
-    public static void setFilterAttribute(HttpServletRequest request, String filter) {
+    public static void setFilterAttribute(HttpSession session, String filter) {
         if (TRUE.equals(filter)) {
-            request.getServletContext().setAttribute(FILTER, new Object());
+            session.setAttribute(FILTER, new Object());
         }
     }
 
@@ -165,18 +172,18 @@ public class ControllerUtils {
     }
 
     public static void fillUserValidationError(BindingResult bindingResult, ModelAndView modelAndView) {
-        fillError("login", modelAndView, bindingResult);
-        fillError("password", modelAndView, bindingResult);
-        fillError("verifyPassword", modelAndView, bindingResult);
-        fillError("name", modelAndView, bindingResult);
-        fillError("surname", modelAndView, bindingResult);
-        fillError("email", modelAndView, bindingResult);
-        fillError("birthday", modelAndView, bindingResult);
+        fillError(UserVerifyField.LOGIN, modelAndView, bindingResult);
+        fillError(PASSWORD, modelAndView, bindingResult);
+        fillError(VERIFY_PASSWORD, modelAndView, bindingResult);
+        fillError(NAME, modelAndView, bindingResult);
+        fillError(SURNAME, modelAndView, bindingResult);
+        fillError(EMAIL, modelAndView, bindingResult);
+        fillError(BIRTHDAY, modelAndView, bindingResult);
     }
 
     public static void fillsLoginVerifyErrors(BindingResult bindingResult, ModelAndView modelAndView) {
-        fillError("login", modelAndView, bindingResult);
-        fillError("password", modelAndView, bindingResult);
+        fillError(UserVerifyField.LOGIN, modelAndView, bindingResult);
+        fillError(PASSWORD, modelAndView, bindingResult);
     }
 
     public static void setViewByAccessPermission(HttpSession session, ModelAndView modelAndView) {
