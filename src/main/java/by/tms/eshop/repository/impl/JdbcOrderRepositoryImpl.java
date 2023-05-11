@@ -10,9 +10,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ import static by.tms.eshop.utils.RepositoryJdbcUtils.getOrderProduct;
 @Slf4j
 @Repository
 @RequiredArgsConstructor
-//@Transactional
+@Transactional
 public class JdbcOrderRepositoryImpl implements JdbcOrderRepository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -40,7 +40,8 @@ public class JdbcOrderRepositoryImpl implements JdbcOrderRepository {
             "join order_products oc on o.id = oc.order_id " +
             "join products p on p.id = oc.product_id " +
             "join product_category pc on pc.id = p.product_category_id where user_id=?";
-    private static final String CHECK_ORDERS_NAME = "FROM Order o WHERE o.id = :name";
+    private static final String CHECK_ORDERS_NAME = "FROM Order WHERE id = :name";
+//    private static final String CHECK_ORDERS_NAME = "FROM Order o WHERE o.id = :name";
 //    private static final String GET_ORDERS_NUMBER = "select id from orders where id=?";
 
     //    @Override
@@ -50,11 +51,12 @@ public class JdbcOrderRepositoryImpl implements JdbcOrderRepository {
 //    @Transactional
     @Override
     public void createOrder(String name, Long id) {
-        try (Session session = sessionFactory.openSession()) {
-            Transaction tx = session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
+//        try (Session session = sessionFactory.openSession()) {
+//            Transaction tx = session.beginTransaction();
             session.persist(getOrder(name, id));
-            tx.commit();
-        }
+//            tx.commit();
+//        }
     }
 
     //    @Override
@@ -65,11 +67,12 @@ public class JdbcOrderRepositoryImpl implements JdbcOrderRepository {
     @Override
     public void saveProductInOrderConfigurations(String name, Product product) {
         OrderProduct orderProduct = getOrderProduct(name, product);
-        try (Session session = sessionFactory.openSession()) {
-            Transaction tx = session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
+//        try (Session session = sessionFactory.openSession()) {
+//            Transaction tx = session.beginTransaction();
             session.persist(orderProduct);
-            tx.commit();
-        }
+//            tx.commit();
+//        }
     }
 
     @Override
@@ -99,7 +102,8 @@ public class JdbcOrderRepositoryImpl implements JdbcOrderRepository {
 
     @Override
     public boolean checkOrderNumber(String name) {
-        try (Session session = sessionFactory.openSession()) {
+        Session session = sessionFactory.getCurrentSession();
+//        try (Session session = sessionFactory.openSession()) {
             return session.createQuery(CHECK_ORDERS_NAME, Order.class)
                     .setParameter("name", name)
                     .getResultList().stream()
@@ -109,6 +113,6 @@ public class JdbcOrderRepositoryImpl implements JdbcOrderRepository {
 //                    .setParameter("name", name)
 //                    .getSingleResult();
         }
-    }
+//    }
 
 }

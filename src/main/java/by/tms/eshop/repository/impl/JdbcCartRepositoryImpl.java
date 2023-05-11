@@ -12,9 +12,9 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ import static by.tms.eshop.utils.RepositoryJdbcUtils.isProductNotIncluded;
 @Slf4j
 @Repository
 @RequiredArgsConstructor
-//@Transactional
+@Transactional
 public class JdbcCartRepositoryImpl implements JdbcCartRepository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -37,19 +37,22 @@ public class JdbcCartRepositoryImpl implements JdbcCartRepository {
 //    private static final String ADD_PRODUCT_TO_CART = "insert into carts (user_id, product_id, cart, favorite) VALUES (?, ?, ?, ?)";
     private static final String GET_CART_PRODUCTS_BY_USER_ID = "select p.id, p.name, p.price, pc.category, p.info, c.count from carts c join products p on p.id = c.product_id join product_category pc on pc.id = p.product_category_id where c.user_id=? and c.cart=true";
     private static final String GET_FAVORITE_PRODUCTS_BY_USER_ID = "select p.id, p.name, p.price, pc.category, p.info, c.count from carts c join products p on p.id = c.product_id join product_category pc on pc.id = p.product_category_id where c.user_id=? and c.favorite=true";
-//    private static final String DELETE_FAVORITE_PRODUCT = "DELETE FROM Cart c WHERE c.user.id = :userId AND c.product.id = :productId AND c.favorite = true";
+    //    private static final String DELETE_FAVORITE_PRODUCT = "DELETE FROM Cart c WHERE c.user.id = :userId AND c.product.id = :productId AND c.favorite = true";
 //    private static final String DELETE_FAVORITE_PRODUCT = "DELETE FROM Cart c WHERE c.user.id = :userId AND c.product.id = :productId AND c.favorite = true";
     //        private static final String DELETE_FAVORITE_PRODUCT = "delete from carts where user_id=? and product_id=? and favorite=true";
 //    private static final String DELETE_CART_PRODUCT = "DELETE FROM Cart c WHERE c.user.id = :userId AND c.product.id = :productId AND c.cart = true";
     //        private static final String DELETE_CART_PRODUCT = "delete from carts where user_id=? and product_id=? and cart=true";
-    private static final String GET_CURRENT_CART = "FROM Cart c WHERE c.user.id = :userId AND c.product.id = :productId AND c.cart = true";
-    private static final String GET_CURRENT_FAVORITE = "FROM Cart c WHERE c.user.id = :userId AND c.product.id = :productId AND c.favorite = true";
+    private static final String GET_CURRENT_CART = "FROM Cart WHERE user.id = :userId AND product.id = :productId AND cart = true";
+    //    private static final String GET_CURRENT_CART = "FROM Cart c WHERE c.user.id = :userId AND c.product.id = :productId AND c.cart = true";
+    private static final String GET_CURRENT_FAVORITE = "FROM Cart WHERE user.id = :userId AND product.id = :productId AND favorite = true";
+    //    private static final String GET_CURRENT_FAVORITE = "FROM Cart c WHERE c.user.id = :userId AND c.product.id = :productId AND c.favorite = true";
     //    private static final String GET_CURRENT_PRODUCT_COUNT = "SELECT c.count FROM Cart c WHERE c.user.id = :userId AND c.product.id = :productId AND c.cart = true";
 //        private static final String GET_CURRENT_PRODUCT_COUNT = "select count from carts where user_id=? and product_id=? and cart=true";
 //    private static final String UPDATE_CURRENT_PRODUCT_COUNT = "UPDATE Cart c SET c.count = :count WHERE c.user.id = :userId AND c.product.id = :productId AND c.cart = true";
     //    private static final String UPDATE_CURRENT_PRODUCT_COUNT = "update carts set count = ? where user_id = ? and product_id = ? and cart = true";
 //    private static final String DELETE_CART_PRODUCT_AFTER_BUY = "DELETE FROM Cart c WHERE c.user.id = :userId AND c.cart = true";
-    private static final String GET_BUYING_PRODUCT = "FROM Cart c WHERE c.user.id = :userId AND c.cart = true";
+    private static final String GET_BUYING_PRODUCT = "FROM Cart WHERE user.id = :userId AND cart = true";
+//    private static final String GET_BUYING_PRODUCT = "FROM Cart c WHERE c.user.id = :userId AND c.cart = true";
 
     //    private static final String DELETE_CART_PRODUCT_AFTER_BUY = "delete from carts where user_id=? and cart=true";
 
@@ -130,7 +133,7 @@ public class JdbcCartRepositoryImpl implements JdbcCartRepository {
 
     @Override
     public Integer getCartProductCount(Long userId, Long productId) {
-        try (Session session = sessionFactory.openSession()) {
+//        try (Session session = sessionFactory.openSession()) {
 //            List<Cart> resultList = session.createQuery(GET_CURRENT_PRODUCT_COUNT, Cart.class)
 //                    .setParameter("userId", userId)
 //                    .setParameter("productId", productId)
@@ -139,14 +142,15 @@ public class JdbcCartRepositoryImpl implements JdbcCartRepository {
 //                    .map(Cart::getCount)
 //                    .findAny()
 //                    .orElse(0);
-            return session.createQuery(GET_CURRENT_CART, Cart.class)
-                    .setParameter("userId", userId)
-                    .setParameter("productId", productId)
-                    .getResultList().stream()
-                    .map(Cart::getCount)
-                    .findAny()
-                    .orElse(0);
-        }
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery(GET_CURRENT_CART, Cart.class)
+                .setParameter("userId", userId)
+                .setParameter("productId", productId)
+                .getResultList().stream()
+                .map(Cart::getCount)
+                .findAny()
+                .orElse(0);
+//        }
     }
 
 //    @Override
@@ -156,17 +160,18 @@ public class JdbcCartRepositoryImpl implements JdbcCartRepository {
 
     @Override
     public void deleteCartProductsAfterBuy(Long userId) {
-        try (Session session = sessionFactory.openSession()) {
+//        try (Session session = sessionFactory.openSession()) {
 //            session.createNativeQuery(DELETE_CART_PRODUCT_AFTER_BUY, Cart.class)
 //            session.createQuery(DELETE_CART_PRODUCT_AFTER_BUY, Cart.class)
 //                    .setParameter("userId", userId)
 //                    .executeUpdate();
-            Transaction tx = session.beginTransaction();
-            session.createQuery(GET_BUYING_PRODUCT, Cart.class)
-                    .setParameter("userId", userId)
-                    .getResultList().forEach(session::remove);
-            tx.commit();
-        }
+        Session session = sessionFactory.getCurrentSession();
+//        Transaction tx = session.beginTransaction();
+        session.createQuery(GET_BUYING_PRODUCT, Cart.class)
+                .setParameter("userId", userId)
+                .getResultList().forEach(session::remove);
+//        tx.commit();
+//        }
     }
 
     @Override
@@ -211,11 +216,12 @@ public class JdbcCartRepositoryImpl implements JdbcCartRepository {
                 .cart(locationDto.isCart())
                 .count(1)
                 .build();
-        try (Session session = sessionFactory.openSession()) {
-            Transaction tx = session.beginTransaction();
-            session.persist(cart);
-            tx.commit();
-        }
+//        try (Session session = sessionFactory.openSession()) {
+        Session session = sessionFactory.getCurrentSession();
+//        Transaction tx = session.beginTransaction();
+        session.persist(cart);
+//        tx.commit();
+//        }
     }
 
 //    private void modifyProductCount(Long userId, Long productId, boolean up) {
@@ -227,16 +233,17 @@ public class JdbcCartRepositoryImpl implements JdbcCartRepository {
     private void modifyProductCount(Long userId, Long productId, boolean up) {
         Integer productCount = getCartProductCount(userId, productId);
         productCount = getModifyCount(up, productCount);
-        try (Session session = sessionFactory.openSession()) {
-            Transaction tx = session.beginTransaction();
-            Cart cart = session.createQuery(GET_CURRENT_CART, Cart.class)
-                    .setParameter("userId", userId)
-                    .setParameter("productId", productId)
-                    .getSingleResult();
-            cart.setCount(productCount);
-            session.merge(cart);
+//        try (Session session = sessionFactory.openSession()) {
+        Session session = sessionFactory.getCurrentSession();
+//        Transaction tx = session.beginTransaction();
+        Cart cart = session.createQuery(GET_CURRENT_CART, Cart.class)
+                .setParameter("userId", userId)
+                .setParameter("productId", productId)
+                .getSingleResult();
+        cart.setCount(productCount);
+        session.merge(cart);
 //            session.getTransaction().commit();
-            tx.commit();
+//        tx.commit();
 //            session.update(cart);
 //            session.saveOrUpdate(cart);
 //            int updatedRows = session.createQuery(UPDATE_CURRENT_PRODUCT_COUNT, Cart.class)
@@ -246,7 +253,7 @@ public class JdbcCartRepositoryImpl implements JdbcCartRepository {
 //                    .setParameter("productId", productId)
 //                    .executeUpdate();
 
-        }
+//        }
     }
 
     private List<ProductDto> getProducts(Long userId, LocationDto locationDto) {
@@ -260,21 +267,21 @@ public class JdbcCartRepositoryImpl implements JdbcCartRepository {
 //    }
     private void deleteProductByMark(Long userId, Long productId, String query) {
 //    private void deleteProductByMark(Long userId, Long productId, LocationDto locationDto) {
-
-        try (Session session = sessionFactory.openSession()) {
-            Transaction tx = session.beginTransaction();
-            Cart cart = session.createQuery(query, Cart.class)
-                    .setParameter("userId", userId)
-                    .setParameter("productId", productId)
-                    .getSingleResult();
+        Session session = sessionFactory.getCurrentSession();
+//        try (Session session = sessionFactory.openSession()) {
+//        Transaction tx = session.beginTransaction();
+        Cart cart = session.createQuery(query, Cart.class)
+                .setParameter("userId", userId)
+                .setParameter("productId", productId)
+                .getSingleResult();
 //            session.delete(cart);
-            session.remove(cart);
-            tx.commit();
+        session.remove(cart);
+//        tx.commit();
 //            int updatedRows = session.createQuery(query, Cart.class)
 //            session.createQuery(query, Cart.class)
 //                    .setParameter("userId", userId)
 //                    .setParameter("productId", productId)
 //                    .executeUpdate();
-        }
     }
+//    }
 }

@@ -4,7 +4,6 @@ import by.tms.eshop.repository.JdbcProductCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,11 +13,11 @@ import java.util.List;
 //@Transactional
 public class JdbcProductCategoryRepositoryImpl implements JdbcProductCategoryRepository {
 
-    @Autowired
-    private  SessionFactory sessionFactory;
-//    private  final SessionFactory sessionFactory;
+//    @Autowired
+//    private  SessionFactory sessionFactory;
+    private  final SessionFactory sessionFactory;
 
-    private static final String GET_CATEGORY = "select category from ProductCategory pC";
+    private static final String GET_CATEGORY = "SELECT category FROM ProductCategory";
 
 //    @Transactional
     @Override

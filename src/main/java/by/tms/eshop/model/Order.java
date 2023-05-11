@@ -1,37 +1,33 @@
 package by.tms.eshop.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
 @Table(name = "orders")
-@EqualsAndHashCode
-@AllArgsConstructor
-@Builder
-@Getter
 @NoArgsConstructor
+@SuperBuilder
+@Data
 public class Order {
 
     @Id
     private String id;
-    @Column
+//    @Column
     private LocalDate date;
 //    private Long userId;
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id")
+//    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     @OneToMany(mappedBy = "order")

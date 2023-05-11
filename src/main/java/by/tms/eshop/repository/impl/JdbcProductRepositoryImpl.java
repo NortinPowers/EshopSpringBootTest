@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashSet;
@@ -23,27 +22,31 @@ import static by.tms.eshop.utils.RepositoryJdbcUtils.getQueryDependType;
 @Slf4j
 @Repository
 @RequiredArgsConstructor
-@Transactional
+//@Transactional
 public class JdbcProductRepositoryImpl implements JdbcProductRepository {
 
-//    private final JdbcTemplate jdbcTemplate;
+    //    private final JdbcTemplate jdbcTemplate;
     private final SessionFactory sessionFactory;
 
     //type -> category
 
     //    private static final String GET_PRODUCTS_BY_TYPE = "select p.id, p.name, pt.type, p.info, p.price from products p join product_type pt on pt.id = p.product_type_id where pt.type=?";
 //    private static final String GET_PRODUCTS_BY_TYPE = "select p.id, p.name, pt.type, p.info, p.price from products p join product_type pt on pt.id = p.product_category_id where pt.type=?";
-    private static final String GET_PRODUCTS_BY_CATEGORY = "FROM Product p WHERE p.productCategory.category = :category";
+    private static final String GET_PRODUCTS_BY_CATEGORY = "FROM Product WHERE productCategory.category = :category";
+//    private static final String GET_PRODUCTS_BY_CATEGORY = "FROM Product p WHERE p.productCategory.category = :category";
     //              WORK to ProductDto!!!
     //    private static final String GET_PRODUCTS_BY_CATEGORY = "select p.id, p.name, p.productCategory.category, p.info, p.price from Product p where p.productCategory.category = :category";
-    private static final String GET_PRODUCT_CATEGORY = "SELECT p.productCategory.category FROM Product p WHERE p.id = :id";
+    private static final String GET_PRODUCT_CATEGORY = "SELECT productCategory.category FROM Product WHERE id = :id";
+//    private static final String GET_PRODUCT_CATEGORY = "SELECT p.productCategory.category FROM Product p WHERE p.id = :id";
     //    private static final String GET_PRODUCT_TYPE = "select pt.type from products p join product_type pt on pt.id = p.product_category_id where p.id=?";
     //    private static final String GET_PRODUCT_TYPE = "select pt.type from products p join product_type pt on pt.id = p.product_type_id where p.id=?";
-    private static final String GET_PRODUCTS_BY_SEARCH_CONDITION_IN_NAME = "FROM Product p WHERE LOWER (p.name) LIKE LOWER (:condition)";
-//    private static final String GET_PRODUCTS_BY_SEARCH_CONDITION_IN_NAME = "select p.id, p.name, pt.type, p.info, p.price from products p join product_type pt on pt.id = p.product_category_id where lower(name) like lower(?)";
+    private static final String GET_PRODUCTS_BY_SEARCH_CONDITION_IN_NAME = "FROM Product WHERE LOWER (name) LIKE LOWER (:condition)";
+//    private static final String GET_PRODUCTS_BY_SEARCH_CONDITION_IN_NAME = "FROM Product p WHERE LOWER (p.name) LIKE LOWER (:condition)";
+    //    private static final String GET_PRODUCTS_BY_SEARCH_CONDITION_IN_NAME = "select p.id, p.name, pt.type, p.info, p.price from products p join product_type pt on pt.id = p.product_category_id where lower(name) like lower(?)";
     //    private static final String GET_PRODUCTS_BY_SEARCH_CONDITION_IN_NAME = "select p.id, p.name, pt.type, p.info, p.price from products p join product_type pt on pt.id = p.product_type_id where lower(name) like lower(?)";
-    private static final String GET_PRODUCTS_BY_SEARCH_CONDITION_IN_INFO = "FROM Product p WHERE LOWER (p.info) LIKE LOWER (:condition)";
-//    private static final String GET_PRODUCTS_BY_SEARCH_CONDITION_IN_INFO = "select p.id, p.name, pt.type, p.info, p.price from products p join product_type pt on pt.id = p.product_category_id where lower(info) like lower(?)";
+    private static final String GET_PRODUCTS_BY_SEARCH_CONDITION_IN_INFO = "FROM Product WHERE LOWER (info) LIKE LOWER (:condition)";
+//    private static final String GET_PRODUCTS_BY_SEARCH_CONDITION_IN_INFO = "FROM Product p WHERE LOWER (p.info) LIKE LOWER (:condition)";
+    //    private static final String GET_PRODUCTS_BY_SEARCH_CONDITION_IN_INFO = "select p.id, p.name, pt.type, p.info, p.price from products p join product_type pt on pt.id = p.product_category_id where lower(info) like lower(?)";
     //    private static final String GET_PRODUCTS_BY_SEARCH_CONDITION_IN_INFO = "select p.id, p.name, pt.type, p.info, p.price from products p join product_type pt on pt.id = p.product_type_id where lower(info) like lower(?)";
 //    private static final String GET_PRODUCT = "select p.id, p.name, pt.type, p.info, p.price from products p join product_type pt on pt.id = p.product_category_id where p.id=?";
     //    private static final String GET_PRODUCT = "select p.id, p.name, pt.type, p.info, p.price from products p join product_type pt on pt.id = p.product_type_id where p.id=?";
@@ -60,9 +63,9 @@ public class JdbcProductRepositoryImpl implements JdbcProductRepository {
     public List<Product> getProductsByCategory(String category) {
         Session session = sessionFactory.getCurrentSession();
 //        try (Session session = sessionFactory.openSession()) {
-            return session.createQuery(GET_PRODUCTS_BY_CATEGORY, Product.class)
-                    .setParameter(CATEGORY, category)
-                    .getResultList();
+        return session.createQuery(GET_PRODUCTS_BY_CATEGORY, Product.class)
+                .setParameter(CATEGORY, category)
+                .getResultList();
 //        }
     }
 
@@ -113,9 +116,10 @@ public class JdbcProductRepositoryImpl implements JdbcProductRepository {
 
     @Override
     public Product getProduct(Long id) {
-        try (Session session = sessionFactory.openSession()) {
-            return session.get(Product.class, id);
-        }
+        Session session = sessionFactory.getCurrentSession();
+//        try (Session session = sessionFactory.openSession()) {
+        return session.get(Product.class, id);
+//        }
     }
 
 //    @Override
@@ -128,11 +132,12 @@ public class JdbcProductRepositoryImpl implements JdbcProductRepository {
 
     @Override
     public String getProductCategoryValue(Long id) {
-        try (Session session = sessionFactory.openSession()) {
-            return session.createQuery(GET_PRODUCT_CATEGORY, String.class)
-                    .setParameter("id", id)
-                    .getSingleResult();
-        }
+        Session session = sessionFactory.getCurrentSession();
+//        try (Session session = sessionFactory.openSession()) {
+        return session.createQuery(GET_PRODUCT_CATEGORY, String.class)
+                .setParameter("id", id)
+                .getSingleResult();
+//        }
     }
 
 //    @Override
@@ -149,17 +154,18 @@ public class JdbcProductRepositoryImpl implements JdbcProductRepository {
     public Set<Product> getFoundedProducts(String searchCondition) {
         String condition = "%" + searchCondition + "%";
 //        String condition = String.format("%%%s%%", searchCondition);
-        try (Session session = sessionFactory.openSession()) {
-            List<Product> productNameSearch = session.createQuery(GET_PRODUCTS_BY_SEARCH_CONDITION_IN_NAME, Product.class)
-                    .setParameter(CONDITION, condition)
-                    .getResultList();
-            List<Product> productInfoSearch = session.createQuery(GET_PRODUCTS_BY_SEARCH_CONDITION_IN_INFO, Product.class)
-                    .setParameter(CONDITION, condition)
-                    .getResultList();
-            Set<Product> products = new LinkedHashSet<>(productNameSearch);
-            products.addAll(productInfoSearch);
-            return products;
-        }
+        Session session = sessionFactory.getCurrentSession();
+//        try (Session session = sessionFactory.openSession()) {
+        List<Product> productNameSearch = session.createQuery(GET_PRODUCTS_BY_SEARCH_CONDITION_IN_NAME, Product.class)
+                .setParameter(CONDITION, condition)
+                .getResultList();
+        List<Product> productInfoSearch = session.createQuery(GET_PRODUCTS_BY_SEARCH_CONDITION_IN_INFO, Product.class)
+                .setParameter(CONDITION, condition)
+                .getResultList();
+        Set<Product> products = new LinkedHashSet<>(productNameSearch);
+        products.addAll(productInfoSearch);
+        return products;
+//        }
     }
 
 //    @Override
@@ -172,12 +178,13 @@ public class JdbcProductRepositoryImpl implements JdbcProductRepository {
     @Override
     public Set<Product> selectAllProductsByFilter(String category, BigDecimal minPrice, BigDecimal maxPrice) {
         String query = getQueryDependType(category, SELECT_ALL_PRODUCTS_BY_FILTER);
-        try (Session session = sessionFactory.openSession()) {
-            List<Product> products = session.createQuery(query, Product.class)
-                    .setParameter(MIN_PRICE, minPrice)
-                    .setParameter(MAX_PRICE, maxPrice)
-                    .getResultList();
-            return new LinkedHashSet<>(products);
-        }
+        Session session = sessionFactory.getCurrentSession();
+//        try (Session session = sessionFactory.openSession()) {
+        List<Product> products = session.createQuery(query, Product.class)
+                .setParameter(MIN_PRICE, minPrice)
+                .setParameter(MAX_PRICE, maxPrice)
+                .getResultList();
+        return new LinkedHashSet<>(products);
     }
+//    }
 }
