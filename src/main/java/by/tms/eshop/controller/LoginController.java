@@ -58,7 +58,6 @@ public class LoginController {
     public ModelAndView showLogoutPage(HttpSession session) {
         closeUserSession(session);
         return new ModelAndView(REDIRECT_TO_ESHOP);
-//        return new ModelAndView(ESHOP);
     }
 
     @GetMapping("/create-user")

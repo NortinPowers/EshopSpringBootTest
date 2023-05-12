@@ -1,9 +1,9 @@
 package by.tms.eshop.repository.impl;
 
+import by.tms.eshop.model.Cart;
 import by.tms.eshop.dto.LocationDto;
 import by.tms.eshop.dto.ProductDto;
-import by.tms.eshop.model.Cart;
-import by.tms.eshop.repository.JdbcCartRepository;
+import by.tms.eshop.repository.CartRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -12,7 +12,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +29,8 @@ import static by.tms.eshop.utils.RepositoryJdbcUtils.isProductNotIncluded;
 @Slf4j
 @Repository
 @RequiredArgsConstructor
-@Transactional
-public class JdbcCartRepositoryImpl implements JdbcCartRepository {
+//@Transactional
+public class CartRepositoryImpl implements CartRepository {
 
     private final JdbcTemplate jdbcTemplate;
     private final SessionFactory sessionFactory;

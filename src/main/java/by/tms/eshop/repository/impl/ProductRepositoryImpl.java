@@ -1,7 +1,7 @@
 package by.tms.eshop.repository.impl;
 
 import by.tms.eshop.model.Product;
-import by.tms.eshop.repository.JdbcProductRepository;
+import by.tms.eshop.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
@@ -22,7 +22,7 @@ import static by.tms.eshop.utils.RepositoryJdbcUtils.getSearchProductsByPrice;
 @Slf4j
 @Repository
 @RequiredArgsConstructor
-public class JdbcProductRepositoryImpl implements JdbcProductRepository {
+public class ProductRepositoryImpl implements ProductRepository {
 
     private final SessionFactory sessionFactory;
 

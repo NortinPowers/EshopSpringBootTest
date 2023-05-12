@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
-public interface JdbcProductRepository {
+public interface ProductRepository {
 
     List<Product> getProductsByCategory(String category);
 

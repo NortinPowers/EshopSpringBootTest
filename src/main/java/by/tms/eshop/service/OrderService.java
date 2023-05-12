@@ -3,6 +3,7 @@ package by.tms.eshop.service;
 import by.tms.eshop.dto.OrderDto;
 import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.model.Product;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,5 +17,6 @@ public interface OrderService {
 
     boolean checkOrderNumber(String number);
 
+    @Transactional
     void saveUserOrder(Long userId, List<ProductDto> productsDto);
 }

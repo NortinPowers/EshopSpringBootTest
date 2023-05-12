@@ -5,7 +5,7 @@ import by.tms.eshop.model.Product;
 
 import java.util.List;
 
-public interface JdbcOrderRepository {
+public interface OrderRepository {
 
     void createOrder(String order, Long id);
 

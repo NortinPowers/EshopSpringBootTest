@@ -1,6 +1,6 @@
 package by.tms.eshop.repository.impl;
 
-import by.tms.eshop.repository.JdbcProductCategoryRepository;
+import by.tms.eshop.repository.ProductCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class JdbcProductCategoryRepositoryImpl implements JdbcProductCategoryRepository {
+public class ProductCategoryRepositoryImpl implements ProductCategoryRepository {
 
     private  final SessionFactory sessionFactory;
 

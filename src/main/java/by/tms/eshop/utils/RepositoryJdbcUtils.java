@@ -125,6 +125,7 @@ public class RepositoryJdbcUtils {
     public static List<Product> getSearchProductsByCondition(String condition, String query, Session session) {
         return session.createQuery(query, Product.class)
                 .setParameter(CONDITION, "%" + condition + "%")
+//                .setParameter(CONDITION, String.format("%%%s%%",condition))
                 .getResultList();
     }
 

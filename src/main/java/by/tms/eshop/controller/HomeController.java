@@ -15,9 +15,14 @@ import static by.tms.eshop.utils.Constants.MappingPath.ESHOP;
 public class HomeController {
 
     private final ProductCategoryService productCategoryService;
+//    private final SessionFactory sessionFactory;
 
     @GetMapping(value = {"/","/eshop"})
     public ModelAndView redirectToEshopPage(ModelAndView modelAndView) {
+//        Set<EntityType<?>> entities = sessionFactory.getMetamodel().getEntities();
+//        for (EntityType<?> entity : entities) {
+//            System.out.println(entity.getName());
+//        }
         List<String> productCategories = productCategoryService.getProductCategories();
         modelAndView.addObject("productCategories", productCategories);
         modelAndView.setViewName(ESHOP);

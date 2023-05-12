@@ -5,14 +5,13 @@ import by.tms.eshop.mapper.OrderDtoMapper;
 import by.tms.eshop.model.Order;
 import by.tms.eshop.model.OrderProduct;
 import by.tms.eshop.model.Product;
-import by.tms.eshop.repository.JdbcOrderRepository;
+import by.tms.eshop.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,8 +22,8 @@ import static by.tms.eshop.utils.RepositoryJdbcUtils.getOrderProduct;
 @Slf4j
 @Repository
 @RequiredArgsConstructor
-@Transactional
-public class JdbcOrderRepositoryImpl implements JdbcOrderRepository {
+//@Transactional
+public class OrderRepositoryImpl implements OrderRepository {
 
     private final JdbcTemplate jdbcTemplate;
     private final SessionFactory sessionFactory;

@@ -1,13 +1,11 @@
 package by.tms.eshop.repository.impl;
 
 import by.tms.eshop.model.User;
-import by.tms.eshop.repository.JdbcUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -17,8 +15,8 @@ import static by.tms.eshop.utils.Constants.QueryParameter.LOGIN;
 @Slf4j
 @Repository
 @RequiredArgsConstructor
-@Transactional
-public class JdbcUserRepositoryImpl implements JdbcUserRepository {
+//@Transactional
+public class UserRepositoryImpl implements by.tms.eshop.repository.UserRepository {
 
     private final SessionFactory sessionFactory;
 

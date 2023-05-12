@@ -4,7 +4,7 @@ import by.tms.eshop.model.User;
 
 import java.util.Optional;
 
-public interface JdbcUserRepository {
+public interface UserRepository {
 
     Optional<User> getUserByLogin(String login);
 
