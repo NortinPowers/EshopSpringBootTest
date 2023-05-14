@@ -1,7 +1,7 @@
 package by.tms.eshop.repository;
 
 import by.tms.eshop.dto.OrderDto;
-import by.tms.eshop.model.Product;
+import by.tms.eshop.domain.Product;
 
 import java.util.List;
 

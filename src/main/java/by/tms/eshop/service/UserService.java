@@ -1,6 +1,6 @@
 package by.tms.eshop.service;
 
-import by.tms.eshop.model.User;
+import by.tms.eshop.domain.User;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;

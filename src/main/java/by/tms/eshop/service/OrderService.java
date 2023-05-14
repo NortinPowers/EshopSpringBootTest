@@ -2,7 +2,7 @@ package by.tms.eshop.service;
 
 import by.tms.eshop.dto.OrderDto;
 import by.tms.eshop.dto.ProductDto;
-import by.tms.eshop.model.Product;
+import by.tms.eshop.domain.Product;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

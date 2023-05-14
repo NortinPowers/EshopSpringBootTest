@@ -1,7 +1,7 @@
 package by.tms.eshop.validator;
 
 import by.tms.eshop.dto.UserFormDto;
-import by.tms.eshop.model.User;
+import by.tms.eshop.domain.User;
 import by.tms.eshop.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

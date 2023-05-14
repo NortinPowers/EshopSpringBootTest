@@ -1,6 +1,6 @@
 package by.tms.eshop.repository.impl;
 
-import by.tms.eshop.model.Cart;
+import by.tms.eshop.domain.Cart;
 import by.tms.eshop.dto.LocationDto;
 import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.repository.CartRepository;

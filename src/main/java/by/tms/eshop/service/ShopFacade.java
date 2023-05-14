@@ -3,7 +3,7 @@ package by.tms.eshop.service;
 import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.dto.UserDto;
 import by.tms.eshop.dto.UserFormDto;
-import by.tms.eshop.model.User;
+import by.tms.eshop.domain.User;
 import by.tms.eshop.utils.DtoUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

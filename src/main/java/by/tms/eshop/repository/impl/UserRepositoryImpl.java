@@ -1,6 +1,6 @@
 package by.tms.eshop.repository.impl;
 
-import by.tms.eshop.model.User;
+import by.tms.eshop.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;

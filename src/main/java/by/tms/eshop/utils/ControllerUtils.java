@@ -4,7 +4,7 @@ import by.tms.eshop.dto.OrderDto;
 import by.tms.eshop.dto.OrderWithListDto;
 import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.dto.UserDto;
-import by.tms.eshop.model.User;
+import by.tms.eshop.domain.User;
 import by.tms.eshop.utils.Constants.UserVerifyField;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

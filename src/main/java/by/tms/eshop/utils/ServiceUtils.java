@@ -1,6 +1,6 @@
 package by.tms.eshop.utils;
 
-import by.tms.eshop.model.Product;
+import by.tms.eshop.domain.Product;
 import by.tms.eshop.dto.ProductDto;
 import jakarta.servlet.http.HttpSession;
 import lombok.experimental.UtilityClass;

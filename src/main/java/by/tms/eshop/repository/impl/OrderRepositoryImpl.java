@@ -2,9 +2,9 @@ package by.tms.eshop.repository.impl;
 
 import by.tms.eshop.dto.OrderDto;
 import by.tms.eshop.mapper.OrderDtoMapper;
-import by.tms.eshop.model.Order;
-import by.tms.eshop.model.OrderProduct;
-import by.tms.eshop.model.Product;
+import by.tms.eshop.domain.Order;
+import by.tms.eshop.domain.OrderProduct;
+import by.tms.eshop.domain.Product;
 import by.tms.eshop.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

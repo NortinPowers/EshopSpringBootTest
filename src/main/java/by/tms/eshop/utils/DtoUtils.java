@@ -4,9 +4,9 @@ import by.tms.eshop.dto.LocationDto;
 import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.dto.UserDto;
 import by.tms.eshop.dto.UserFormDto;
-import by.tms.eshop.model.Product;
-import by.tms.eshop.model.ProductCategory;
-import by.tms.eshop.model.User;
+import by.tms.eshop.domain.Product;
+import by.tms.eshop.domain.ProductCategory;
+import by.tms.eshop.domain.User;
 import lombok.experimental.UtilityClass;
 
 import java.util.List;

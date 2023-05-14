@@ -26,7 +26,7 @@ public class SessionFactoryConfig {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource);
-        sessionFactory.setPackagesToScan("by.tms.eshop.model");
+        sessionFactory.setPackagesToScan("by.tms.eshop.domain");
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }

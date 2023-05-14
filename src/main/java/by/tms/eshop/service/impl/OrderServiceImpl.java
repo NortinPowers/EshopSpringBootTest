@@ -2,7 +2,7 @@ package by.tms.eshop.service.impl;
 
 import by.tms.eshop.dto.OrderDto;
 import by.tms.eshop.dto.ProductDto;
-import by.tms.eshop.model.Product;
+import by.tms.eshop.domain.Product;
 import by.tms.eshop.repository.OrderRepository;
 import by.tms.eshop.service.OrderService;
 import lombok.RequiredArgsConstructor;

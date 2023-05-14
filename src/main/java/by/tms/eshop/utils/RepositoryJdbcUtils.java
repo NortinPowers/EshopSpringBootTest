@@ -2,12 +2,12 @@ package by.tms.eshop.utils;
 
 import by.tms.eshop.dto.LocationDto;
 import by.tms.eshop.dto.ProductDto;
-import by.tms.eshop.model.Cart;
-import by.tms.eshop.model.Order;
-import by.tms.eshop.model.OrderProduct;
-import by.tms.eshop.model.Product;
-import by.tms.eshop.model.ProductCategory;
-import by.tms.eshop.model.User;
+import by.tms.eshop.domain.Cart;
+import by.tms.eshop.domain.Order;
+import by.tms.eshop.domain.OrderProduct;
+import by.tms.eshop.domain.Product;
+import by.tms.eshop.domain.ProductCategory;
+import by.tms.eshop.domain.User;
 import lombok.experimental.UtilityClass;
 import org.hibernate.Session;
 

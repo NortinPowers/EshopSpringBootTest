@@ -1,4 +1,4 @@
-package by.tms.eshop.model;
+package by.tms.eshop.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

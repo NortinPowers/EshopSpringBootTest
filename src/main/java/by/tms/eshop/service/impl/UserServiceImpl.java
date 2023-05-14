@@ -1,6 +1,6 @@
 package by.tms.eshop.service.impl;
 
-import by.tms.eshop.model.User;
+import by.tms.eshop.domain.User;
 import by.tms.eshop.repository.UserRepository;
 import by.tms.eshop.service.UserService;
 import lombok.RequiredArgsConstructor;

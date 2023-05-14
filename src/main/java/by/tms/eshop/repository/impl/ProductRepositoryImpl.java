@@ -1,6 +1,6 @@
 package by.tms.eshop.repository.impl;
 
-import by.tms.eshop.model.Product;
+import by.tms.eshop.domain.Product;
 import by.tms.eshop.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
