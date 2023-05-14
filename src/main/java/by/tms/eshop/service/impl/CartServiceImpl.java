@@ -7,6 +7,7 @@ import by.tms.eshop.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -17,6 +18,7 @@ public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
 
+    @Transactional
     @Override
     public void addSelectedProduct(Long userId, Long productId, LocationDto locationDto) {
         cartRepository.addSelectedProduct(userId, productId, locationDto);
@@ -27,11 +29,13 @@ public class CartServiceImpl implements CartService {
         return cartRepository.getSelectedProducts(userId, locationDto);
     }
 
+    @Transactional
     @Override
     public void deleteProduct(Long userId, Long productId, LocationDto locationDto) {
         cartRepository.deleteProduct(userId, productId, locationDto);
     }
 
+    @Transactional
     @Override
     public void deleteCartProductsAfterBuy(Long userId) {
         cartRepository.deleteCartProductsAfterBuy(userId);
