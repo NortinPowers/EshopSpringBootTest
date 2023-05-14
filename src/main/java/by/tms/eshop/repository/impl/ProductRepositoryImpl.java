@@ -6,6 +6,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.support.PagedListHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -32,13 +36,47 @@ public class ProductRepositoryImpl implements ProductRepository {
     private static final String GET_PRODUCTS_BY_SEARCH_CONDITION_IN_INFO = "FROM Product WHERE LOWER (info) LIKE LOWER ('%' || :condition || '%')";
     private static final String SELECT_ALL_PRODUCTS_BY_FILTER = "FROM Product WHERE price >= :minPrice AND price <= :maxPrice";
 
+//    @Override
+//    public List<Product> getProductsByCategory(String category) {
+//        Session session = sessionFactory.getCurrentSession();
+//        return session.createQuery(GET_PRODUCTS_BY_CATEGORY, Product.class)
+//                .setParameter(CATEGORY, category)
+//                .getResultList();
+//    }
+
     @Override
-    public List<Product> getProductsByCategory(String category) {
+    public Page<Product> getProductsByCategory(String category, Pageable pageable) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery(GET_PRODUCTS_BY_CATEGORY, Product.class)
+        List<Product> resultList = session.createQuery(GET_PRODUCTS_BY_CATEGORY, Product.class)
                 .setParameter(CATEGORY, category)
                 .getResultList();
+//        int pageNumber = pageable.getPageNumber();
+//        int pageSize = pageable.getPageSize();
+//        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+//        Page<Product> products = new PageImpl<>(resultList, pageable, resultList.size());
+        PagedListHolder<Product> pageHolder = new PagedListHolder<>(resultList);
+        pageHolder.setPageSize(pageable.getPageSize());
+        pageHolder.setPage(pageable.getPageNumber());
+        return new PageImpl<>(pageHolder.getPageList(), pageable, resultList.size());
     }
+
+//    @Override
+//    public List<Product> getProductsByCategory(String category, PageRequest pageRequest) {
+//        Session session = sessionFactory.getCurrentSession();
+//        int pageNumber = pageRequest.getPageNumber();
+//        int pageSize = pageRequest.getPageSize();
+//        HibernateCriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+//        CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
+////        criteriaBuilder.createQuery(Product.class);
+//        Root<Product> productRoot = criteriaQuery.from(Product.class);
+//        criteriaQuery.select(productRoot).where(productRoot.get("category").in(category));
+//        criteriaQuery.
+//        Query<Product> query = session.createQuery(criteriaQuery);
+//
+//        return session.createQuery(GET_PRODUCTS_BY_CATEGORY, Product.class)
+//                .setParameter(CATEGORY, category)
+//                .getResultList();
+//    }
 
 //                         work for ProductDto
 //                         (оставил себе для примера, потом удалю)

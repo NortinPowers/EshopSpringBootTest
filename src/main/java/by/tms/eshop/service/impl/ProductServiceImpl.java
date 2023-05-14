@@ -5,6 +5,7 @@ import by.tms.eshop.repository.ProductRepository;
 import by.tms.eshop.service.ProductService;
 import by.tms.eshop.utils.Constants.Attributes;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,7 +16,6 @@ import java.util.Set;
 import static by.tms.eshop.utils.Constants.MappingPath.PRODUCT;
 import static by.tms.eshop.utils.Constants.MappingPath.PRODUCTS;
 import static by.tms.eshop.utils.DtoUtils.makeProductDtoModelTransfer;
-import static by.tms.eshop.utils.ServiceUtils.getProductDtoList;
 import static by.tms.eshop.utils.ServiceUtils.getProductDtoSet;
 
 @Service
@@ -24,10 +24,21 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
+//    @Override
+////    public ModelAndView getProductsByCategory(String category, PageRequest pageRequest) {
+//    public ModelAndView getProductsByCategory(String category) {
+//        ModelMap modelMap = new ModelMap();
+////        modelMap.addAttribute(Attributes.PRODUCTS, getProductDtoList(productRepository.getProductsByCategory(category, pageRequest)));
+//        modelMap.addAttribute(Attributes.PRODUCTS, getProductDtoList(productRepository.getProductsByCategory(category)));
+//        return new ModelAndView(PRODUCTS, modelMap);
+//    }
+
     @Override
-    public ModelAndView getProductsByCategory(String category) {
+    public ModelAndView getProductsByCategory(String category, Pageable pageable) {
         ModelMap modelMap = new ModelMap();
-        modelMap.addAttribute(Attributes.PRODUCTS, getProductDtoList(productRepository.getProductsByCategory(category)));
+//        modelMap.addAttribute(Attributes.PRODUCTS, getProductDtoList(productRepository.getProductsByCategory(category, pageable)));
+        modelMap.addAttribute("page", productRepository.getProductsByCategory(category, pageable));
+        modelMap.addAttribute("url", "/products-page?category="+category+"&size=3");
         return new ModelAndView(PRODUCTS, modelMap);
     }
 
