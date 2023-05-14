@@ -1,13 +1,12 @@
 package by.tms.eshop.utils;
 
-import by.tms.eshop.dto.LocationDto;
-import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.domain.Cart;
 import by.tms.eshop.domain.Order;
-import by.tms.eshop.domain.OrderProduct;
 import by.tms.eshop.domain.Product;
 import by.tms.eshop.domain.ProductCategory;
 import by.tms.eshop.domain.User;
+import by.tms.eshop.dto.LocationDto;
+import by.tms.eshop.dto.ProductDto;
 import lombok.experimental.UtilityClass;
 import org.hibernate.Session;
 
@@ -73,9 +72,19 @@ public class RepositoryJdbcUtils {
         return fullQuery;
     }
 
+//    public static Order getOrder(String order, Long id) {
+//        return Order.builder()
+//                .id(order)
+//                .date(LocalDate.now())
+//                .user(User.builder()
+//                        .id(id)
+//                        .build())
+//                .build();
+//    }
+
     public static Order getOrder(String order, Long id) {
         return Order.builder()
-                .id(order)
+                .name(order)
                 .date(LocalDate.now())
                 .user(User.builder()
                         .id(id)
@@ -83,16 +92,27 @@ public class RepositoryJdbcUtils {
                 .build();
     }
 
-    public static OrderProduct getOrderProduct(String name, Product product) {
-        return OrderProduct.builder()
-                .order(Order.builder()
-                        .id(name)
-                        .build())
-                .product(Product.builder()
-                        .id(product.getId())
-                        .build())
-                .build();
-    }
+//    public static OrderProduct getOrderProduct(String name, Product product) {
+//        return OrderProduct.builder()
+//                .order(Order.builder()
+//                        .id(name)
+//                        .build())
+//                .product(Product.builder()
+//                        .id(product.getId())
+//                        .build())
+//                .build();
+//    }
+
+//    public static OrderProduct getOrderProduct(String name, Product product) {
+//        return OrderProduct.builder()
+//                .order(Order.builder()
+//                        .name(name)
+//                        .build())
+//                .product(Product.builder()
+//                        .id(product.getId())
+//                        .build())
+//                .build();
+//    }
 
     public static Cart getCart(Long userId, Long productId, LocationDto locationDto) {
         return Cart.builder()

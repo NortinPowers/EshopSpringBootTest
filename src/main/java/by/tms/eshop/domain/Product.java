@@ -2,6 +2,7 @@ package by.tms.eshop.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -29,8 +30,12 @@ public class Product extends BaseEntity {
     @JoinColumn(name = "product_category_id")
     private ProductCategory productCategory;
     private String info;
-    @OneToMany(mappedBy = "product")
-    private List<OrderProduct> orderProducts;
+//    @OneToMany(mappedBy = "product")
+//    private List<OrderProduct> orderProducts;
     @OneToMany(mappedBy = "product")
     private List<Cart> cart;
+
+    @ManyToMany(mappedBy = "products")
+    private List<Order> orders;
+
 }
