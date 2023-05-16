@@ -25,16 +25,11 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class Order extends BaseEntity {
 
-    //    @Id
-//    private Long id;
     private String name;
     private LocalDate date;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-//    @OneToMany(mappedBy = "order")
-//    private List<OrderProduct> orderProducts;
-
     @ManyToMany
     @JoinTable(name = "order_product",
             joinColumns = @JoinColumn(name = "order_id"),

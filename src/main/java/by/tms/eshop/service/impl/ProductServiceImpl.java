@@ -13,6 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 import java.math.BigDecimal;
 import java.util.Set;
 
+import static by.tms.eshop.utils.Constants.Attributes.PAGE;
+import static by.tms.eshop.utils.Constants.Attributes.URL;
 import static by.tms.eshop.utils.Constants.MappingPath.PRODUCT;
 import static by.tms.eshop.utils.Constants.MappingPath.PRODUCTS;
 import static by.tms.eshop.utils.DtoUtils.makeProductDtoModelTransfer;
@@ -24,22 +26,11 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
-//    @Override
-////    public ModelAndView getProductsByCategory(String category, PageRequest pageRequest) {
-//    public ModelAndView getProductsByCategory(String category) {
-//        ModelMap modelMap = new ModelMap();
-////        modelMap.addAttribute(Attributes.PRODUCTS, getProductDtoList(productRepository.getProductsByCategory(category, pageRequest)));
-//        modelMap.addAttribute(Attributes.PRODUCTS, getProductDtoList(productRepository.getProductsByCategory(category)));
-//        return new ModelAndView(PRODUCTS, modelMap);
-//    }
-
     @Override
     public ModelAndView getProductsByCategory(String category, Pageable pageable) {
         ModelMap modelMap = new ModelMap();
-//        modelMap.addAttribute(Attributes.PRODUCTS, getProductDtoList(productRepository.getProductsByCategory(category, pageable)));
-        modelMap.addAttribute("page", productRepository.getProductsByCategory(category, pageable));
-        modelMap.addAttribute("url", "/products-page?category="+category+"&size=3");
-//        modelMap.addAttribute("url", "/products-page?category="+category);
+        modelMap.addAttribute(PAGE, productRepository.getProductsByCategory(category, pageable));
+        modelMap.addAttribute(URL, "/products-page?category=" + category + "&size=3");
         return new ModelAndView(PRODUCTS, modelMap);
     }
 

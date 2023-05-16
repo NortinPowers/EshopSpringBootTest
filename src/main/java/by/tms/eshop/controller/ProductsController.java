@@ -19,23 +19,11 @@ public class ProductsController {
 
     private final ProductService productService;
 
-//    @GetMapping("/products-page")
-//    public ModelAndView showProductsPage(@RequestParam(CATEGORY) String category) {
-//        return productService.getProductsByCategory(category);
-//    }
-
     @GetMapping("/products-page")
     public ModelAndView showProductsPage(@RequestParam(CATEGORY) String category,
-                                         @PageableDefault(sort = "id") Pageable pageable) {
+                                         @PageableDefault(sort = ID) Pageable pageable) {
         return productService.getProductsByCategory(category, pageable);
     }
-
-//    @GetMapping("/products-page")
-//    public ModelAndView showProductsPage(@RequestParam(CATEGORY) String category,
-//                                         @RequestParam(required = false, defaultValue = "0") int page,
-//                                         @RequestParam(required = false, defaultValue = "5") int size) {
-//        return productService.getProductsByCategory(category, PageRequest.of(page, size));
-//    }
 
     @GetMapping("/product/{id}")
     public ModelAndView showProductPage(@PathVariable(ID) Long id) {

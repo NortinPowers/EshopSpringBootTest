@@ -9,9 +9,7 @@ import java.util.Set;
 
 public interface ProductService {
 
-    //    ModelAndView getProductsByCategory(String category);
     ModelAndView getProductsByCategory(String category, Pageable pageable);
-//    ModelAndView getProductsByCategory(String category, PageRequest of);
 
     ModelAndView getProduct(Long id);
 

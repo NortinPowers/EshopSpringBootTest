@@ -6,14 +6,14 @@
     <th:block th:insert="~{/include/bootstrap}"/>
     <th:block th:insert="~{/include/bootstrap-custom}"/>
 </head>
-<body style="background: #243855">
+<body style="background: #f9f9f9">
 <th:block th:insert="~{/include/navigate}"/>
-<div class="card text-center" style="background: #2a415e">
+<div class="card text-center" style="background: #f9f9f9">
     <div class="card-header text-center">
-        <h2 style="color: #e3e1da; text-shadow: #FC0 1px 0 10px;">Personal data</h2>
+        <h2 style="color: #333; text-shadow: #ff1500 1px 0 2px;">Personal data</h2>
     </div>
     <div class="card-body">
-        <div class="row g-3" style="text-shadow: 1px 1px 2px #0a0a33;">
+        <div class="row g-3" style="text-shadow: 1px 0 2px #e6e6e6;">
             <div class="col-md-5">
                 <p class="form-control border-success rounded-pill form-control form-control-lg"
                    th:text="${models.userDto.name}"></p>
@@ -33,31 +33,35 @@
         </div>
     </div>
 </div>
-<div class="card text-center" style="background: #2a415e">
+<div class="card text-center" style="background: #f9f9f9">
     <div class="card-header text-center">
-        <h2 style="color: #e3e1da; text-shadow: #FC0 1px 0 10px;">Order history:</h2>
+        <h2 style="color: #333; text-shadow: #ff1500 1px 0 2px">Order history:</h2>
     </div>
 </div>
-<div th:if="${models.userOrder == null}" class="card text-center" style="background: #2a415e">
+<div th:if="${models.userOrder.size == 0}" class="card text-center" style="background: #ffffff">
     <div class="card-header text-center">
-        <h4 style="color: #e3e1da; text-shadow: #FC0 1px 0 10px;">The order history is empty</h4>
+        <h4 style="color: #333; text-shadow: #ff1500 1px 0 2px">The order history is empty</h4>
     </div>
 </div>
-<div th:unless="${models.userOrder == null}" class="accordion" id="accordionPanelsStayOpenExample">
-    <div th:each="order : ${models.userOrder}" class="accordion-item" style="background: #314b6c">
-        <h2 class="accordion-header" id="panelsStayOpen-heading" style="background: #406491">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#panelsStayOpen-collapse" aria-expanded="true"
-                    aria-controls="panelsStayOpen-collapse">
-                Order: [[${order.name}]] Date: [[${order.date}]]
+<div th:unless="${models.userOrder.size == 0}" class="accordion" id="accordionPanelsStayOpenExample">
+    <div th:each="order : ${models.userOrder}" class="accordion-item" style="background: #e6e6e6">
+        <h2 class="accordion-header" id="panelsStayOpen-heading" style="background: #f2f2f2">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    th:data-bs-target="'#order-' + ${order.id}" aria-expanded="false"
+                    th:aria-controls="'order-' + ${order.id}">
+                <span style="font-weight: bold;">Order:&nbsp</span>
+                <span th:text="${order.name}" style="color: #4d4d4d;font-weight: bold;"></span>
+                <span style="margin-left: 10px;font-weight: bold;">Date:&nbsp</span>
+                <span th:text="${order.date}" style="color: #4d4d4d;font-weight: bold;"></span>
             </button>
         </h2>
-        <div id="panelsStayOpen-collapse" class="accordion-collapse collapse show"
-             aria-labelledby="panelsStayOpen-heading">
+        <div th:id="'order-' + ${order.id}" class="accordion-collapse collapse"
+             th:aria-labelledby="'panelsStayOpen-heading-' + ${order.id}" aria-expanded="false"
+             th:aria-controls="'panelsStayOpen-collapse-' + ${order.id}">
             <div class="accordion-body">
                 <div class="row row-cols-1 row-cols-md-3 g-4 text-center">
                     <div th:each="product : ${order.products}" class="col">
-                        <div class="card h-100 shadow bg-body-tertiary rounded">
+                        <div class="card h-100 shadow bg-light rounded">
                             <div class="row g-0">
                                 <div class="col-md-4">
                                     <img class="card-img-top"
@@ -71,8 +75,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <h5 th:text="${product.price + '$'}"></h5>
+                            <div class="card-footer bg-light">
+                                <h5 th:text="${product.price + '$'}" style="color: #4d4d4d"></h5>
                             </div>
                         </div>
                     </div>

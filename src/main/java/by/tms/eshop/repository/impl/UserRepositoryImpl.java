@@ -2,7 +2,6 @@ package by.tms.eshop.repository.impl;
 
 import by.tms.eshop.domain.User;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
@@ -12,10 +11,8 @@ import java.util.Optional;
 import static by.tms.eshop.utils.Constants.QueryParameter.EMAIL;
 import static by.tms.eshop.utils.Constants.QueryParameter.LOGIN;
 
-@Slf4j
 @Repository
 @RequiredArgsConstructor
-//@Transactional
 public class UserRepositoryImpl implements by.tms.eshop.repository.UserRepository {
 
     private final SessionFactory sessionFactory;

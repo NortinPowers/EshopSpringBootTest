@@ -10,9 +10,7 @@ import java.util.Set;
 
 public interface ProductRepository {
 
-//    List<Product> getProductsByCategory(String category);
     Page<ProductDto> getProductsByCategory(String category, Pageable pageable);
-//    List<Product> getProductsByCategory(String category, PageRequest pageRequest);
 
     String getProductCategoryValue(Long id);
 

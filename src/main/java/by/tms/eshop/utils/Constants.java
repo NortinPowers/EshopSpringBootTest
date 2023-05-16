@@ -10,6 +10,7 @@ public class Constants {
     public static final String SAVE = "save";
     public static final String ALL = "all";
     public static final String TRUE = "true";
+    public static final Long MAX_COMPLETION_TIME = 2000L;
 
     @UtilityClass
     public class QueryParameter {
@@ -20,13 +21,9 @@ public class Constants {
         public static final String EMAIL = "email";
         public static final String USER_ID = "userId";
         public static final String PRODUCT_ID = "productId";
-        public static final String COUNT = "count";
         public static final String NAME = "name";
-        public static final String INFO = "info";
-        public static final String PRICE = "price";
         public static final String CATEGORY = "category";
         public static final String ID = "id";
-        public static final String DATE = "date";
     }
 
     @UtilityClass
@@ -64,13 +61,17 @@ public class Constants {
         public static final String USER_ORDER = "userOrder";
         public static final String FAVORITE_PRODUCTS = "favoriteProducts";
         public static final String USER_ACCESS_PERMISSION = "userAccessPermission";
-        public static final String PRODUCTS = "products";
         public static final String PRODUCT = "product";
         public static final String FOUND_PRODUCTS = "foundProducts";
         public static final String FILTER_FOUND_PRODUCTS = "filterFoundProducts";
         public static final String CART_PRODUCTS = "cartProducts";
         public static final String FULL_PRICE = "fullPrice";
         public static final String LOGIN_ERROR = "loginError";
+        public static final String MODELS = "models";
+        public static final String PRODUCT_CATEGORIES = "productCategories";
+        public static final String START_TIME = "startTime";
+        public static final String PAGE = "page";
+        public static final String URL = "url";
     }
 
     @UtilityClass

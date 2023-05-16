@@ -61,33 +61,6 @@ public class ControllerUtils {
         log.info("User with the login " + userDto.getLogin() + " has been assigned a UUID");
     }
 
-//    public static List<OrderWithListDto> getOrders(List<OrderDto> orders) {
-//        List<OrderWithListDto> orderings = new ArrayList<>();
-//        OrderDto singleOrder = orders.get(0);
-//        List<ProductDto> singleOrderList = new ArrayList<>();
-//        addOrdering(orderings, singleOrder, singleOrderList);
-//        separateOrders(orders, orderings, singleOrder, singleOrderList);
-//        return orderings;
-//    }
-
-//    private static void addOrdering(List<OrderWithListDto> order, OrderDto singleOrder, List<ProductDto> singleOrderList) {
-//        order.add(new OrderWithListDto(singleOrder.getId(), singleOrder.getDate(), singleOrderList));
-//        singleOrderList.add(singleOrder.getProductDto());
-//    }
-
-//    private static void separateOrders(List<OrderDto> orders, List<OrderWithListDto> orderings, OrderDto singleOrder, List<ProductDto> singleOrderList) {
-//        for (int i = 1; i < orders.size(); i++) {
-//            OrderDto order = orders.get(i);
-//            if (singleOrder.getId().equals(order.getId())) {
-//                singleOrderList.add(order.getProductDto());
-//            } else {
-//                singleOrder = order;
-//                singleOrderList = new ArrayList<>();
-//                addOrdering(orderings, singleOrder, singleOrderList);
-//            }
-//        }
-//    }
-
     public static String createOrderNumber(Long id) {
         String uuid = randomUUID().toString();
         return "#" + id + "-" + uuid;
@@ -158,12 +131,6 @@ public class ControllerUtils {
             session.removeAttribute(FILTER_FOUND_PRODUCTS);
         }
     }
-
-//    public static void putUserOrder(List<OrderDto> orders, Map<String, Object> models) {
-//        if (!orders.isEmpty()) {
-//            models.put(USER_ORDER, getOrders(orders));
-//        }
-//    }
 
     public static void fillUserValidationError(BindingResult bindingResult, ModelAndView modelAndView) {
         fillError(UserVerifyField.LOGIN, modelAndView, bindingResult);
