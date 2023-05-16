@@ -1,7 +1,9 @@
 package by.tms.eshop.repository.impl;
 
 import by.tms.eshop.domain.Product;
+import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.repository.ProductRepository;
+import by.tms.eshop.utils.DtoUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
@@ -45,16 +47,18 @@ public class ProductRepositoryImpl implements ProductRepository {
 //    }
 
     @Override
-    public Page<Product> getProductsByCategory(String category, Pageable pageable) {
+    public Page<ProductDto> getProductsByCategory(String category, Pageable pageable) {
         Session session = sessionFactory.getCurrentSession();
-        List<Product> resultList = session.createQuery(GET_PRODUCTS_BY_CATEGORY, Product.class)
+        List<ProductDto> resultList = session.createQuery(GET_PRODUCTS_BY_CATEGORY, Product.class)
                 .setParameter(CATEGORY, category)
-                .getResultList();
+                .getResultList().stream()
+                .map(DtoUtils::makeProductDtoModelTransfer)
+                .toList();
 //        int pageNumber = pageable.getPageNumber();
 //        int pageSize = pageable.getPageSize();
 //        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
 //        Page<Product> products = new PageImpl<>(resultList, pageable, resultList.size());
-        PagedListHolder<Product> pageHolder = new PagedListHolder<>(resultList);
+        PagedListHolder<ProductDto> pageHolder = new PagedListHolder<>(resultList);
         pageHolder.setPageSize(pageable.getPageSize());
         pageHolder.setPage(pageable.getPageNumber());
         return new PageImpl<>(pageHolder.getPageList(), pageable, resultList.size());

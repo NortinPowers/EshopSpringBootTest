@@ -39,6 +39,7 @@ public class ProductServiceImpl implements ProductService {
 //        modelMap.addAttribute(Attributes.PRODUCTS, getProductDtoList(productRepository.getProductsByCategory(category, pageable)));
         modelMap.addAttribute("page", productRepository.getProductsByCategory(category, pageable));
         modelMap.addAttribute("url", "/products-page?category="+category+"&size=3");
+//        modelMap.addAttribute("url", "/products-page?category="+category);
         return new ModelAndView(PRODUCTS, modelMap);
     }
 

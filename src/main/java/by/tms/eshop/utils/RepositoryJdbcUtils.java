@@ -3,7 +3,6 @@ package by.tms.eshop.utils;
 import by.tms.eshop.domain.Cart;
 import by.tms.eshop.domain.Order;
 import by.tms.eshop.domain.Product;
-import by.tms.eshop.domain.ProductCategory;
 import by.tms.eshop.domain.User;
 import by.tms.eshop.dto.LocationDto;
 import by.tms.eshop.dto.ProductDto;
@@ -11,45 +10,38 @@ import lombok.experimental.UtilityClass;
 import org.hibernate.Session;
 
 import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
 import static by.tms.eshop.utils.Constants.ALL;
-import static by.tms.eshop.utils.Constants.QueryParameter.CATEGORY;
 import static by.tms.eshop.utils.Constants.QueryParameter.CONDITION;
-import static by.tms.eshop.utils.Constants.QueryParameter.ID;
-import static by.tms.eshop.utils.Constants.QueryParameter.INFO;
 import static by.tms.eshop.utils.Constants.QueryParameter.MAX_PRICE;
 import static by.tms.eshop.utils.Constants.QueryParameter.MIN_PRICE;
-import static by.tms.eshop.utils.Constants.QueryParameter.NAME;
-import static by.tms.eshop.utils.Constants.QueryParameter.PRICE;
 import static by.tms.eshop.utils.Constants.QueryParameter.PRODUCT_ID;
 import static by.tms.eshop.utils.Constants.QueryParameter.USER_ID;
 
 @UtilityClass
 public class RepositoryJdbcUtils {
 
-    public static ProductDto getProductSimpleBuild(ResultSet resultSet) throws SQLException {
-        Product product = Product.builder()
-                .name(resultSet.getString(NAME))
-                .info(resultSet.getString(INFO))
-                .price(resultSet.getBigDecimal(PRICE))
-                .productCategory(ProductCategory.builder()
-                        .category(resultSet.getString(CATEGORY))
-                        .build())
-                .build();
-        return DtoUtils.makeProductDtoModelTransfer(product);
-    }
+//    public static ProductDto getProductSimpleBuild(ResultSet resultSet) throws SQLException {
+//        Product product = Product.builder()
+//                .name(resultSet.getString(NAME))
+//                .info(resultSet.getString(INFO))
+//                .price(resultSet.getBigDecimal(PRICE))
+//                .productCategory(ProductCategory.builder()
+//                        .category(resultSet.getString(CATEGORY))
+//                        .build())
+//                .build();
+//        return DtoUtils.makeProductDtoModelTransfer(product);
+//    }
 
-    public static ProductDto getProductDto(ResultSet resultSet) throws SQLException {
-        ProductDto productDto = getProductSimpleBuild(resultSet);
-        productDto.setId(resultSet.getLong(ID));
-        productDto.setInfo(resultSet.getString(INFO));
-        return productDto;
-    }
+//    public static ProductDto getProductDto(ResultSet resultSet) throws SQLException {
+//        ProductDto productDto = getProductSimpleBuild(resultSet);
+//        productDto.setId(resultSet.getLong(ID));
+//        productDto.setInfo(resultSet.getString(INFO));
+//        return productDto;
+//    }
 
     public static Integer getModifyCount(boolean up, Integer productCount) {
         return up ? ++productCount : --productCount;
