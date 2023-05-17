@@ -23,18 +23,18 @@ public class UserRepositoryImpl implements by.tms.eshop.repository.UserRepositor
     @Override
     public Optional<User> getUserByLogin(String login) {
         Session session = sessionFactory.getCurrentSession();
-        return Optional.of(session.createQuery(GET_USER_BY_LOGIN, User.class)
+        return session.createQuery(GET_USER_BY_LOGIN, User.class)
                 .setParameter(LOGIN, login)
-                .getSingleResult());
+                .uniqueResultOptional();
     }
 
     @Override
     public Optional<User> getVerifyUser(String login, String email) {
         Session session = sessionFactory.getCurrentSession();
-        return Optional.of(session.createQuery(GET_USER_BY_LOGIN_OR_EMAIL, User.class)
+        return session.createQuery(GET_USER_BY_LOGIN_OR_EMAIL, User.class)
                 .setParameter(LOGIN, login)
                 .setParameter(EMAIL, email)
-                .getResultList().get(0));
+                .uniqueResultOptional();
     }
 
     @Override
