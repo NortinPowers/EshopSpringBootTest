@@ -1,14 +1,12 @@
 package by.tms.eshop.utils;
 
+import by.tms.eshop.domain.Product;
 import by.tms.eshop.dto.ProductDto;
-import by.tms.eshop.model.Product;
 import jakarta.servlet.http.HttpSession;
 import lombok.experimental.UtilityClass;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 import static by.tms.eshop.utils.Constants.Attributes.FOUND_PRODUCTS;
@@ -24,14 +22,6 @@ public class ServiceUtils {
         products = (Set<ProductDto>) session.getAttribute(FOUND_PRODUCTS);
         products = applyPriceFilterOnProducts(minPrice, maxPrice, products);
         products = applyTypeFilterOnProducts(type, products);
-        return products;
-    }
-
-    public static List<ProductDto> getProductDtoList(List<Product> convertedProducts) {
-        List<ProductDto> products = new ArrayList<>();
-        for (Product product : convertedProducts) {
-            products.add(makeProductDtoModelTransfer(product));
-        }
         return products;
     }
 

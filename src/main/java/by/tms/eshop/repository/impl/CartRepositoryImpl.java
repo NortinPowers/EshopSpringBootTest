@@ -1,43 +1,36 @@
 package by.tms.eshop.repository.impl;
 
+import by.tms.eshop.domain.Cart;
 import by.tms.eshop.dto.LocationDto;
 import by.tms.eshop.dto.ProductDto;
-import by.tms.eshop.model.Cart;
-import by.tms.eshop.repository.JdbcCartRepository;
+import by.tms.eshop.repository.CartRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static by.tms.eshop.utils.Constants.QueryParameter.COUNT;
 import static by.tms.eshop.utils.Constants.QueryParameter.USER_ID;
 import static by.tms.eshop.utils.RepositoryJdbcUtils.getCart;
 import static by.tms.eshop.utils.RepositoryJdbcUtils.getCarts;
 import static by.tms.eshop.utils.RepositoryJdbcUtils.getCurrentCart;
+import static by.tms.eshop.utils.RepositoryJdbcUtils.getImmutablePairsProductDtoCount;
 import static by.tms.eshop.utils.RepositoryJdbcUtils.getModifyCount;
-import static by.tms.eshop.utils.RepositoryJdbcUtils.getProductDto;
 import static by.tms.eshop.utils.RepositoryJdbcUtils.isProductNotIncluded;
 
-@Slf4j
 @Repository
 @RequiredArgsConstructor
-@Transactional
-public class JdbcCartRepositoryImpl implements JdbcCartRepository {
+public class CartRepositoryImpl implements CartRepository {
 
-    private final JdbcTemplate jdbcTemplate;
     private final SessionFactory sessionFactory;
 
-    private static final String GET_CART_PRODUCTS_BY_USER_ID = "select p.id, p.name, p.price, pc.category, p.info, c.count from carts c join products p on p.id = c.product_id join product_category pc on pc.id = p.product_category_id where c.user_id=? and c.cart=true";
-    private static final String GET_FAVORITE_PRODUCTS_BY_USER_ID = "select p.id, p.name, p.price, pc.category, p.info, c.count from carts c join products p on p.id = c.product_id join product_category pc on pc.id = p.product_category_id where c.user_id=? and c.favorite=true";
+    private static final String GET_CART_PRODUCTS_BY_USER_ID = "FROM Cart WHERE user.id = :userId AND cart = true";
+    private static final String GET_FAVORITE_PRODUCTS_BY_USER_ID = "FROM Cart WHERE user.id = :userId AND favorite = true";
     private static final String GET_CURRENT_CART = "FROM Cart WHERE user.id = :userId AND product.id = :productId AND cart = true";
     private static final String GET_CURRENT_FAVORITE = "FROM Cart WHERE user.id = :userId AND product.id = :productId AND favorite = true";
     private static final String GET_BUYING_PRODUCT = "FROM Cart WHERE user.id = :userId AND cart = true";
@@ -74,7 +67,11 @@ public class JdbcCartRepositoryImpl implements JdbcCartRepository {
     @Override
     public List<ImmutablePair<ProductDto, Integer>> getSelectedProducts(Long userId, LocationDto locationDto) {
         String query = locationDto.isCart() ? GET_CART_PRODUCTS_BY_USER_ID : GET_FAVORITE_PRODUCTS_BY_USER_ID;
-        return jdbcTemplate.query(query, (rs, i) -> new ImmutablePair<>(getProductDto(rs), rs.getInt(COUNT)), userId);
+        Session session = sessionFactory.getCurrentSession();
+        List<Cart> carts = session.createQuery(query, Cart.class)
+                .setParameter(USER_ID, userId)
+                .getResultList();
+        return getImmutablePairsProductDtoCount(carts);
     }
 
     @Override

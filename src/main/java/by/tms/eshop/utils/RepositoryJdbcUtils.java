@@ -1,56 +1,32 @@
 package by.tms.eshop.utils;
 
+import by.tms.eshop.domain.Cart;
+import by.tms.eshop.domain.Order;
+import by.tms.eshop.domain.Product;
+import by.tms.eshop.domain.User;
 import by.tms.eshop.dto.LocationDto;
 import by.tms.eshop.dto.ProductDto;
-import by.tms.eshop.model.Cart;
-import by.tms.eshop.model.Order;
-import by.tms.eshop.model.OrderProduct;
-import by.tms.eshop.model.Product;
-import by.tms.eshop.model.ProductCategory;
-import by.tms.eshop.model.User;
 import lombok.experimental.UtilityClass;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.hibernate.Session;
+import org.springframework.beans.support.PagedListHolder;
+import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import static by.tms.eshop.utils.Constants.ALL;
-import static by.tms.eshop.utils.Constants.QueryParameter.CATEGORY;
 import static by.tms.eshop.utils.Constants.QueryParameter.CONDITION;
-import static by.tms.eshop.utils.Constants.QueryParameter.ID;
-import static by.tms.eshop.utils.Constants.QueryParameter.INFO;
 import static by.tms.eshop.utils.Constants.QueryParameter.MAX_PRICE;
 import static by.tms.eshop.utils.Constants.QueryParameter.MIN_PRICE;
-import static by.tms.eshop.utils.Constants.QueryParameter.NAME;
-import static by.tms.eshop.utils.Constants.QueryParameter.PRICE;
 import static by.tms.eshop.utils.Constants.QueryParameter.PRODUCT_ID;
 import static by.tms.eshop.utils.Constants.QueryParameter.USER_ID;
 
 @UtilityClass
 public class RepositoryJdbcUtils {
-
-    public static ProductDto getProductSimpleBuild(ResultSet resultSet) throws SQLException {
-        Product product = Product.builder()
-                .name(resultSet.getString(NAME))
-                .info(resultSet.getString(INFO))
-                .price(resultSet.getBigDecimal(PRICE))
-                .productCategory(ProductCategory.builder()
-                        .category(resultSet.getString(CATEGORY))
-                        .build())
-                .build();
-        return DtoUtils.makeProductDtoModelTransfer(product);
-    }
-
-    public static ProductDto getProductDto(ResultSet resultSet) throws SQLException {
-        ProductDto productDto = getProductSimpleBuild(resultSet);
-        productDto.setId(resultSet.getLong(ID));
-        productDto.setInfo(resultSet.getString(INFO));
-        return productDto;
-    }
 
     public static Integer getModifyCount(boolean up, Integer productCount) {
         return up ? ++productCount : --productCount;
@@ -75,21 +51,10 @@ public class RepositoryJdbcUtils {
 
     public static Order getOrder(String order, Long id) {
         return Order.builder()
-                .id(order)
+                .name(order)
                 .date(LocalDate.now())
                 .user(User.builder()
                         .id(id)
-                        .build())
-                .build();
-    }
-
-    public static OrderProduct getOrderProduct(String name, Product product) {
-        return OrderProduct.builder()
-                .order(Order.builder()
-                        .id(name)
-                        .build())
-                .product(Product.builder()
-                        .id(product.getId())
                         .build())
                 .build();
     }
@@ -124,7 +89,7 @@ public class RepositoryJdbcUtils {
 
     public static List<Product> getSearchProductsByCondition(String condition, String query, Session session) {
         return session.createQuery(query, Product.class)
-                .setParameter(CONDITION, "%" + condition + "%")
+                .setParameter(CONDITION, condition)
                 .getResultList();
     }
 
@@ -133,5 +98,24 @@ public class RepositoryJdbcUtils {
                 .setParameter(MIN_PRICE, minPrice)
                 .setParameter(MAX_PRICE, maxPrice)
                 .getResultList();
+    }
+
+    public static List<ImmutablePair<ProductDto, Integer>> getImmutablePairsProductDtoCount(List<Cart> carts) {
+        List<ImmutablePair<ProductDto, Integer>> pairs = new ArrayList<>();
+        carts.forEach(cart -> pairs.add(new ImmutablePair<>(ProductDto.builder()
+                .id(cart.getProduct().getId())
+                .name(cart.getProduct().getName())
+                .category(cart.getProduct().getProductCategory().getCategory())
+                .price(cart.getProduct().getPrice())
+                .info(cart.getProduct().getInfo())
+                .build(), cart.getCount())));
+        return pairs;
+    }
+
+    public static <T> PagedListHolder<T> getPagedListHolder(Pageable pageable, List<T> objects) {
+        PagedListHolder<T> pageHolder = new PagedListHolder<>(objects);
+        pageHolder.setPageSize(pageable.getPageSize());
+        pageHolder.setPage(pageable.getPageNumber());
+        return pageHolder;
     }
 }

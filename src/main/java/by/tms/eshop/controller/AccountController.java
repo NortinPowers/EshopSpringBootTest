@@ -13,10 +13,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static by.tms.eshop.utils.Constants.Attributes.MODELS;
 import static by.tms.eshop.utils.Constants.Attributes.USER_ACCESS_PERMISSION;
 import static by.tms.eshop.utils.Constants.Attributes.USER_DTO;
+import static by.tms.eshop.utils.Constants.Attributes.USER_ORDER;
 import static by.tms.eshop.utils.Constants.MappingPath.ACCOUNT;
-import static by.tms.eshop.utils.ControllerUtils.putUserOrder;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,7 +31,7 @@ public class AccountController {
         List<OrderDto> orders = orderService.getOrdersById(userDto.getId());
         Map<String, Object> models = new HashMap<>();
         models.put(USER_DTO, userDto);
-        putUserOrder(orders, models);
-        return new ModelAndView(ACCOUNT, "models", models);
+        models.put(USER_ORDER, orders);
+        return new ModelAndView(ACCOUNT, MODELS, models);
     }
 }

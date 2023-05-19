@@ -1,15 +1,18 @@
 package by.tms.eshop.utils;
 
+import by.tms.eshop.domain.Order;
+import by.tms.eshop.domain.Product;
+import by.tms.eshop.domain.ProductCategory;
+import by.tms.eshop.domain.User;
 import by.tms.eshop.dto.LocationDto;
+import by.tms.eshop.dto.OrderDto;
 import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.dto.UserDto;
 import by.tms.eshop.dto.UserFormDto;
-import by.tms.eshop.model.Product;
-import by.tms.eshop.model.ProductCategory;
-import by.tms.eshop.model.User;
 import lombok.experimental.UtilityClass;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @UtilityClass
 public class DtoUtils {
@@ -59,7 +62,7 @@ public class DtoUtils {
                 .build();
     }
 
-    public static List<Product> getProductsFromDto(List<ProductDto> productsDto) {
+    public static List<Product> getProductsFromProductsDtos(List<ProductDto> productsDto) {
         return productsDto.stream()
                 .map(DtoUtils::makeProductModelTransfer)
                 .toList();
@@ -77,5 +80,21 @@ public class DtoUtils {
                 .cart(false)
                 .favorite(true)
                 .build();
+    }
+
+    public static OrderDto makeOrderDtoModelTransfer(Order order) {
+        return OrderDto.builder()
+                .id(order.getId())
+                .name(order.getName())
+                .date(order.getDate())
+                .user(order.getUser())
+                .products(order.getProducts())
+                .build();
+    }
+
+    public static List<OrderDto> getOrdersDtosFromOrders(List<Order> orders) {
+        return orders.stream()
+                .map(DtoUtils::makeOrderDtoModelTransfer)
+                .collect(Collectors.toList());
     }
 }

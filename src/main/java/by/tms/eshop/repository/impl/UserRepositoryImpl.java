@@ -1,24 +1,19 @@
 package by.tms.eshop.repository.impl;
 
-import by.tms.eshop.model.User;
-import by.tms.eshop.repository.JdbcUserRepository;
+import by.tms.eshop.domain.User;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 import static by.tms.eshop.utils.Constants.QueryParameter.EMAIL;
 import static by.tms.eshop.utils.Constants.QueryParameter.LOGIN;
 
-@Slf4j
 @Repository
 @RequiredArgsConstructor
-@Transactional
-public class JdbcUserRepositoryImpl implements JdbcUserRepository {
+public class UserRepositoryImpl implements by.tms.eshop.repository.UserRepository {
 
     private final SessionFactory sessionFactory;
 
@@ -28,18 +23,18 @@ public class JdbcUserRepositoryImpl implements JdbcUserRepository {
     @Override
     public Optional<User> getUserByLogin(String login) {
         Session session = sessionFactory.getCurrentSession();
-        return Optional.of(session.createQuery(GET_USER_BY_LOGIN, User.class)
+        return session.createQuery(GET_USER_BY_LOGIN, User.class)
                 .setParameter(LOGIN, login)
-                .getSingleResult());
+                .uniqueResultOptional();
     }
 
     @Override
     public Optional<User> getVerifyUser(String login, String email) {
         Session session = sessionFactory.getCurrentSession();
-        return Optional.of(session.createQuery(GET_USER_BY_LOGIN_OR_EMAIL, User.class)
+        return session.createQuery(GET_USER_BY_LOGIN_OR_EMAIL, User.class)
                 .setParameter(LOGIN, login)
                 .setParameter(EMAIL, email)
-                .getResultList().get(0));
+                .uniqueResultOptional();
     }
 
     @Override

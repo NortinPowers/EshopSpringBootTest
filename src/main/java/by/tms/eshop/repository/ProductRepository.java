@@ -1,14 +1,16 @@
 package by.tms.eshop.repository;
 
-import by.tms.eshop.model.Product;
+import by.tms.eshop.domain.Product;
+import by.tms.eshop.dto.ProductDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Set;
 
-public interface JdbcProductRepository {
+public interface ProductRepository {
 
-    List<Product> getProductsByCategory(String category);
+    Page<ProductDto> getProductsByCategory(String category, Pageable pageable);
 
     String getProductCategoryValue(Long id);
 

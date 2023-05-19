@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import static by.tms.eshop.utils.Constants.Attributes.PRODUCT_CATEGORIES;
 import static by.tms.eshop.utils.Constants.MappingPath.REDIRECT_TO_SEARCH_RESULT_SAVE;
 import static by.tms.eshop.utils.Constants.MappingPath.SEARCH_PATH;
 import static by.tms.eshop.utils.Constants.RequestParameters.FILTER;
@@ -34,7 +35,7 @@ public class SearchController {
         removeUnsavedAttribute(session, result);
         session.removeAttribute(FILTER);
         setFilterAttribute(session, filter);
-        modelAndView.addObject("productCategories", productCategoryService.getProductCategories());
+        modelAndView.addObject(PRODUCT_CATEGORIES, productCategoryService.getProductCategories());
         modelAndView.setViewName(SEARCH_PATH);
         return modelAndView;
     }

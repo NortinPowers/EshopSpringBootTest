@@ -1,10 +1,10 @@
 package by.tms.eshop.repository;
 
-import by.tms.eshop.model.User;
+import by.tms.eshop.domain.User;
 
 import java.util.Optional;
 
-public interface JdbcUserRepository {
+public interface UserRepository {
 
     Optional<User> getUserByLogin(String login);
 

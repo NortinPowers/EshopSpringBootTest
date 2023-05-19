@@ -1,17 +1,20 @@
 package by.tms.eshop.dto;
 
+import by.tms.eshop.domain.Product;
+import by.tms.eshop.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Builder
 @Getter
 public class OrderDto {
 
-    private String id;
+    private Long id;
+    private String name;
     private LocalDate date;
-    private Long userId;
-    private ProductDto productDto;
-    private Integer productsCount;
+    private User user;
+    List<Product> products;
 }

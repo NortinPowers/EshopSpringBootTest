@@ -1,10 +1,8 @@
 package by.tms.eshop.utils;
 
-import by.tms.eshop.dto.OrderDto;
-import by.tms.eshop.dto.OrderWithListDto;
+import by.tms.eshop.domain.User;
 import by.tms.eshop.dto.ProductDto;
 import by.tms.eshop.dto.UserDto;
-import by.tms.eshop.model.User;
 import by.tms.eshop.utils.Constants.UserVerifyField;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -16,19 +14,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.LinkedHashSet;
 import java.util.stream.Collectors;
 
 import static by.tms.eshop.utils.Constants.ALL;
 import static by.tms.eshop.utils.Constants.Attributes.FILTER_FOUND_PRODUCTS;
 import static by.tms.eshop.utils.Constants.Attributes.FOUND_PRODUCTS;
 import static by.tms.eshop.utils.Constants.Attributes.USER_ACCESS_PERMISSION;
-import static by.tms.eshop.utils.Constants.Attributes.USER_ORDER;
 import static by.tms.eshop.utils.Constants.Attributes.USER_UUID;
 import static by.tms.eshop.utils.Constants.CONVERSATION;
 import static by.tms.eshop.utils.Constants.MappingPath.ESHOP;
@@ -65,33 +59,6 @@ public class ControllerUtils {
         MDC.put(CONVERSATION, userUUID);
         session.setAttribute(USER_UUID, userUUID);
         log.info("User with the login " + userDto.getLogin() + " has been assigned a UUID");
-    }
-
-    public static List<OrderWithListDto> getOrders(List<OrderDto> orders) {
-        List<OrderWithListDto> orderings = new ArrayList<>();
-        OrderDto singleOrder = orders.get(0);
-        List<ProductDto> singleOrderList = new ArrayList<>();
-        addOrdering(orderings, singleOrder, singleOrderList);
-        separateOrders(orders, orderings, singleOrder, singleOrderList);
-        return orderings;
-    }
-
-    private static void addOrdering(List<OrderWithListDto> order, OrderDto singleOrder, List<ProductDto> singleOrderList) {
-        order.add(new OrderWithListDto(singleOrder.getId(), singleOrder.getDate(), singleOrderList));
-        singleOrderList.add(singleOrder.getProductDto());
-    }
-
-    private static void separateOrders(List<OrderDto> orders, List<OrderWithListDto> orderings, OrderDto singleOrder, List<ProductDto> singleOrderList) {
-        for (int i = 1; i < orders.size(); i++) {
-            OrderDto order = orders.get(i);
-            if (singleOrder.getId().equals(order.getId())) {
-                singleOrderList.add(order.getProductDto());
-            } else {
-                singleOrder = order;
-                singleOrderList = new ArrayList<>();
-                addOrdering(orderings, singleOrder, singleOrderList);
-            }
-        }
     }
 
     public static String createOrderNumber(Long id) {
@@ -162,12 +129,6 @@ public class ControllerUtils {
         if (!SAVE.equals(filterFlag)) {
             session.removeAttribute(FOUND_PRODUCTS);
             session.removeAttribute(FILTER_FOUND_PRODUCTS);
-        }
-    }
-
-    public static void putUserOrder(List<OrderDto> orders, Map<String, Object> models) {
-        if (!orders.isEmpty()) {
-            models.put(USER_ORDER, getOrders(orders));
         }
     }
 
