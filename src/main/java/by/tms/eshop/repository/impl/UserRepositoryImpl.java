@@ -1,6 +1,7 @@
 package by.tms.eshop.repository.impl;
 
 import by.tms.eshop.domain.User;
+import by.tms.eshop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,7 +14,7 @@ import static by.tms.eshop.utils.Constants.QueryParameter.LOGIN;
 
 @Repository
 @RequiredArgsConstructor
-public class UserRepositoryImpl implements by.tms.eshop.repository.UserRepository {
+public class UserRepositoryImpl implements UserRepository {
 
     private final SessionFactory sessionFactory;
 
