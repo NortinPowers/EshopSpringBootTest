@@ -8,7 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static by.tms.eshop.utils.Constants.QueryParameter.NAME;
@@ -37,7 +36,7 @@ public class OrderRepositoryImpl implements OrderRepository {
         Session session = sessionFactory.getCurrentSession();
         Order order = session.get(Order.class, id);
         order.setProducts(products);
-        products.forEach(product -> product.setOrders(new ArrayList<>(List.of(order))));
+        products.forEach(product -> product.setOrders(List.of(order)));
     }
 
     @Override
